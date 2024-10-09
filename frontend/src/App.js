@@ -1,9 +1,12 @@
 import './App.css';
 
+import HomePage from './pages/Home_Page';
+
 function App() {
   return (
     <div className="App">
-      <h1>Hello React</h1>  
+      <HomePage/>
+
     </div>
   );
 }
