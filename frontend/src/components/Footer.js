@@ -9,7 +9,7 @@ const Footer = () => {
       <div style={styles.container}>
         <div style={styles.column}>
           <h2>Contact Us</h2>
-          <p><FontAwesomeIcon icon={faEnvelope} /> <a href="mailto:DoNation@gmail.com" style={styles.link}>DoNation@gmail.com</a></p>
+          <p><FontAwesomeIcon icon={faEnvelope} /> <a href="mailto:DoNation@gmail.com" style={styles.link}>support@smartwaste.com</a></p>
           <p><FontAwesomeIcon icon={faPhone} /> <a href="tel:0713202453" style={styles.link}>071-3202453</a></p>
         </div>
         <div style={styles.column}>
