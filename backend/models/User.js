@@ -27,10 +27,10 @@ const userSchema = new Schema({
     required: true,
   },
 
-  isAdmin: {
-    type: Boolean,
+  userType: {
+    type: String,
     required: true,
-    default: false,
+    default: "resident",
   },
 });
 

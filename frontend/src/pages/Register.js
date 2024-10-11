@@ -24,13 +24,13 @@ function Register() {
         body: JSON.stringify(values),
       });
 
-      const data = await response.json(); // Parse the JSON response
+      const data = await response.json();
 
       if (response.ok) {
         message.success("Registration successful!");
         navigate("/login");
       } else {
-        message.error(data.error || "Registration failed"); // Access the error from the response
+        message.error(data.error || "Registration failed");
       }
     } catch (error) {
       message.error("An error occurred");

@@ -49,7 +49,7 @@ router.post("/login", async (req, res) => {
     res.json({
       message: user.isAdmin ? "Admin Login successful" : "Login successful",
       userId: user._id,
-      isAdmin: user.isAdmin,
+      userType: user.userType,
     });
   } catch (err) {
     console.error(err);

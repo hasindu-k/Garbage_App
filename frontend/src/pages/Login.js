@@ -29,10 +29,12 @@ function Login() {
 
       if (response.ok) {
         message.success("Login successful!");
-        if (data.isAdmin) {
-          navigate("/admin-dashboard"); // Navigate to the admin dashboard
+        if (data.userType === "resident") {
+          navigate("/");
+        } else if (data.userType === "admin") {
+          navigate("/admin/dashboard");
         } else {
-          navigate("/dashboard"); // Navigate to the regular user dashboard
+          navigate("/collector/dashboard");
         }
       } else {
         message.error(data.error || "Login failed");
