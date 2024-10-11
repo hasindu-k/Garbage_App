@@ -1,36 +1,30 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const userSchema = new Schema({
+const PickupSchema = new Schema({
 
 
-    name :{
+    date :{
         type: String,
         required: true
 
     },
 
-    address :{
+    time :{
         type: String,
         required: true
 
     },
     
-    email :{
+    location :{
         type: String,
         required: true
 
     },
 
-    contact :{
-        type: Number,
-        required: true
-
-    }
-
 
 })
 
-const User = mongoose.model("User",userSchema);
+const schedulePickup = mongoose.model("schedulePickup",PickupSchema);
 
-module.exports = User;
+module.exports = schedulePickup;

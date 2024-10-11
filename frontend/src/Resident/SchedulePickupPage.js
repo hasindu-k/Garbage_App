@@ -1,18 +1,34 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from "axios";
+import Navbar from './ResidentNavbar';
+import Footer from '../components/Footer';
 
 function SchedulePickupPage() {
-  const [selectedDate, setSelectedDate] = useState('');
-  const [selectedTime, setSelectedTime] = useState('');
-  const [selectedLocation, setSelectedLocation] = useState('');
+  const [date, setdate] = useState('');
+  const [time, settime] = useState('');
+  const [location, setlocation] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Logic to handle pickup request goes here
-    navigate('/confirmation', {
-      state: { message: 'Your pickup request has been submitted!' },
-    });
+
+    const newSchedule = {
+      date,
+      time,
+      location
+    };
+
+    axios.post("http://localhost:8070/schedulePickup/addPickup", newSchedule)
+      .then(() => {
+        alert("Schedule Added");
+        navigate('/confirmation', {
+          state: { message: 'Your pickup request has been submitted!' },
+        });
+      })
+      .catch((err) => {
+        alert(err);
+      });
   };
 
   const availableLocations = [
@@ -23,88 +39,68 @@ function SchedulePickupPage() {
     { id: 5, name: 'E/3 Oak Road', description: 'Near the school' },
   ];
 
+  // Get today's date in yyyy-mm-dd format
+  const getTodayDate = () => {
+    const today = new Date();
+    return today.toISOString().split('T')[0];
+  };
+
   return (
     <div style={styles.container}>
-      {/* Scheduling Form */}
+      <Navbar />
       <div style={styles.formContainer}>
-        {/* Location Selection */}
         <h2 style={styles.title}>Schedule your pickup</h2>
         <p style={styles.subtitle}>Select your location</p>
         <div style={styles.locationPickerContainer}>
           <select
-            value={selectedLocation}
-            onChange={(e) => setSelectedLocation(e.target.value)}
+            value={location}
+            onChange={(e) => setlocation(e.target.value)}
             style={styles.selectInput}
           >
             <option value="" disabled>Select location</option>
-            {availableLocations.map((location) => (
-              <option key={location.id} value={location.name}>
-                {location.name} - {location.description}
+            {availableLocations.map((loc) => (
+              <option key={loc.id} value={loc.name}>
+                {loc.name} - {loc.description}
               </option>
             ))}
           </select>
         </div>
 
-        {/* Date Selection */}
         <p style={styles.subtitle}>Select pickup date</p>
         <div style={styles.datePickerContainer}>
           <input
             type="date"
-            value={selectedDate}
-            onChange={(e) => setSelectedDate(e.target.value)}
+            value={date}
+            min={getTodayDate()} // Restrict past dates
+            onChange={(e) => setdate(e.target.value)}
             style={styles.selectInput}
           />
         </div>
 
-        {/* Time Selection as Rows */}
         <p style={styles.subtitle}>I want the pickup truck to arrive between</p>
         <div style={styles.timeOptions}>
-          <div style={styles.timeButtonContainer}>
-            <button
-              type="button"
-              className={selectedTime === '9am-12pm' ? 'active' : ''}
-              style={{
-                ...styles.timeButton,
-                backgroundColor: selectedTime === '9am-12pm' ? '#C8E6C9' : '#fff',
-              }}
-              onClick={() => setSelectedTime('9am-12pm')}
-            >
-              9 AM - 12 PM
-            </button>
-          </div>
-          <div style={styles.timeButtonContainer}>
-            <button
-              type="button"
-              className={selectedTime === '12pm-3pm' ? 'active' : ''}
-              style={{
-                ...styles.timeButton,
-                backgroundColor: selectedTime === '12pm-3pm' ? '#C8E6C9' : '#fff',
-              }}
-              onClick={() => setSelectedTime('12pm-3pm')}
-            >
-              12 PM - 3 PM
-            </button>
-          </div>
-          <div style={styles.timeButtonContainer}>
-            <button
-              type="button"
-              className={selectedTime === '3pm-6pm' ? 'active' : ''}
-              style={{
-                ...styles.timeButton,
-                backgroundColor: selectedTime === '3pm-6pm' ? '#C8E6C9' : '#fff',
-              }}
-              onClick={() => setSelectedTime('3pm-6pm')}
-            >
-              3 PM - 6 PM
-            </button>
-          </div>
+          {['9 AM - 11 AM', '11 AM - 1 PM', '1 PM - 3 PM'].map((timeSlot) => (
+            <div style={styles.timeButtonContainer} key={timeSlot}>
+              <button
+                type="button"
+                className={time === timeSlot ? 'active' : ''}
+                style={{
+                  ...styles.timeButton,
+                  backgroundColor: time === timeSlot ? '#C8E6C9' : '#fff',
+                }}
+                onClick={() => settime(timeSlot)}
+              >
+                {timeSlot}
+              </button>
+            </div>
+          ))}
         </div>
 
-        {/* Submit Button */}
         <button type="submit" style={styles.submitButton} onClick={handleSubmit}>
           Next
         </button>
       </div>
+      <Footer />
     </div>
   );
 }
@@ -113,19 +109,18 @@ const styles = {
   container: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
+    minHeight: '100vh', // Ensure the container fills the viewport height
     backgroundColor: '#F5F5F5',
-    height: '100vh',
-    padding: '20px',
   },
   formContainer: {
+    flex: 1, // Allow the form container to grow and fill the remaining space
     backgroundColor: '#E6F5E6',
     width: '100%',
     maxWidth: '400px',
     borderRadius: '15px',
     padding: '20px',
     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    marginTop: '20px',
+    margin: '20px auto', // Center the form
   },
   title: {
     fontSize: '22px',
@@ -158,8 +153,8 @@ const styles = {
     margin: '20px 0',
   },
   timeButtonContainer: {
-    margin: '10px 0', // Add space between buttons
-    textAlign: 'center', // Center buttons in the container
+    margin: '10px 0',
+    textAlign: 'center',
   },
   timeButton: {
     padding: '10px 30px',
@@ -168,7 +163,7 @@ const styles = {
     border: '1px solid #ccc',
     fontSize: '16px',
     cursor: 'pointer',
-    width: '100%', // Make the button full width
+    width: '100%',
   },
   submitButton: {
     width: '100%',

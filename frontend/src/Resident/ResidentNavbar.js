@@ -11,24 +11,24 @@ const Navbar = ({ theme, setTheme }) => {
       <h1 className="flex text-2xl">EcoSmart</h1>
 
       <ul>
-        <a href="#">
+        <a href="/">
           <li>Home</li>
         </a>
 
-        <a href="#">
-          <li>reyyyy</li>
+        <a href="/add-garbage-details">
+          <li>AddGarbage</li>
+        </a>
+
+        <a href="/schedule-pickup">
+          <li>SchedulePickup</li>
+        </a>
+
+        <a href="/MyRequestsPage">
+          <li>MyRequests</li>
         </a>
 
         <a href="#">
-          <li>wassttt</li>
-        </a>
-
-        <a href="#">
-          <li>notificaton</li>
-        </a>
-
-        <a href="#">
-          <li>profile</li>
+          <li>Profile</li>
         </a>
 
       </ul>
