@@ -1,4 +1,4 @@
-// WasteGotForm.js
+// WasteCollectedForm.js
 import React, { useState } from 'react';
 import axios from 'axios';
 
@@ -48,26 +48,56 @@ const WasteCollectedForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>Truck Number: 
-        <input name="truckNumber" value={formData.truckNumber} onChange={handleChange} />
-      </label>
-      <label>Waste Collector: 
-        <input name="wasteCollector" value={formData.wasteCollector} onChange={handleChange} />
-      </label>
-      <label>Area: 
-        <input name="area" value={formData.area} onChange={handleChange} />
-      </label>
-      <label>Paper Waste (%): 
-        <input name="paperWaste" value={formData.paperWaste} onChange={handleChange} />
-      </label>
-      <label>Food Waste (%): 
-        <input name="foodWaste" value={formData.foodWaste} onChange={handleChange} />
-      </label>
-      <label>Polythene Waste (%): 
-        <input name="polytheneWaste" value={formData.polytheneWaste} onChange={handleChange} />
-      </label>
-      <button type="submit">Submit</button>
+    <form onSubmit={handleSubmit} className="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-md">
+      <h1 className="text-xl font-bold text-center mb-4">Recycle Handover</h1>
+      <label className="block mb-2 font-semibold">Truck Number:</label>
+      <input
+        name="truckNumber"
+        value={formData.truckNumber}
+        onChange={handleChange}
+        className="w-full p-2 mb-4 border border-gray-300 rounded"
+      />
+      <label className="block mb-2 font-semibold">Waste Collector:</label>
+      <input
+        name="wasteCollector"
+        value={formData.wasteCollector}
+        onChange={handleChange}
+        className="w-full p-2 mb-4 border border-gray-300 rounded"
+      />
+      <label className="block mb-2 font-semibold">Area:</label>
+      <input
+        name="area"
+        value={formData.area}
+        onChange={handleChange}
+        className="w-full p-2 mb-4 border border-gray-300 rounded"
+      />
+      <label className="block mb-2 font-semibold">Paper Waste (%):</label>
+      <input
+        name="paperWaste"
+        value={formData.paperWaste}
+        onChange={handleChange}
+        className="w-full p-2 mb-4 border border-gray-300 rounded"
+      />
+      <label className="block mb-2 font-semibold">Food Waste (%):</label>
+      <input
+        name="foodWaste"
+        value={formData.foodWaste}
+        onChange={handleChange}
+        className="w-full p-2 mb-4 border border-gray-300 rounded"
+      />
+      <label className="block mb-2 font-semibold">Polythene Waste (%):</label>
+      <input
+        name="polytheneWaste"
+        value={formData.polytheneWaste}
+        onChange={handleChange}
+        className="w-full p-2 mb-4 border border-gray-300 rounded"
+      />
+      <button
+        type="submit"
+        className="w-full p-2 mt-4 bg-blue-600 text-white font-bold rounded hover:bg-blue-700 transition"
+      >
+        Submit
+      </button>
     </form>
   );
 };
