@@ -20,12 +20,12 @@ router.route("/add").post((req,res) => {
         console.log(err);
     })
     
-
+})
     //get all users
 
     router.route("/").get((req,res) => {
         User.find().then((users) => {
-            res.json(students);
+            res.json(users);
         }).catch((err)=> {
             console.log(err);
         })
@@ -43,6 +43,6 @@ router.route("/add").post((req,res) => {
             res.status(500).send({status: "Error with get user", error: err});
         })
     })
-})
+
 
 module.exports = router;

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import Navbar from './ResidentNavbar';
+import Footer from '../components/Footer';
 
 const MyRequestsPage = () => {
   const navigate = useNavigate();
@@ -35,6 +37,7 @@ const MyRequestsPage = () => {
 
   return (
     <div style={styles.container}>
+      <Navbar/>
       <h2>My Monthly Pickup Requests</h2>
       {groupedRequests.length === 0 ? (
         <p>No requests found.</p>
@@ -59,12 +62,12 @@ const MyRequestsPage = () => {
                 <td>${request.totalPayment.toFixed(2)}</td>
                 <td>{request.status}</td>
                 <td>
-                  <FontAwesomeIcon 
+                  {/* <FontAwesomeIcon 
                     icon={faEdit} 
                     style={styles.icon} 
                     onClick={() => handleEditRequest(request.id)} 
                     title="Edit" 
-                  />
+                  /> */}
                   {request.status !== 'Completed' && (
                     <FontAwesomeIcon 
                       icon={faTimesCircle} 
@@ -85,6 +88,7 @@ const MyRequestsPage = () => {
           </tbody>
         </table>
       )}
+      <Footer/>
     </div>
   );
 };

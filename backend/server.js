@@ -34,6 +34,9 @@ connection.once("open", () => {
 const userRouter = require("./routes/Users.js");
 app.use("/user",userRouter);
 
+const pickupRouter = require("./routes/SchedulePickups.js");
+app.use("/schedulePickup",pickupRouter);
+
 app.listen(PORT, () => {
     console.log(`Server is up and running on port number: ${PORT}`);
 });

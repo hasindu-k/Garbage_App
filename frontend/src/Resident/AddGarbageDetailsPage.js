@@ -19,8 +19,8 @@ function AddGarbageDetailsPage() {
   return (
     <div style={styles.container}>
       <Navbar />
-      <div style={styles.content}>
-        <h2>Add Garbage Details</h2>
+      <div style={styles.formContainer}>
+        <h2 style={styles.title}>Add Garbage Details</h2>
         <form onSubmit={handleSubmit} style={styles.form}>
           <div style={styles.inputGroup}>
             <label style={styles.label}>Garbage Category: </label>
@@ -33,7 +33,7 @@ function AddGarbageDetailsPage() {
               <option value="">Select Category</option>
               <option value="organic">Organic Waste</option>
               <option value="plastic">Plastic Waste</option>
-              <option value="electronic">Paper Waste</option>
+              <option value="electronic">Electronic Waste</option>
             </select>
           </div>
 
@@ -49,7 +49,7 @@ function AddGarbageDetailsPage() {
             />
           </div>
 
-          <button type="submit" style={styles.button}>
+          <button type="submit" style={styles.submitButton}>
             Submit Details
           </button>
         </form>
@@ -61,31 +61,35 @@ function AddGarbageDetailsPage() {
 
 const styles = {
   container: {
-    fontFamily: "Arial, sans-serif",
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: '100vh', // Make the container take up the full height of the viewport
+    backgroundColor: '#F5F5F5',
+  },
+  formContainer: {
+    flex: 1, // Allow the form container to grow and fill the remaining space
+    backgroundColor: '#E6F5E6',
+    width: '100%',
+    maxWidth: '500px',
+    borderRadius: '15px',
+    padding: '20px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    margin: '20px auto', // Center the form
+  },
+  title: {
+    fontSize: '22px',
+    color: '#333',
+    marginBottom: '10px',
+    textAlign: 'center',
+  },
+  form: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    minHeight: '100vh',
-    backgroundColor: '#f4f4f4',
-  },
-  content: {
-    textAlign: 'center',
-    padding: '20px',
-    width: '100%',
-    maxWidth: '600px',
-  },
-  form: {
-    backgroundColor: '#fff',
-    borderRadius: '8px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    padding: '20px',
-    marginTop: '20px',
   },
   inputGroup: {
     marginBottom: '20px',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-start',
+    width: '100%',
   },
   label: {
     marginBottom: '8px',
@@ -94,30 +98,28 @@ const styles = {
   },
   select: {
     padding: '10px',
-    borderRadius: '4px',
+    borderRadius: '8px',
     border: '1px solid #ccc',
     width: '100%',
     fontSize: '16px',
   },
   input: {
     padding: '10px',
-    borderRadius: '4px',
+    borderRadius: '8px',
     border: '1px solid #ccc',
     width: '100%',
     fontSize: '16px',
   },
-  button: {
-    padding: '15px 30px',
+  submitButton: {
+    width: '100%',
+    padding: '15px',
     borderRadius: '8px',
-    backgroundColor: '#4caf50',
+    backgroundColor: '#4CAF50',
     color: 'white',
     fontSize: '18px',
     border: 'none',
     cursor: 'pointer',
-    transition: 'background-color 0.3s',
-  },
-  buttonHover: {
-    backgroundColor: '#45a049',
+    marginTop: '20px',
   },
 };
 
