@@ -1,8 +1,10 @@
 // WasteCollectedForm.js
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const WasteCollectedForm = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     truckNumber: '',
     wasteCollector: '',
@@ -33,6 +35,7 @@ const WasteCollectedForm = () => {
         totalWaste,
       });
       alert('Data submitted successfully');
+      navigate('/viewCollectedWaste')
       setFormData({
         truckNumber: '',
         wasteCollector: '',
@@ -49,7 +52,7 @@ const WasteCollectedForm = () => {
 
   return (
     <form onSubmit={handleSubmit} className="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-md">
-      <h1 className="text-xl font-bold text-center mb-4">Recycle Handover</h1>
+      <h1 className="text-xl font-bold text-center mb-4">Collected Waste Recording form</h1>
       <label className="block mb-2 font-semibold">Truck Number:</label>
       <input
         name="truckNumber"

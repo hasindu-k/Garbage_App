@@ -9,6 +9,7 @@ import AddGarbageDetailsPage from './Resident/AddGarbageDetailsPage';
 import ConfirmationPage from './Resident/ConfirmationPage';
 import CollectedWasteTable from './WasteStop/CollectedWasteTable';
 import CollectedWasteHome from './WasteStop/CollectedWasteHome';
+import RecycleForm from "./WasteStop/RecycleHandover";
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
         <Route path="/MyRequestsPage" element={<MyRequestsPage />} />
         <Route path="/collectedWaste" element={<CollectedWasteHome />} />
         <Route path="/viewCollectedWaste" element={<CollectedWasteTable />} />
+        <Route path="/RecycleForm" element={<RecycleForm />} />
 
       </Routes>
     </Router>

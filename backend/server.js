@@ -21,8 +21,8 @@ if (!URL) {
 }
 
 mongoose.connect(URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+    //useNewUrlParser: true,
+    //useUnifiedTopology: true,
 });
 
 const connection = mongoose.connection;
@@ -34,13 +34,12 @@ connection.once("open", () => {
 const userRouter = require("./routes/Users.js");
 app.use("/user",userRouter);
 
-<<<<<<< HEAD
 const pickupRouter = require("./routes/SchedulePickups.js");
 app.use("/schedulePickup",pickupRouter);
-=======
-const collectedWastesRoutes = require('./routes/CollectedWastes');
+const collectedWastesRoutes = require('./routes/CollectedWastes.js');
 app.use('/collectedwaste', collectedWastesRoutes);
->>>>>>> 1780921 (ui not completed)
+const recycleRoutes = require('./routes/RecycleWastes.js');
+app.use('/recycleWaste', recycleRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server is up and running on port number: ${PORT}`);
