@@ -15,6 +15,7 @@ import { ToastContainer } from 'react-toastify'; // Importing ToastContainer
 import 'react-toastify/dist/ReactToastify.css'; // Importing Toast CSS
 import WasteCollectedUpdateForm from './WasteStop/WasteCollectedUpdateForm';
 import CollectedWasteDashboard from './WasteStop/CollectedWasteDashboardy';
+import ViewRecycledDetails from './WasteStop/viewRecycledDetails';
 
 function App() {
   return (
@@ -34,6 +35,8 @@ function App() {
           <Route path="/RecycleForm" element={<RecycleForm />} />
           <Route path="/update/:id" element={<WasteCollectedUpdateForm />} />
           <Route path="/CollectedWasteDashboard" element={<CollectedWasteDashboard />} />
+          <Route path="/viewRecycledDetails" element={<ViewRecycledDetails />} />
+
 
 
         </Routes>
