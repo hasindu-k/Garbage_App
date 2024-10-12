@@ -49,7 +49,7 @@ router.get('/:collectedId', async (req, res) => {
 });
 
 // PUT - Update a waste collection record by ID
-router.put('/:collectedId', async (req, res) => {
+router.put('/update/:collectedId', async (req, res) => {
   const { truckNumber, wasteCollector, area, paperWaste, foodWaste, polytheneWaste } = req.body;
   const totalWaste = (parseFloat(paperWaste) + parseFloat(foodWaste) + parseFloat(polytheneWaste)).toFixed(2);
 
@@ -68,7 +68,7 @@ router.put('/:collectedId', async (req, res) => {
 });
 
 // DELETE - Delete a waste collection record by ID
-router.delete('/:collectedId', async (req, res) => {
+router.delete('/delete/:collectedId', async (req, res) => {
   try {
     const deletedWaste = await CollectedWaste.findByIdAndDelete(req.params.collectedId);
     
