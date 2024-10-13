@@ -5,7 +5,7 @@ const garbage = require('../models/GarbageDetail'); // Import the GarbageDetail 
 const approvedPickup = require('../models/Approvedpickup'); // Import the ApprovedPickup model
 
 // Route to get completed garbage details
-router.get('/completed-garbage', async (req, res) => {
+router.get('/completed-garbage'), async (req, res) => {
     try {
         // Fetch approved pickups with 'Completed' status
         const completedPickups = await approvedPickup.find({ status: 'Completed' });
@@ -22,7 +22,7 @@ router.get('/completed-garbage', async (req, res) => {
         console.error('Error fetching completed garbage details:', error);
         res.status(500).json({ message: 'Internal Server Error' });
     }
-
+}
 
 router.route("/addGarbage").post((req, res) => {
     const date = req.body.date;

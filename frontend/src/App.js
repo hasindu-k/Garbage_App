@@ -8,7 +8,6 @@ import MyRequestsPage from "./Resident/MyRequestsPage";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import "./App.css";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from "./Resident/HomePage";
 import SchedulePickupPage from "./Resident/SchedulePickupPage";
 import AddGarbageDetailsPage from "./Resident/AddGarbageDetailsPage";
