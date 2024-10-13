@@ -38,7 +38,7 @@ const userSchema = new Schema({
   role: {
     type: String,
     required: true,
-    enum: ["admin", "collector", "resident"], // Allow only specific roles
+    enum: ["admin", "collector", "resident", "recorder"], // Allow only specific roles
   },
 });
 

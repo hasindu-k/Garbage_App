@@ -35,9 +35,11 @@ function Login() {
         if (data.role === "resident") {
           navigate("/");
         } else if (data.role === "admin") {
-          navigate("/admin/dashboard");
-        } else {
-          navigate("/collector/dashboard");
+          navigate("/adminHome");
+        } else if (data.role === "collector") {
+          navigate("/CollectorHome");
+        } else if (data.role === "recorder") {
+          navigate("/CollectedWasteDashboard");
         }
       } else {
         message.error(data.error || "Login failed");
