@@ -32,148 +32,47 @@ function HomePage() {
   const nextScheduledCollectionDate = getNextScheduledCollectionDate();
 
   return (
-    <div style={styles.container}>
-      <Navbar style={styles.navbar} />
+    <div className="flex flex-col justify-between min-h-screen bg-cover bg-center relative" style={{ backgroundImage: `url(${Garbage_pic1})` }}>
+      <Navbar className="fixed top-0 left-0 w-full z-10 bg-gray-800" />
 
-      <div style={styles.overlay}>
-        <div style={styles.content}>
-          <div style={styles.overviewSection}>
+      <div className="contaoiner flex justify-center items-center flex-1 py-20 px-4 bg-black bg-opacity-60">
+        <div className="text-center p-10 w-full max-w-3xl bg-white bg-opacity-90 rounded-xl shadow-lg z-1 text-gray-800">
+          <div className="mb-10">
             <p>Welcome to your Smart Waste Management Dashboard. Here you can track your next collection date, add garbage details, or request early pickups.</p>
           </div>
 
-          <div style={styles.card}>
-            <h3>Next Scheduled Collection:</h3>
-            <p style={styles.date}>{formatDate(nextScheduledCollectionDate)}</p>
+          <div className="bg-gray-100 rounded-lg shadow-md p-6 my-6">
+            <h3 className="text-xl font-semibold">Next Scheduled Collection:</h3>
+            <p className="text-lg mt-2">{formatDate(nextScheduledCollectionDate)}</p>
           </div>
 
           {/* New Advice Section */}
-          <div style={styles.adviceCard}>
-            <h3 style={styles.adviceTitle}>Separate Your Waste!</h3>
-            <img src={DustbinImage} alt="Dustbin" style={styles.dustbinImage} />
+          <div className="bg-white rounded-lg shadow-md p-6 my-6">
+            <h3 className="text-xl font-semibold mb-4">Separate Your Waste!</h3>
+            <img src={DustbinImage} alt="Dustbin" className="w-28 mx-auto mb-4" />
             <p>Please separate your garbage into the following categories:</p>
-            <div style={styles.categories}>
-              <div style={styles.categoryCard}>
-                <h4 style={styles.categoryTitle}>🌱 Organic Waste</h4>
+            <div className="flex justify-around mt-4 flex-wrap gap-4">
+              <div className="bg-cyan-100 rounded-lg shadow-md p-4 w-1/3 min-w-[150px]">
+                <h4 className="font-semibold">🌱 Organic Waste</h4>
                 <p>Food scraps, yard waste, etc.</p>
               </div>
-              <div style={styles.categoryCard}>
-                <h4 style={styles.categoryTitle}>🛍️ Polyethylene Waste</h4>
+              <div className="bg-cyan-100 rounded-lg shadow-md p-4 w-1/3 min-w-[150px]">
+                <h4 className="font-semibold">🛍️ Polyethylene Waste</h4>
                 <p>Plastic bags, containers, etc.</p>
               </div>
-              <div style={styles.categoryCard}>
-                <h4 style={styles.categoryTitle}>📄 Paper Waste</h4>
+              <div className="bg-cyan-100 rounded-lg shadow-md p-4 w-1/3 min-w-[150px]">
+                <h4 className="font-semibold">📄 Paper Waste</h4>
                 <p>Cardboard, newspapers, etc.</p>
               </div>
             </div>
-            <p>This helps in recycling and managing waste effectively.</p>
+            <p className="mt-4">This helps in recycling and managing waste effectively.</p>
           </div>
         </div>
       </div>
 
-      <Footer style={styles.footer} />
+      <Footer className="fixed bottom-0 left-0 w-full bg-gray-800 text-white py-2 text-center z-10" />
     </div>
   );
 }
-
-const styles = {
-  container: {
-    fontFamily: 'Arial, sans-serif',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    minHeight: '100vh',
-    backgroundImage: `url(${Garbage_pic1})`,
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    color: '#fff',
-    position: 'relative',
-  },
-  navbar: {
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    width: '100%',
-    zIndex: 2,
-    backgroundColor: '#333',
-  },
-  overlay: {
-    flex: 1,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: '80px 20px 60px', // Add padding to account for navbar and footer
-    backgroundColor: 'rgba(0, 0, 0, 0.6)',
-  },
-  content: {
-    textAlign: 'center',
-    padding: '40px',
-    width: '100%',
-    maxWidth: '900px',
-    backgroundColor: 'rgba(255, 255, 255, 0.9)', // Increase opacity for better readability
-    borderRadius: '12px',
-    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)', // Add shadow for depth
-    color: '#333',
-    zIndex: 1,
-  },
-  overviewSection: {
-    marginBottom: '40px',
-  },
-  card: {
-    backgroundColor: '#f9f9f9',
-    borderRadius: '8px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    padding: '25px',
-    margin: '20px 0',
-  },
-  adviceCard: {
-    backgroundColor: '#fff',
-    borderRadius: '8px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    padding: '25px',
-    margin: '20px 0',
-  },
-  adviceTitle: {
-    marginBottom: '10px',
-  },
-  dustbinImage: {
-    width: '120px', // Increase size for better visibility
-    height: 'auto',
-    margin: '10px 0',
-  },
-  date: {
-    fontSize: '18px',
-    margin: '10px 0',
-    color: '#333',
-  },
-  categories: {
-    display: 'flex',
-    justifyContent: 'space-around',
-    margin: '20px 0',
-    flexWrap: 'wrap',
-  },
-  categoryCard: {
-    backgroundColor: '#e0f7fa',
-    borderRadius: '8px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    padding: '15px',
-    margin: '10px',
-    width: '30%', // Adjust width for smaller screens
-    minWidth: '150px', // Ensure minimum width
-  },
-  categoryTitle: {
-    margin: '0',
-  },
-  footer: {
-    position: 'fixed',
-    bottom: 0,
-    left: 0,
-    width: '100%',
-    backgroundColor: '#333',
-    color: '#fff',
-    padding: '10px 0',
-    textAlign: 'center',
-    zIndex: 2,
-  },
-};
 
 export default HomePage;

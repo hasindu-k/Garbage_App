@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import Navbar from './ResidentNavbar';
 import Footer from '../components/Footer';
 import axios from 'axios';
@@ -42,44 +42,48 @@ const MyRequestsPage = () => {
   };
 
   return (
-    <div style={styles.container}>
+    <div className="flex flex-col min-h-screen">
       <Navbar />
-      <h2>My Monthly Pickup Requests</h2>
-      {groupedRequests.length === 0 ? (
-        <p>No requests found.</p>
-      ) : (
-        <table style={styles.table}>
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Category</th>
-              <th>Weight (kg)</th>
-              <th>Payment</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {groupedRequests.map((request, index) => (
-              <tr key={index}>
-                <td>{request.displayDate}</td>
-                <td>{request.category}</td>
-                <td>{request.totalWeight}</td>
-                <td>${request.totalPayment.toFixed(2)}</td>
-                <td>{request.status}</td>
-                <td>
-                  <FontAwesomeIcon
-                    icon={faTrash}
-                    style={styles.icon}
-                    onClick={() => handleCancelRequest(request.id)}  // Changes status to Canceled
-                    title="Delete"
-                  />
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
+      <div className="container mx-auto px-4 py-8">
+        <h2 className="text-2xl font-semibold mb-4 text-center">My Monthly Pickup Requests</h2>
+        {groupedRequests.length === 0 ? (
+          <p className="text-center text-lg">No requests found.</p>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="min-w-full table-auto border-collapse bg-white shadow-md rounded-lg overflow-hidden">
+              <thead>
+                <tr className="bg-gray-200">
+                  <th className="px-4 py-2">Date</th>
+                  <th className="px-4 py-2">Category</th>
+                  <th className="px-4 py-2">Weight (kg)</th>
+                  <th className="px-4 py-2">Payment</th>
+                  <th className="px-4 py-2">Status</th>
+                  <th className="px-4 py-2">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {groupedRequests.map((request, index) => (
+                  <tr key={index} className="border-t">
+                    <td className="px-4 py-2">{request.displayDate}</td>
+                    <td className="px-4 py-2">{request.category}</td>
+                    <td className="px-4 py-2">{request.totalWeight}</td>
+                    <td className="px-4 py-2">${request.totalPayment.toFixed(2)}</td>
+                    <td className="px-4 py-2">{request.status}</td>
+                    <td className="px-4 py-2">
+                      <FontAwesomeIcon
+                        icon={faTrash}
+                        className="text-red-500 cursor-pointer hover:text-red-700"
+                        onClick={() => handleCancelRequest(request.id)} // Changes status to Canceled
+                        title="Delete"
+                      />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
       <Footer />
     </div>
   );
@@ -118,25 +122,6 @@ const groupRequestsByMonthAndCategory = (requests) => {
 
   // Convert grouped object to an array
   return Object.values(grouped).flatMap(monthGroup => Object.values(monthGroup));
-};
-
-const styles = {
-  container: {
-    padding: '20px',
-    textAlign: 'center',
-  },
-  table: {
-    margin: '20px auto',
-    borderCollapse: 'collapse',
-    width: '80%',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-  },
-  icon: {
-    padding: '10px',
-    cursor: 'pointer',
-    color: '#4caf50',
-    transition: 'color 0.3s',
-  },
 };
 
 export default MyRequestsPage;
