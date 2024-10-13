@@ -23,6 +23,10 @@ import ViewRecycledDetails from "./WasteStop/viewRecycledDetails";
 import NotFound from "./pages/NotFound";
 import UserTypeSelection from "./pages/UserRolePage";
 import Admin from "./admin/Admin";
+import AdminHome from "./admin/AdminHome";
+import RequestPage from "./admin/RequestPage";
+import ManageVehicles from "./admin/ManageVehicles";
+import ManageCollectors from "./admin/ManageCollectors";
 
 
 function App() {
@@ -50,6 +54,7 @@ function App() {
           <Route path="/collectedWaste" element={<CollectedWasteHome />} />
           <Route path="/viewCollectedWaste" element={<CollectedWasteTable />} />
           <Route path="/RecycleForm" element={<RecycleForm />} />
+          <Route path="/adminHome" element={<AdminHome />} />
           <Route path="/update/:id" element={<WasteCollectedUpdateForm />} />
           <Route
             path="/CollectedWasteDashboard"
@@ -59,6 +64,12 @@ function App() {
             path="/viewRecycledDetails"
             element={<ViewRecycledDetails />}
           />
+
+          <Route path="/requestPage" element={<RequestPage />} />
+
+          <Route path="/manageVehicles" element={<ManageVehicles />} />
+
+          <Route path="/manageCollectors" element={<ManageCollectors />} />
 
           <Route path="/admin" element={<Admin />} />
           <Route path="/user-role" element={<UserTypeSelection />} />
