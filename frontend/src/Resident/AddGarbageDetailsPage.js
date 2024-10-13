@@ -1,16 +1,53 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from './ResidentNavbar'; // Assuming you have a Navbar for consistency
 import Footer from '../components/Footer'; // Footer component for consistent layout
+import axios from "axios";
+
+
 
 function AddGarbageDetailsPage() {
   const [category, setCategory] = useState('');
   const [weight, setWeight] = useState('');
+  const [date, setDate] = useState('');
+  const [payment, setPayment] = useState(0);
   const navigate = useNavigate();
+
+  // Automatically set the current date when the component loads
+  useEffect(() => {
+    const currentDate = new Date().toISOString().split('T')[0]; // Get the current date in YYYY-MM-DD format
+    setDate(currentDate);
+  }, []);
+
+  // Calculate payment when weight changes (100 Rs per kg)
+  useEffect(() => {
+    setPayment(weight * 100); // Payment is 100 Rs per kg
+  }, [weight]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Logic to submit garbage details
+   
+    const newGarbage = {
+      category,
+      weight,
+      date,
+      payment
+
+    };
+
+    axios.post("http://localhost:8070/garbage/addGarbage", newGarbage)
+      .then(() => {
+        alert("Garbade Added");
+        navigate('/confirmation', {
+          state: { message: 'Your pickup request has been submitted!' },
+        });
+      })
+      .catch((err) => {
+        alert(err);
+      });
+
+
+
     navigate('/confirmation', {
       state: { message: 'Garbage details submitted successfully!' },
     });
@@ -22,6 +59,18 @@ function AddGarbageDetailsPage() {
       <div style={styles.formContainer}>
         <h2 style={styles.title}>Add Garbage Details</h2>
         <form onSubmit={handleSubmit} style={styles.form}>
+          {/* Date (Auto-filled) */}
+          <div style={styles.inputGroup}>
+            <label style={styles.label}>Date: </label>
+            <input
+              type="text"
+              value={date}
+              readOnly
+              style={styles.input}
+            />
+          </div>
+
+          {/* Category */}
           <div style={styles.inputGroup}>
             <label style={styles.label}>Garbage Category: </label>
             <select
@@ -37,6 +86,7 @@ function AddGarbageDetailsPage() {
             </select>
           </div>
 
+          {/* Weight */}
           <div style={styles.inputGroup}>
             <label style={styles.label}>Weight (kg): </label>
             <input
@@ -45,6 +95,17 @@ function AddGarbageDetailsPage() {
               onChange={(e) => setWeight(e.target.value)}
               placeholder="Enter weight in kg"
               required
+              style={styles.input}
+            />
+          </div>
+
+          {/* Payment (Auto-calculated) */}
+          <div style={styles.inputGroup}>
+            <label style={styles.label}>Payment (Rs): </label>
+            <input
+              type="number"
+              value={payment}
+              readOnly
               style={styles.input}
             />
           </div>

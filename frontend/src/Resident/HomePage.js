@@ -1,12 +1,15 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import Navbar from './ResidentNavbar';
-import Footer from '../components/Footer';
-import Garbage_pic1 from '../assets/Garbage_pic1.jpeg'; // Replace with the correct file type
-import DustbinImage from '../assets/dustbin.png'; // Add your dustbin image here
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import Navbar from "./ResidentNavbar";
+import Footer from "../components/Footer";
+import Garbage_pic1 from "../assets/Garbage_pic1.jpeg"; // Replace with the correct file type
+import DustbinImage from "../assets/dustbin.png"; // Add your dustbin image here
+import { useCookies } from "react-cookie";
 
 function HomePage() {
   const navigate = useNavigate();
+  const [cookies] = useCookies(["userID"]);
+  const userID = cookies.userID;
 
   // Function to get the next scheduled collection date
   const getNextScheduledCollectionDate = () => {
@@ -24,7 +27,12 @@ function HomePage() {
 
   // Format the date to a readable string
   const formatDate = (date) => {
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const options = {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    };
     return date.toLocaleDateString(undefined, options);
   };
 
@@ -38,7 +46,12 @@ function HomePage() {
       <div style={styles.overlay}>
         <div style={styles.content}>
           <div style={styles.overviewSection}>
-            <p>Welcome to your Smart Waste Management Dashboard. Here you can track your next collection date, add garbage details, or request early pickups.</p>
+            <h1>Welcome {userID}</h1>
+            <p>
+              Welcome to your Smart Waste Management Dashboard. Here you can
+              track your next collection date, add garbage details, or request
+              early pickups.
+            </p>
           </div>
 
           <div style={styles.card}>
@@ -77,101 +90,101 @@ function HomePage() {
 
 const styles = {
   container: {
-    fontFamily: 'Arial, sans-serif',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    minHeight: '100vh',
+    fontFamily: "Arial, sans-serif",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    minHeight: "100vh",
     backgroundImage: `url(${Garbage_pic1})`,
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    color: '#fff',
-    position: 'relative',
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    color: "#fff",
+    position: "relative",
   },
   navbar: {
-    position: 'fixed',
+    position: "fixed",
     top: 0,
     left: 0,
-    width: '100%',
+    width: "100%",
     zIndex: 2,
-    backgroundColor: '#333',
+    backgroundColor: "#333",
   },
   overlay: {
     flex: 1,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: '80px 20px 60px', // Add padding to account for navbar and footer
-    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: "80px 20px 60px", // Add padding to account for navbar and footer
+    backgroundColor: "rgba(0, 0, 0, 0.6)",
   },
   content: {
-    textAlign: 'center',
-    padding: '40px',
-    width: '100%',
-    maxWidth: '900px',
-    backgroundColor: 'rgba(255, 255, 255, 0.9)', // Increase opacity for better readability
-    borderRadius: '12px',
-    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)', // Add shadow for depth
-    color: '#333',
+    textAlign: "center",
+    padding: "40px",
+    width: "100%",
+    maxWidth: "900px",
+    backgroundColor: "rgba(255, 255, 255, 0.9)", // Increase opacity for better readability
+    borderRadius: "12px",
+    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.2)", // Add shadow for depth
+    color: "#333",
     zIndex: 1,
   },
   overviewSection: {
-    marginBottom: '40px',
+    marginBottom: "40px",
   },
   card: {
-    backgroundColor: '#f9f9f9',
-    borderRadius: '8px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    padding: '25px',
-    margin: '20px 0',
+    backgroundColor: "#f9f9f9",
+    borderRadius: "8px",
+    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+    padding: "25px",
+    margin: "20px 0",
   },
   adviceCard: {
-    backgroundColor: '#fff',
-    borderRadius: '8px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    padding: '25px',
-    margin: '20px 0',
+    backgroundColor: "#fff",
+    borderRadius: "8px",
+    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+    padding: "25px",
+    margin: "20px 0",
   },
   adviceTitle: {
-    marginBottom: '10px',
+    marginBottom: "10px",
   },
   dustbinImage: {
-    width: '120px', // Increase size for better visibility
-    height: 'auto',
-    margin: '10px 0',
+    width: "120px", // Increase size for better visibility
+    height: "auto",
+    margin: "10px 0",
   },
   date: {
-    fontSize: '18px',
-    margin: '10px 0',
-    color: '#333',
+    fontSize: "18px",
+    margin: "10px 0",
+    color: "#333",
   },
   categories: {
-    display: 'flex',
-    justifyContent: 'space-around',
-    margin: '20px 0',
-    flexWrap: 'wrap',
+    display: "flex",
+    justifyContent: "space-around",
+    margin: "20px 0",
+    flexWrap: "wrap",
   },
   categoryCard: {
-    backgroundColor: '#e0f7fa',
-    borderRadius: '8px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    padding: '15px',
-    margin: '10px',
-    width: '30%', // Adjust width for smaller screens
-    minWidth: '150px', // Ensure minimum width
+    backgroundColor: "#e0f7fa",
+    borderRadius: "8px",
+    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+    padding: "15px",
+    margin: "10px",
+    width: "30%", // Adjust width for smaller screens
+    minWidth: "150px", // Ensure minimum width
   },
   categoryTitle: {
-    margin: '0',
+    margin: "0",
   },
   footer: {
-    position: 'fixed',
+    position: "fixed",
     bottom: 0,
     left: 0,
-    width: '100%',
-    backgroundColor: '#333',
-    color: '#fff',
-    padding: '10px 0',
-    textAlign: 'center',
+    width: "100%",
+    backgroundColor: "#333",
+    color: "#fff",
+    padding: "10px 0",
+    textAlign: "center",
     zIndex: 2,
   },
 };
