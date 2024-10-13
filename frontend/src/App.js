@@ -5,6 +5,8 @@ import SchedulePickupPage from './Resident/SchedulePickupPage';
 import AddGarbageDetailsPage from './Resident/AddGarbageDetailsPage';
 import ConfirmationPage from './Resident/ConfirmationPage';
 import MyRequestsPage from './Resident/MyRequestsPage';
+import CollectorHome from './Collector/CollectorHome';
+import TotalGarbage from './Collector/TotalGarbage';
 
 
 function App() {
@@ -16,6 +18,8 @@ function App() {
         <Route path="/add-garbage-details" element={<AddGarbageDetailsPage />} />
         <Route path="/confirmation" element={<ConfirmationPage />} />
         <Route path="/MyRequestsPage" element={<MyRequestsPage />} />
+        <Route path="/CollectorHome" element={<CollectorHome />} />
+        <Route path="/TotalGarbage" element={<TotalGarbage />} />
       </Routes>
     </Router>
   );
