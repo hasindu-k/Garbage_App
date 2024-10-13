@@ -1,43 +1,54 @@
-import React from "react";
-import toggler_mode from "../assets/mode.jpg";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { HiOutlineMenu, HiOutlineX } from 'react-icons/hi'; // Use React Icons for toggle icons
 
-const Navbar = ({ theme, setTheme }) => {
-  const toggle_mode = () => {
-    theme === "light" ? setTheme("dark") : setTheme("light");
+const Navbar = () => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // State to manage sidebar visibility
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen); // Toggle sidebar visibility
   };
 
   return (
-    <div
-      className={`w-full h-20 flex items-center justify-between px-10 shadow-md transition-colors duration-300 ${
-        theme === "dark" ? "bg-green-800 text-white" : "bg-green-100 text-green-900"
-      }`}
-    >
-      <h1 className="text-2xl font-semibold">EcoSmart</h1>
+    <div className="relative flex">
+      {isSidebarOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-20" onClick={toggleSidebar} /> // Overlay background
+      )}
+      <div
+        className={`fixed left-0 top-0 h-full bg-green-800 text-white w-64 transition-transform transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} z-30`}
+      >
+        <div className="text-2xl font-bold py-4 px-6 bg-green-700">Navigation</div>
+        <nav className="mt-10 flex-grow">
+          <ul className="flex flex-col">
+            <li className="mb-4">
+              <Link to="/" className="block py-2 px-6 hover:bg-green-600">Home</Link>
+            </li>
+            <li className="mb-4">
+              <Link to="/add-garbage-details" className="block py-2 px-6 hover:bg-green-600">Add Garbage</Link>
+            </li>
+            <li className="mb-4">
+              <Link to="/schedule-pickup" className="block py-2 px-6 hover:bg-green-600">Schedule Pickup</Link>
+            </li>
+            <li className="mb-4">
+              <Link to="/MyRequestsPage" className="block py-2 px-6 hover:bg-green-600">My Requests</Link>
+            </li>
+            <li className="mb-4">
+              <Link to="/profile" className="block py-2 px-6 hover:bg-green-600">Profile</Link>
+            </li>
+          </ul>
+        </nav>
+      </div>
 
-      <ul className="flex space-x-8 list-none">
-        <a href="/" className="hover:text-green-800">
-          <li className="text-lg font-medium cursor-pointer">Home</li>
-        </a>
-        <a href="/add-garbage-details" className="hover:text-green-800">
-          <li className="text-lg font-medium cursor-pointer">AddGarbage</li>
-        </a>
-        <a href="/schedule-pickup" className="hover:text-green-800">
-          <li className="text-lg font-medium cursor-pointer">SchedulePickup</li>
-        </a>
-        <a href="/MyRequestsPage" className="hover:text-green-800">
-          <li className="text-lg font-medium cursor-pointer">MyRequests</li>
-        </a>
-        <a href="#" className="hover:text-green-800">
-          <li className="text-lg font-medium cursor-pointer">Profile</li>
-        </a>
-      </ul>
+      <button
+        onClick={toggleSidebar}
+        className="flex items-center justify-center h-12 w-12 bg-green-700 text-white rounded-full focus:outline-none fixed top-5 left-5 z-40"
+      >
+        {isSidebarOpen ? <HiOutlineX size={24} /> : <HiOutlineMenu size={24} />} {/* Toggle icons */}
+      </button>
 
-      <img
-        onClick={toggle_mode}
-        src={toggler_mode}
-        alt="Toggle Mode"
-        className="w-10 cursor-pointer transition-transform duration-300 hover:rotate-12"
-      />
+      {/* Main content */}
+      <div className={`flex-grow transition-opacity duration-300 ${isSidebarOpen ? 'opacity-50' : 'opacity-100'}`}>        
+      </div>
     </div>
   );
 };

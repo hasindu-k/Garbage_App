@@ -3,12 +3,15 @@ import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import Navbar from './ResidentNavbar';
 import Footer from '../components/Footer';
+import {useCookies} from "react-cookie";
 
 function SchedulePickupPage() {
   const [date, setdate] = useState('');
   const [time, settime] = useState('');
   const [location, setlocation] = useState('');
   const navigate = useNavigate();
+  const [cookies] = useCookies(["userID"]);
+  const userID = cookies.userID;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -16,8 +19,11 @@ function SchedulePickupPage() {
     const newSchedule = {
       date,
       time,
-      location
+      location,
+      userID
     };
+
+    console.log(newSchedule)
 
     axios.post("http://localhost:8070/schedulePickup/addPickup", newSchedule)
       .then(() => {
