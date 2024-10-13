@@ -48,8 +48,8 @@ router.post("/login", async (req, res) => {
 
     res.json({
       message: user.isAdmin ? "Admin Login successful" : "Login successful",
-      userId: user._id,
-      userType: user.userType,
+      userId: user.id,
+      role: user.role,
     });
   } catch (err) {
     console.error(err);
@@ -59,7 +59,7 @@ router.post("/login", async (req, res) => {
 
 // User registration route with password hashing
 router.post("/register", async (req, res) => {
-  const { name, address, email, contact, password } = req.body;
+  const { name, address, email, contact, password, role } = req.body;
 
   try {
     // Hash the password
@@ -70,8 +70,9 @@ router.post("/register", async (req, res) => {
       name,
       address,
       email,
-      contact: Number(contact),
+      contact,
       password: hashedPassword, // Store the hashed password
+      role: role,
     });
 
     // Save the user to the database
