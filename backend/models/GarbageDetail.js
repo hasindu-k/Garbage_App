@@ -2,6 +2,11 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const garbageSchema = new Schema({
+
+    userid: {
+        type: String,
+        required: true, // Ensure this field is required
+    },
     date: {
         type: Date,
         required: true
@@ -21,5 +26,6 @@ const garbageSchema = new Schema({
 });
 
 const garbage = mongoose.model("garbage", garbageSchema);
+
 
 module.exports = garbage;
