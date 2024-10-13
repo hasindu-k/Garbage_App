@@ -21,8 +21,8 @@ if (!URL) {
 }
 
 mongoose.connect(URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+    //useNewUrlParser: true,
+    //useUnifiedTopology: true,
 });
 
 const connection = mongoose.connection;
@@ -36,6 +36,13 @@ app.use("/user",userRouter);
 
 const pickupRouter = require("./routes/SchedulePickups.js");
 app.use("/schedulePickup",pickupRouter);
+const collectedWastesRoutes = require('./routes/CollectedWastes.js');
+app.use('/collectedwaste', collectedWastesRoutes);
+const recycleRoutes = require('./routes/RecycleWastes.js');
+app.use('/recycleWaste', recycleRoutes);
+
+const garbageRouter = require("./routes/GarbageDetails.js");
+app.use("/garbage",garbageRouter);
 
 const approvedRouter = require("./routes/Approvedpickup.js");
 app.use("/approvedpickup",approvedRouter);

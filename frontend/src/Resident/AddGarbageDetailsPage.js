@@ -1,126 +1,126 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from './ResidentNavbar'; // Assuming you have a Navbar for consistency
 import Footer from '../components/Footer'; // Footer component for consistent layout
+import axios from 'axios';
 
 function AddGarbageDetailsPage() {
   const [category, setCategory] = useState('');
   const [weight, setWeight] = useState('');
+  const [date, setDate] = useState('');
+  const [payment, setPayment] = useState(0);
   const navigate = useNavigate();
+
+  // Automatically set the current date when the component loads
+  useEffect(() => {
+    const currentDate = new Date().toISOString().split('T')[0]; // Get the current date in YYYY-MM-DD format
+    setDate(currentDate);
+  }, []);
+
+  // Calculate payment when weight changes (100 Rs per kg)
+  useEffect(() => {
+    setPayment(weight * 100); // Payment is 100 Rs per kg
+  }, [weight]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Logic to submit garbage details
-    navigate('/confirmation', {
-      state: { message: 'Garbage details submitted successfully!' },
-    });
+
+    const newGarbage = {
+      category,
+      weight,
+      date,
+      payment,
+    };
+
+    axios
+      .post('http://localhost:8070/garbage/addGarbage', newGarbage)
+      .then(() => {
+        alert('Garbage Added');
+        navigate('/confirmation', {
+          state: { message: 'Your pickup request has been submitted!' },
+        });
+      })
+      .catch((err) => {
+        alert(err);
+      });
   };
 
   return (
-    <div style={styles.container}>
+    <div className="min-h-screen flex flex-col bg-gray-100">
       <Navbar />
-      <div style={styles.formContainer}>
-        <h2 style={styles.title}>Add Garbage Details</h2>
-        <form onSubmit={handleSubmit} style={styles.form}>
-          <div style={styles.inputGroup}>
-            <label style={styles.label}>Garbage Category: </label>
-            <select
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              required
-              style={styles.select}
+      <div className="flex-1 flex items-center justify-center py-8">
+        <div className="w-full max-w-md bg-green-100 rounded-lg p-8 shadow-lg">
+          <h2 className="text-xl font-semibold text-center text-gray-800 mb-6">
+            Add Garbage Details
+          </h2>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Date (Auto-filled) */}
+            <div className="flex flex-col">
+              <label className="mb-2 text-lg text-gray-700">Date:</label>
+              <input
+                type="text"
+                value={date}
+                readOnly
+                className="p-3 border rounded-md border-gray-300 bg-gray-200"
+              />
+            </div>
+
+            {/* Category */}
+            <div className="flex flex-col">
+              <label className="mb-2 text-lg text-gray-700">
+                Garbage Category:
+              </label>
+              <select
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                required
+                className="p-3 border rounded-md border-gray-300"
+              >
+                <option value="">Select Category</option>
+                <option value="organic">Organic Waste</option>
+                <option value="plastic">Plastic Waste</option>
+                <option value="electronic">Electronic Waste</option>
+              </select>
+            </div>
+
+            {/* Weight */}
+            <div className="flex flex-col">
+              <label className="mb-2 text-lg text-gray-700">Weight (kg):</label>
+              <input
+                type="number"
+                value={weight}
+                onChange={(e) => setWeight(e.target.value)}
+                placeholder="Enter weight in kg"
+                required
+                className="p-3 border rounded-md border-gray-300"
+              />
+            </div>
+
+            {/* Payment (Auto-calculated) */}
+            <div className="flex flex-col">
+              <label className="mb-2 text-lg text-gray-700">
+                Payment (Rs):
+              </label>
+              <input
+                type="number"
+                value={payment}
+                readOnly
+                className="p-3 border rounded-md border-gray-300 bg-gray-200"
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="w-full py-3 mt-4 bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors"
             >
-              <option value="">Select Category</option>
-              <option value="organic">Organic Waste</option>
-              <option value="plastic">Plastic Waste</option>
-              <option value="electronic">Electronic Waste</option>
-            </select>
-          </div>
-
-          <div style={styles.inputGroup}>
-            <label style={styles.label}>Weight (kg): </label>
-            <input
-              type="number"
-              value={weight}
-              onChange={(e) => setWeight(e.target.value)}
-              placeholder="Enter weight in kg"
-              required
-              style={styles.input}
-            />
-          </div>
-
-          <button type="submit" style={styles.submitButton}>
-            Submit Details
-          </button>
-        </form>
+              Submit Details
+            </button>
+          </form>
+        </div>
       </div>
       <Footer />
     </div>
   );
 }
-
-const styles = {
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    minHeight: '100vh', // Make the container take up the full height of the viewport
-    backgroundColor: '#F5F5F5',
-  },
-  formContainer: {
-    flex: 1, // Allow the form container to grow and fill the remaining space
-    backgroundColor: '#E6F5E6',
-    width: '100%',
-    maxWidth: '500px',
-    borderRadius: '15px',
-    padding: '20px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    margin: '20px auto', // Center the form
-  },
-  title: {
-    fontSize: '22px',
-    color: '#333',
-    marginBottom: '10px',
-    textAlign: 'center',
-  },
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  inputGroup: {
-    marginBottom: '20px',
-    width: '100%',
-  },
-  label: {
-    marginBottom: '8px',
-    fontSize: '16px',
-    color: '#333',
-  },
-  select: {
-    padding: '10px',
-    borderRadius: '8px',
-    border: '1px solid #ccc',
-    width: '100%',
-    fontSize: '16px',
-  },
-  input: {
-    padding: '10px',
-    borderRadius: '8px',
-    border: '1px solid #ccc',
-    width: '100%',
-    fontSize: '16px',
-  },
-  submitButton: {
-    width: '100%',
-    padding: '15px',
-    borderRadius: '8px',
-    backgroundColor: '#4CAF50',
-    color: 'white',
-    fontSize: '18px',
-    border: 'none',
-    cursor: 'pointer',
-    marginTop: '20px',
-  },
-};
 
 export default AddGarbageDetailsPage;

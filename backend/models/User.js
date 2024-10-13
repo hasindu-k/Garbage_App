@@ -1,36 +1,49 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const AutoIncrement = require("mongoose-sequence")(mongoose);
 
 const userSchema = new Schema({
+  id: {
+    type: Number,
+  },
 
+  name: {
+    type: String,
+    required: true,
+  },
 
-    name :{
-        type: String,
-        required: true
+  address: {
+    type: String,
+    required: true,
+  },
 
-    },
+  email: {
+    type: String,
+    required: true,
+    unique: true, // Ensure the email is unique in the database
+    lowercase: true, // Ensure the email is stored in lowercase
+    match: [/\S+@\S+\.\S+/, "is invalid"], // Simple email format validation
+  },
 
-    address :{
-        type: String,
-        required: true
+  contact: {
+    type: String,
+    required: true,
+  },
 
-    },
-    
-    email :{
-        type: String,
-        required: true
+  password: {
+    type: String,
+    required: true,
+  },
 
-    },
+  role: {
+    type: String,
+    required: true,
+    enum: ["admin", "collector", "resident"], // Allow only specific roles
+  },
+});
 
-    contact :{
-        type: Number,
-        required: true
+userSchema.plugin(AutoIncrement, { inc_field: "id" });
 
-    }
-
-
-})
-
-const User = mongoose.model("User",userSchema);
+const User = mongoose.model("User", userSchema);
 
 module.exports = User;
