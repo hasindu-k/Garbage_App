@@ -3,12 +3,13 @@ let SchedulePickup = require("../models/SchedulePickup"); // Import the correct 
 
 // Route to add a new pickup
 router.route("/addPickup").post((req, res) => {
-    const { date, time, location } = req.body;
+    const { date, time, location, userID } = req.body;
 
     const newPickup = new SchedulePickup({
         date,
         time,
-        location
+        location,
+        userID
     });
 
     newPickup.save()

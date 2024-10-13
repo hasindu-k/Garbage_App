@@ -25,6 +25,11 @@ const PickupSchema = new Schema({
 
     },
 
+    userID : {
+        type: Number,
+        required: true
+    }
+
 
 })
 
