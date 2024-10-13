@@ -42,8 +42,8 @@ const MyRequestsPage = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <Navbar />
+    <div className="nav-bar flex flex-col min-h-screen">
+      <Navbar className="nav-bar" />
       <div className="container mx-auto px-4 py-8">
         <h2 className="text-2xl font-semibold mb-4 text-center">My Monthly Pickup Requests</h2>
         {groupedRequests.length === 0 ? (

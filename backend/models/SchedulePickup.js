@@ -3,6 +3,9 @@ const Schema = mongoose.Schema;
 
 const PickupSchema = new Schema({
 
+    id:{
+        type: Number,
+    },
 
     date :{
         type: String,
