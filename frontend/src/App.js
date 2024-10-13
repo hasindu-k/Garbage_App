@@ -1,3 +1,8 @@
+
+import './App.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import CollectorHome from './Collector/CollectorHome';
+import TotalGarbage from './Collector/TotalGarbage';
 import React from "react";
 import MyRequestsPage from "./Resident/MyRequestsPage";
 import Login from "./pages/Login";
@@ -20,9 +25,16 @@ import NotFound from "./pages/NotFound";
 import UserTypeSelection from "./pages/UserRolePage";
 import Admin from "./admin/Admin";
 
+
 function App() {
   return (
     <Router>
+
+      <Routes>
+        <Route path="/CollectorHome" element={<CollectorHome />} />
+        <Route path="/TotalGarbage" element={<TotalGarbage />} />
+      </Routes>
+
       <div>
         <ToastContainer /> {/* Add ToastContainer here */}
         <Routes>
