@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import WasteHeader from './WasteHeader';
-import Button from './Button';
+import Button from '../components/Button';
 import { useNavigate } from 'react-router-dom'; // Importing useNavigate for navigation
 import { toast } from 'react-toastify'; // Importing toast for pop-up notifications
 

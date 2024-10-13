@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import WasteHeader from './WasteHeader';
+import Button from '../components/Button';
 
 const RecycleForm = () => {
   // State to manage form data
@@ -175,6 +176,9 @@ const RecycleForm = () => {
             Submit
           </button>
         </form>
+      </div>
+      <div className="  w-full bottom-0 z-10 bg-white border-t h-20 flex justify-between items-center px-5 lg:px-10">
+        <Button Button1="Cancel" Button2="Record New" />
       </div>
     </div>
   );
