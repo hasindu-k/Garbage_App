@@ -23,9 +23,10 @@ function App() {
       <div>
         <ToastContainer /> {/* Add ToastContainer here */}
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/" element={<HomePage />} />
           <Route path="/schedule-pickup" element={<SchedulePickupPage />} />
           <Route path="/add-garbage-details" element={<AddGarbageDetailsPage />} />
           <Route path="/confirmation" element={<ConfirmationPage />} />

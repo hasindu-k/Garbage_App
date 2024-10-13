@@ -10,26 +10,15 @@ function ConfirmationPage() {
   const message = location?.state?.message || 'Request completed!';
 
   return (
-    <div style={styles.container}>
+    <div className="flex flex-col min-h-screen justify-between bg-gray-100">
       <Navbar />
-      <div style={{ textAlign: 'center', padding: '20px' }}>
-        <h2>{message}</h2>
-        <p>Thank you for submitting your details.</p>
+      <div className="flex-grow flex flex-col items-center justify-center text-center p-6">
+        <h2 className="text-2xl font-semibold text-gray-800 mb-4">{message}</h2>
+        <p className="text-lg text-gray-600">Thank you for submitting your details.</p>
       </div>
       <Footer />
     </div>
   );
 }
-
-// Define the styles object
-const styles = {
-  container: {
-    minHeight: '100vh',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    backgroundColor: '#f9f9f9',
-  },
-};
 
 export default ConfirmationPage;
