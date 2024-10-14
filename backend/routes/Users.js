@@ -88,15 +88,37 @@ router.post("/register", async (req, res) => {
 });
 
 //get all users
+// router.route("/").get((req, res) => {
+//   User.find()
+//     .then((users) => {
+//       res.json(users);
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//     });
+// });
+
+
 router.route("/").get((req, res) => {
   User.find()
     .then((users) => {
-      res.json(users);
+      // Categorize users by role
+      const categorizedUsers = users.reduce((acc, user) => {
+        const role = user.role || 'Guest'; // Default to 'Guest' if no role
+        if (!acc[role]) {
+          acc[role] = [];
+        }
+        acc[role].push(user);
+        return acc;
+      }, {});
+
+      res.json(categorizedUsers);
     })
     .catch((err) => {
       console.log(err);
     });
 });
+
 
 //get 1 user data
 router.route("/get/:id").get(async (req, res) => {

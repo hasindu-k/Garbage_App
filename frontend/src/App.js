@@ -22,15 +22,15 @@ import ViewRecycledDetails from "./WasteStop/viewRecycledDetails";
 import NotFound from "./pages/NotFound";
 import UserTypeSelection from "./pages/UserRolePage";
 import Admin from "./admin/Admin";
-
 import Logout from './pages/Logout';
 import Profile from './Collector/Profile';
-
 import AdminHome from "./admin/AdminHome";
 import RequestPage from "./admin/RequestPage";
 import ManageVehicles from "./admin/ManageVehicles";
 import ManageCollectors from "./admin/ManageCollectors";
+import DataAnalytics from './admin/DataAnalytics';
 import GarbageStationSummary from "./WasteStop/GarbageStationSummary";
+
 
 
 function App() {
@@ -55,8 +55,16 @@ function App() {
           <Route path="/RecycleForm" element={<RecycleForm />} />
           <Route path="/adminHome" element={<AdminHome />} />
           <Route path="/update/:id" element={<WasteCollectedUpdateForm />} />
-
-
+          <Route
+            path="/CollectedWasteDashboard"
+            element={<CollectedWasteDashboard />}
+          />
+          <Route
+            path="/viewRecycledDetails"
+            element={<ViewRecycledDetails />}
+          />
+           <Route path="/dataAnalytics" element={<DataAnalytics />} />
+          <Route path="/requestPage" element={<RequestPage />} />
         <Route path="/CollectorHome/:userID" element={<CollectorHome />} />
         <Route path="/TotalGarbage" element={<TotalGarbage />} />
         <Route path="/Logout" element={<Logout />} />
@@ -74,6 +82,7 @@ function App() {
           <Route path="/user-role" element={<UserTypeSelection />} />
           {/* 404 Not Found route */}
           <Route path="*" element={<NotFound />} />
+          
         </Routes>
       </div>
     </Router>
