@@ -36,6 +36,18 @@ router.route("/getPickups").get((req, res) => {
         });
 });
 
+// Route to get all pickups
+router.route("/getAllPickups").get((req, res) => {
+    SchedulePickup.find()
+        .then((schedulePickups) => {
+            res.json(schedulePickups);
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(500).send("Error: " + err);
+        });
+});
+
 
 // Route to get a single pickup by ID
 router.route("/getOnePickup/:id").get(async (req, res) => {

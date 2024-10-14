@@ -12,7 +12,7 @@ function RequestPage() {
   useEffect(() => {
     function getAllUserRequests() {
       axios
-        .get("http://localhost:8070/schedulePickup/getPickups")
+        .get("http://localhost:8070/schedulePickup/getAllPickups")
         .then((res) => {
           // Set all statuses to "Scheduled" initially
           const updatedRequests = res.data.map((request) => ({
@@ -30,6 +30,7 @@ function RequestPage() {
 
   // Function to handle the "View" button click
   const handleViewClick = (request) => {
+    console.log("Viewing request:", request);
     setSelectedRequest(request); // Set the selected request
     setIsModalOpen(true); // Open the modal
   };
@@ -57,7 +58,7 @@ function RequestPage() {
               </thead>
               <tbody>
                 {requests.map((request) => (
-                  <tr key={request.id} className="hover:bg-gray-100">
+                  <tr key={request._id} className="hover:bg-gray-100">
                     <td className="py-2 px-4 border-b">{request.userID}</td>
                     <td className="py-2 px-4 border-b">{request.time}</td>
                     <td className="py-2 px-4 border-b">{request.location}</td>
