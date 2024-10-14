@@ -5,6 +5,7 @@ const AutoIncrement = require("mongoose-sequence")(mongoose);
 const userSchema = new Schema({
   id: {
     type: Number,
+    required: true,
   },
 
   name: {
@@ -38,7 +39,7 @@ const userSchema = new Schema({
   role: {
     type: String,
     required: true,
-    enum: ["admin", "collector", "resident"], // Allow only specific roles
+    enum: ["admin", "collector", "resident", "recorder"], // Allow only specific roles
   },
 });
 

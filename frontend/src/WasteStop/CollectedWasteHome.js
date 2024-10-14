@@ -1,7 +1,7 @@
 import React from 'react';
 import WasteHeader from './WasteHeader';
 import WasteCollectedForm from './WasteCollectedForm';
-import Button from './Button';
+import Button from '../components/Button';
 
 const CollectedWasteHome = () => {
   return (

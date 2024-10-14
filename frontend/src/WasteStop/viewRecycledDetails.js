@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import WasteHeader from './WasteHeader';
+import Button from '../components/Button';
 
 const ViewRecycledDetails = () => {
   const [wastes, setWastes] = useState([]);
@@ -59,8 +61,9 @@ const ViewRecycledDetails = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-6">View Recycled Details</h1>
+    <div className=" w-full  mx-auto p-6">
+      
+      <WasteHeader h1='Recycled Details'/>
 
       {/* Display the list of recycling wastes */}
       <table className="table-auto w-full border-collapse">
@@ -176,6 +179,10 @@ const ViewRecycledDetails = () => {
           </form>
         </div>
       )}
+            <div className="  w-full bottom-0 z-10 bg-white border-t h-20 flex justify-between items-center px-5 lg:px-10">
+        <Button Button1="Cancel" Button2="Record New" />
+      </div>
+
     </div>
   );
 };

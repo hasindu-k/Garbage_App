@@ -79,13 +79,15 @@ router.post("/register", async (req, res) => {
     await newUser.save();
     res.json("User Registered");
   } catch (err) {
+    if (err.code === 11000) {
+      return res.status(400).json({ error: "Email already exists" });
+    }
     console.error(err);
     res.status(500).send("Error registering user");
   }
 });
 
 //get all users
-
 router.route("/").get((req, res) => {
   User.find()
     .then((users) => {
@@ -97,7 +99,6 @@ router.route("/").get((req, res) => {
 });
 
 //get 1 user data
-
 router.route("/get/:id").get(async (req, res) => {
   let userId = req.params.id;
   const user = await User.findById(userId)
@@ -108,6 +109,89 @@ router.route("/get/:id").get(async (req, res) => {
       console.log(err);
       res.status(500).send({ status: "Error with get user", error: err });
     });
+});
+
+
+router.get('/collector/:userid', async (req, res) => {
+  try {
+    const user = await User.findOne({ id: req.params.userid });
+    if (!user) {
+      return res.status(404).json({ message: 'User not found.' });
+    }
+
+    res.json(user);
+  } catch (error) {
+    console.error('Error fetching user profile:', error);
+    res.status(500).json({ message: 'Error fetching user profile.' });
+  }
+});
+
+// Update profile information
+router.post('/collector/updateProfile', async (req, res) => {
+  const { userId, name, address, email, contact } = req.body;
+
+  try {
+    const user = await User.findOne({ id: userId });
+    if (!user) {
+      return res.status(404).json({ message: 'User not found.' });
+    }
+
+    // Update profile fields
+    user.name = name || user.name;
+    user.address = address || user.address;
+    user.email = email || user.email;
+    user.contact = contact || user.contact;
+
+    await user.save();
+
+    res.json({ message: 'Profile updated successfully.' });
+  } catch (error) {
+    console.error('Error updating profile:', error);
+    res.status(500).json({ message: 'Error updating profile.' });
+  }
+});
+
+// Update password
+router.post('/collector/updatePassword', async (req, res) => {
+  const { userId, currentPassword, newPassword } = req.body;
+
+  try {
+    const user = await User.findOne({ id: userId });
+    if (!user) {
+      return res.status(404).json({ message: 'User not found.' });
+    }
+
+    // Check if the current password matches (use your password hashing comparison method)
+    const isMatch = await bcrypt.compare(currentPassword, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ message: 'Current password is incorrect.' });
+    }
+
+    // Hash and update the password
+    user.password = await bcrypt.hash(newPassword, 10);
+    await user.save();
+
+    res.json({ message: 'Password updated successfully.' });
+  } catch (error) {
+    console.error('Error updating password:', error);
+    res.status(500).json({ message: 'Error updating password.' });
+  }
+
+// Get all users, with optional filtering by role
+router.route("/:role").get(async (req, res) => {
+  let role = req.params.role;
+
+  const query = role ? { role: role } : {};
+
+  User.find(query)
+    .then((users) => {
+      res.json(users);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({ error: "Error fetching users" });
+    });
+
 });
 
 module.exports = router;
