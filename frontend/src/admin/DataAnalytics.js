@@ -79,24 +79,21 @@ function DataAnalytics() {
             <h2 className="text-2xl font-semibold text-gray-700 text-center mb-4">
               Garbage Collection Weight by Category (This Month)
             </h2>
-            
-            {/* Pie Chart */}
-            <div className="flex justify-center mb-8">
-              <div className="w-full md:w-1/2">
+
+            {/* Flex container for two columns */}
+            <div className="flex flex-wrap justify-between items-center mb-8">
+              
+              {/* Pie Chart */}
+              <div className="w-full md:w-1/2 p-4">
                 <Pie data={pieData} />
               </div>
-            </div>
 
-            <h2 className="text-2xl font-semibold text-gray-700 text-center mb-4">
-              Bar Chart - Weight Collected Per Category
-            </h2>
-
-            {/* Bar Chart */}
-            <div className="flex justify-center">
-              <div className="w-full md:w-3/4">
+              {/* Bar Chart */}
+              <div className="w-full md:w-1/2 p-4">
                 <Bar data={barData} />
               </div>
             </div>
+
           </div>
         </div>
       </div>
