@@ -3,8 +3,8 @@ const Schema = mongoose.Schema;
 
 const garbageSchema = new Schema({
 
-    userid: {
-        type: String,
+    userID: {
+        type: Number,
         required: true, // Ensure this field is required
     },
     date: {

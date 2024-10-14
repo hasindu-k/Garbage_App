@@ -1,55 +1,79 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import Sidebar from './Sidebar';  // Import Sidebar
-
+import { Link, useNavigate } from "react-router-dom";
+import Sidebar from './Sidebar';
+import { useCookies } from 'react-cookie';
+import { AiOutlineUser } from 'react-icons/ai'; // You can install this package for icons
 
 const CollectorHome = () => {
   const [approvedPickups, setApprovedPickups] = useState([]);
+  const [cookies] = useCookies(["userID"]);
+  const [dropdownOpen, setDropdownOpen] = useState(false); // State for dropdown visibility
 
   useEffect(() => {
-    // Fetch the approved pickups from the backend
-    axios.get("http://localhost:8070/approvedpickup/getapproved")
+    // Fetch the approved pickups for the logged-in user
+    axios.get(`http://localhost:8070/approvedpickup/getapproved/${cookies.userID}`)
       .then((response) => {
         setApprovedPickups(response.data);
       })
       .catch((error) => {
         console.error('There was an error fetching the approved pickups!', error);
       });
-  }, []);
+  }, [cookies.userID]); // Ensure the effect runs when the user ID changes
 
-  // Function to handle completion status change
   const handleCompletion = (index) => {
     const updatedPickups = [...approvedPickups];
-    // Toggle the status between 'Completed' and 'Pending'
     updatedPickups[index].status = updatedPickups[index].status === 'Completed' ? 'Pending' : 'Completed';
-
-    // Log the updated pickups to see if the state is changing
-    console.log('Updated pickups:', updatedPickups);
 
     // Make an API call to update the status in the backend
     axios.post(`http://localhost:8070/approvedpickup/update/${updatedPickups[index]._id}`, {
-      status: updatedPickups[index].status // Change here to use 'status'
+      status: updatedPickups[index].status
     })
     .then((response) => {
       console.log('Pickup status updated!', response);
-      // Update the local state with the new status from the server
       setApprovedPickups(updatedPickups);
     })
     .catch((error) => {
       console.error('There was an error updating the pickup status!', error);
     });
   };
+  const navigate = useNavigate();
+
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
+
+  const handleLogout = () => {
+    navigate("/Logout");
+  };
+
+  const handleProfile = () => {
+    navigate(`/Profile/${cookies.userID}`);
+  };
 
   return (
-    <div className="flex">
-      {/* Sidebar */}
+    <div className="flex relative">
       <Sidebar />
 
-      {/* Main content */}
-      <div className="bg-green-100 min-h-screen flex flex-col items-center justify-center flex-grow">
-        <h1 className="text-3xl font-bold text-green-800 mb-8">Approved Garbage Pickups</h1>
-        
-        <div className="w-full max-w-4xl">
+      <div className="bg-green-100 min-h-screen flex flex-col flex-grow">
+        <div className="flex justify-between items-center p-4">
+          <h1 className="text-3xl font-bold text-green-800">Approved Garbage Pickups</h1>
+          <div className="relative">
+            <button onClick={toggleDropdown} className="focus:outline-none">
+              <AiOutlineUser className="h-8 w-8 text-green-800" />
+            </button>
+            {dropdownOpen && (
+              <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg z-10">
+                <ul className="py-2">
+                  <li onClick={handleProfile} className="px-4 py-2 hover:bg-green-200 cursor-pointer">Profile</li>
+                  <li onClick={handleLogout} className="px-4 py-2 hover:bg-green-200 cursor-pointer">Logout</li>
+                </ul>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="w-full max-w-4xl mx-auto">
           {approvedPickups.length > 0 ? (
             <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
               <thead className="bg-green-600">
@@ -75,7 +99,7 @@ const CollectorHome = () => {
                         onChange={() => handleCompletion(index)}
                         className="h-4 w-4 text-green-600"
                       />
-                      <span className="ml-2">{pickup.status}</span> {/* Displaying the status directly */}
+                      <span className="ml-2">{pickup.status}</span>
                     </td>
                   </tr>
                 ))}
