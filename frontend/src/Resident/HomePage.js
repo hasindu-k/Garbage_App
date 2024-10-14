@@ -1,14 +1,9 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import Footer from '../components/Footer';
-import Garbage_pic1 from '../assets/Garbage_pic1.jpeg'; // Replace with the correct file type
-import DustbinImage from '../assets/dustbin.png'; // Add your dustbin image here
-import Navbar from './ResidentNavbar';
+import React from "react";
+import Navbar from "./ResidentNavbar";
+import DustbinImage from '../assets/dustbin.png';
 
-function HomePage() {
-  const navigate = useNavigate();
+function HomePage(){
 
-  // Function to get the next scheduled collection date
   const getNextScheduledCollectionDate = () => {
     const today = new Date();
     const currentMonth = today.getMonth();
@@ -31,16 +26,14 @@ function HomePage() {
   // Get the next scheduled collection date
   const nextScheduledCollectionDate = getNextScheduledCollectionDate();
 
-  return (
-    <div className="flex flex-col min-h-screen bg-green-100">
-      
-      {/* Navbar occupies a fixed width */}
-      <Navbar className="w-full lg:w-1/4" />
 
-      {/* Main content area */}
-      <div className="flex flex-col justify-between flex-1">
-        <div className="container mx-auto py-10 px-6">
-          <div className="text-center p-10 w-full max-w-4xl bg-white bg-opacity-90 rounded-xl shadow-lg mx-auto text-gray-800">
+  return (
+    <div>
+      <div className="flex ">
+        <Navbar/>
+        <div className="flex flex-col justify-between flex-1">
+        <div className="container mx-auto ">
+          <div className="text-center p-10 w-full max-w-4xl bg-green-100 bg-opacity-90 rounded-xl shadow-lg mx-auto text-gray-800">
             <div className="mb-10">
               <p>Welcome to your Smart Waste Management Dashboard. Here you can track your next collection date, add garbage details, or request early pickups.</p>
             </div>
@@ -77,8 +70,9 @@ function HomePage() {
         {/* Footer should be part of the main content */}
         {/* <Footer className="bg-gray-800 text-white py-2 text-center" /> */}
       </div>
-      <Footer className="bg-gray-800 text-white py-2 text-center" />
+      </div>
     </div>
+
   );
 }
 
