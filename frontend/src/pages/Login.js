@@ -8,7 +8,7 @@ const rules = [{ required: true, message: "This field is required" }];
 function Login() {
   const [cookies, setCookie] = useCookies(["userID"]);
   const navigate = useNavigate();
-
+  const userID =  cookies.userID
   const onFinish = async (values) => {
     const { email, password } = values;
 
@@ -36,8 +36,8 @@ function Login() {
           navigate("/");
         } else if (data.role === "admin") {
           navigate("/admin/dashboard");
-        } else {
-          navigate("/collector/dashboard");
+        } else if (data.role === "collector") {
+          navigate(`/CollectorHome/${userID}`);
         }
       } else {
         message.error(data.error || "Login failed");

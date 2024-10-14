@@ -23,16 +23,12 @@ import ViewRecycledDetails from "./WasteStop/viewRecycledDetails";
 import NotFound from "./pages/NotFound";
 import UserTypeSelection from "./pages/UserRolePage";
 import Admin from "./admin/Admin";
-
+import Logout from './pages/Logout';
+import Profile from './Collector/Profile';
 
 function App() {
   return (
     <Router>
-
-      <Routes>
-        <Route path="/CollectorHome" element={<CollectorHome />} />
-        <Route path="/TotalGarbage" element={<TotalGarbage />} />
-      </Routes>
 
       <div>
         <ToastContainer /> {/* Add ToastContainer here */}
@@ -59,6 +55,10 @@ function App() {
             path="/viewRecycledDetails"
             element={<ViewRecycledDetails />}
           />
+                  <Route path="/CollectorHome/:userID" element={<CollectorHome />} />
+        <Route path="/TotalGarbage" element={<TotalGarbage />} />
+        <Route path="/Logout" element={<Logout />} />
+        <Route path="/Profile/:userID" element={<Profile />} />
 
           <Route path="/admin" element={<Admin />} />
           <Route path="/user-role" element={<UserTypeSelection />} />

@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const ApprovedSchema = new Schema({
+    collectorid: {
+        type: Number,
+        required: true
+    },
     userid: {
         type: Number,
         required: true
