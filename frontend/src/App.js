@@ -27,6 +27,7 @@ import AdminHome from "./admin/AdminHome";
 import RequestPage from "./admin/RequestPage";
 import ManageVehicles from "./admin/ManageVehicles";
 import ManageCollectors from "./admin/ManageCollectors";
+import DataAnalytics from './admin/DataAnalytics';
 
 
 function App() {
@@ -64,7 +65,7 @@ function App() {
             path="/viewRecycledDetails"
             element={<ViewRecycledDetails />}
           />
-
+           <Route path="/dataAnalytics" element={<DataAnalytics />} />
           <Route path="/requestPage" element={<RequestPage />} />
 
           <Route path="/manageVehicles" element={<ManageVehicles />} />
@@ -75,6 +76,7 @@ function App() {
           <Route path="/user-role" element={<UserTypeSelection />} />
           {/* 404 Not Found route */}
           <Route path="*" element={<NotFound />} />
+          
         </Routes>
       </div>
     </Router>
