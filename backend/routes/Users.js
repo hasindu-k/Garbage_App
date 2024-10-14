@@ -198,7 +198,7 @@ router.post('/collector/updatePassword', async (req, res) => {
     console.error('Error updating password:', error);
     res.status(500).json({ message: 'Error updating password.' });
   }
-
+}); 
 // Get all users, with optional filtering by role
 router.route("/:role").get(async (req, res) => {
   let role = req.params.role;

@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Input, Table } from 'antd';
+import { Modal, Input, Table, Card, Typography, Space } from 'antd';
 import { PieChart, Pie, Cell, Tooltip } from 'recharts';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import axios from 'axios';
 import WasteHeader from './WasteHeader';
 import Button from '../components/Button';
+import { InfoCircleOutlined, BarChartOutlined, DownloadOutlined } from '@ant-design/icons';
+
+const { Title, Text } = Typography;
 
 const GarbageStationSummary = () => {
     const [isDetailsModalVisible, setIsDetailsModalVisible] = useState(false);
@@ -63,40 +66,67 @@ const GarbageStationSummary = () => {
     return (
         <>
             <WasteHeader h1="Summary Portal" />
-            <div className="flex justify-center w-full h-20 mt-20">
-                <div className="flex space-x-4">
-                    <button onClick={handleSeeDetails} className="bg-green-700 text-white rounded-lg px-8 py-3 hover:bg-green-900 transition duration-300 shadow-lg flex items-center justify-center">See Details</button>
-                    <button onClick={handleAnalysis} className="bg-green-700 text-white rounded-lg px-8 py-3 hover:bg-green-900 transition duration-300 shadow-lg flex items-center justify-center">Monthly Analysis</button>
-                    <button onClick={handleReportDownload} className="bg-green-700 text-white rounded-lg px-8 py-3 hover:bg-green-900 transition duration-300 shadow-lg flex items-center justify-center">See Reports</button>
-                </div>
+            <div className="flex flex-col items-center w-full mt-10">
+                <Title level={2}>Garbage Station Summary</Title>
+                <Space direction="vertical" size="large">
+                    <div className="flex justify-center space-x-4">
+                        <Card
+                            onClick={handleSeeDetails}
+                            className="hover:shadow-xl transition duration-300 ease-in-out cursor-pointer"
+                            hoverable
+                            style={{ width: 300, borderRadius: 10, backgroundColor: '#f0f2f5' }}
+                            cover={<InfoCircleOutlined style={{ fontSize: 50, color: '#1890ff' }} />}
+                        >
+                            <Card.Meta title="See Details" description="View detailed information about collected waste." />
+                        </Card>
+                        <Card
+                            onClick={handleAnalysis}
+                            className="hover:shadow-xl transition duration-300 ease-in-out cursor-pointer"
+                            hoverable
+                            style={{ width: 300, borderRadius: 10, backgroundColor: '#f0f2f5' }}
+                            cover={<BarChartOutlined style={{ fontSize: 50, color: '#52c41a' }} />}
+                        >
+                            <Card.Meta title="Monthly Analysis" description="Analyze waste collection data on a monthly basis." />
+                        </Card>
+                        <Card
+                            onClick={handleReportDownload}
+                            className="hover:shadow-xl transition duration-300 ease-in-out cursor-pointer"
+                            hoverable
+                            style={{ width: 300, borderRadius: 10, backgroundColor: '#f0f2f5' }}
+                            cover={<DownloadOutlined style={{ fontSize: 50, color: '#faad14' }} />}
+                        >
+                            <Card.Meta title="See Reports" description="Download the reports of collected waste." />
+                        </Card>
+                    </div>
+                </Space>
             </div>
 
             {/* Details Modal */}
             <Modal
-                title="Truck Details"
-                visible={isDetailsModalVisible}
-                onCancel={() => setIsDetailsModalVisible(false)}
-                footer={null}
-            >
-                <Input.Search
-                    placeholder="Search by Truck Number"
-                    onSearch={handleSearch}
-                    enterButton="Search"
-                />
-                <Table
-                    dataSource={filteredData}
-                    columns={[
-                        { title: 'Truck Number', dataIndex: 'truckNumber', key: 'truckNumber' },
-                        { title: 'Area', dataIndex: 'area', key: 'area' },
-                        { title: 'Paper Waste', dataIndex: 'paperWaste', key: 'paperWaste' },
-                        { title: 'Food Waste', dataIndex: 'foodWaste', key: 'foodWaste' },
-                        { title: 'Polythene Waste', dataIndex: 'polytheneWaste', key: 'polytheneWaste' },
-                        { title: 'Total Waste', dataIndex: 'totalWaste', key: 'totalWaste' },
-                    ]}
-                    rowKey="_id" // Replace with your unique key
-                />
-            </Modal>
-
+    title="Truck Details"
+    visible={isDetailsModalVisible}
+    onCancel={() => setIsDetailsModalVisible(false)}
+    footer={null}
+    width={1000} // Adjust this value to your preference
+>
+    <Input.Search
+        placeholder="Search by Truck Number"
+        onSearch={handleSearch}
+        enterButton="Search"
+    />
+    <Table
+        dataSource={filteredData}
+        columns={[
+            { title: 'Truck Number', dataIndex: 'truckNumber', key: 'truckNumber' },
+            { title: 'Area', dataIndex: 'area', key: 'area' },
+            { title: 'Paper Waste', dataIndex: 'paperWaste', key: 'paperWaste' },
+            { title: 'Food Waste', dataIndex: 'foodWaste', key: 'foodWaste' },
+            { title: 'Polythene Waste', dataIndex: 'polytheneWaste', key: 'polytheneWaste' },
+            { title: 'Total Waste', dataIndex: 'totalWaste', key: 'totalWaste' },
+        ]}
+        rowKey="_id" // Replace with your unique key
+    />
+</Modal>
             {/* Monthly Analysis Modal */}
             <Modal
                 title="Monthly Analysis"
@@ -104,7 +134,6 @@ const GarbageStationSummary = () => {
                 onCancel={() => setIsAnalysisModalVisible(false)}
                 footer={null}
             >
-                {/* Pie Chart Example */}
                 <PieChart width={400} height={400}>
                     <Pie
                         data={chartData}
