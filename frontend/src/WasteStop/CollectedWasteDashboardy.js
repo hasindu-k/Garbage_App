@@ -15,9 +15,9 @@ const CollectedWasteDashboard = () => {
       link: '/RecycleForm',
     },
     {
-      title: 'Notify Management',
+      title: 'Search Details',
       description: 'Notify management about waste collection.',
-      link: '/notify-management',
+      link: '/GarbageStationSummaryt',
     },
     {
       title: 'Collected Waste Details',
@@ -32,7 +32,7 @@ const CollectedWasteDashboard = () => {
     {
       title: 'Reports',
       description: 'Generate waste collection and recycling reports.',
-      link: '/reports',
+      link: '/GarbageStationSummary',
     },
   ];
 
