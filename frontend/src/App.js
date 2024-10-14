@@ -1,8 +1,7 @@
-
-import './App.css';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import CollectorHome from './Collector/CollectorHome';
-import TotalGarbage from './Collector/TotalGarbage';
+import "./App.css";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import CollectorHome from "./Collector/CollectorHome";
+import TotalGarbage from "./Collector/TotalGarbage";
 import React from "react";
 import MyRequestsPage from "./Resident/MyRequestsPage";
 import Login from "./pages/Login";
@@ -23,21 +22,20 @@ import ViewRecycledDetails from "./WasteStop/viewRecycledDetails";
 import NotFound from "./pages/NotFound";
 import UserTypeSelection from "./pages/UserRolePage";
 import Admin from "./admin/Admin";
+import Logout from './pages/Logout';
+import Profile from './Collector/Profile';
 import AdminHome from "./admin/AdminHome";
 import RequestPage from "./admin/RequestPage";
 import ManageVehicles from "./admin/ManageVehicles";
 import ManageCollectors from "./admin/ManageCollectors";
 import DataAnalytics from './admin/DataAnalytics';
+import GarbageStationSummary from "./WasteStop/GarbageStationSummary";
+
 
 
 function App() {
   return (
     <Router>
-
-      <Routes>
-        <Route path="/CollectorHome" element={<CollectorHome />} />
-        <Route path="/TotalGarbage" element={<TotalGarbage />} />
-      </Routes>
 
       <div>
         <ToastContainer /> {/* Add ToastContainer here */}
@@ -67,9 +65,17 @@ function App() {
           />
            <Route path="/dataAnalytics" element={<DataAnalytics />} />
           <Route path="/requestPage" element={<RequestPage />} />
+        <Route path="/CollectorHome/:userID" element={<CollectorHome />} />
+        <Route path="/TotalGarbage" element={<TotalGarbage />} />
+        <Route path="/Logout" element={<Logout />} />
+        <Route path="/Profile/:userID" element={<Profile />} />
 
+
+          <Route  path="/CollectedWasteDashboard"  element={<CollectedWasteDashboard />}/>
+          <Route  path="/GarbageStationSummary"  element={<GarbageStationSummary />}/>
+          <Route path="/viewRecycledDetails" element={<ViewRecycledDetails />} />
+          <Route path="/requestPage" element={<RequestPage />} />
           <Route path="/manageVehicles" element={<ManageVehicles />} />
-
           <Route path="/manageCollectors" element={<ManageCollectors />} />
 
           <Route path="/admin" element={<Admin />} />

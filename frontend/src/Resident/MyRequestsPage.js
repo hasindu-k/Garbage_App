@@ -2,126 +2,108 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
-import Navbar from './ResidentNavbar';
-import Footer from '../components/Footer';
+import Navbar from "./ResidentNavbar";
 import axios from 'axios';
+import { useCookies } from "react-cookie";
 
-const MyRequestsPage = () => {
+function MyRequestsPage() {
   const navigate = useNavigate();
-
-  // State to store user requests
   const [requests, setRequests] = useState([]);
+  const [cookies] = useCookies(["userID"]);
+  const userID = cookies.userID;
 
   // Fetch requests from the API when the component mounts
   useEffect(() => {
-    function getRequests() {
-      axios.get("http://localhost:8070/garbage/getAllGarbage")
-        .then((res) => {
-          // Set all statuses to "Scheduled" initially
-          const updatedRequests = res.data.map(request => ({
-            ...request,
-            status: 'Scheduled'
-          }));
-          setRequests(updatedRequests);
+    if (userID) {
+      function getRequests() {
+        // Fetch requests for the logged-in user
+        axios.get(`http://localhost:8070/schedulePickup/getPickups?userID=${userID}`)
+          .then((res) => {
+            console.log(res.data); // Log the response to check its structure
+            const updatedRequests = res.data.map(request => ({
+              ...request,
+              status: 'Scheduled', // Assuming all are initially scheduled
+              displayDate: new Date(request.date).toLocaleDateString() // Format date for display
+            }));
+            setRequests(updatedRequests);
+          })
+          .catch((err) => {
+            alert(err.message);
+          });
+      }
+      getRequests();
+    }
+  }, [userID]);
+
+  const handleCancelRequest = (id) => {
+    console.log("ID to be deleted:", id); // Check the value of id
+    if (!id) {
+      alert("No valid ID found for deletion.");
+      return;
+    }
+    if (window.confirm("Are you sure you want to delete this request?")) {
+      axios
+        .delete(`http://localhost:8070/schedulePickup/deletePickup/${id}`)
+        .then(() => {
+          // Update the status in the local state to "Canceled"
+          setRequests((requests) => 
+            requests.map((request) =>
+              request._id === id ? { ...request, status: 'Canceled' } : request
+            )
+          );
+          alert("Request canceled successfully");
         })
-        .catch((err) => {
-          alert(err.message);
+        .catch((error) => {
+          alert("Error deleting request: " + error);
         });
     }
-    getRequests();
-  }, []);
-
-  // Group requests by month and category
-  const groupedRequests = groupRequestsByMonthAndCategory(requests);
-
-  // Function to handle canceling the request (i.e., marking as "Canceled")
-  const handleCancelRequest = (id) => {
-    setRequests(requests.map(request => 
-      request.id === id ? { ...request, status: 'Canceled' } : request
-    ));
   };
 
   return (
-    <div className="nav-bar flex flex-col min-h-screen">
-      <Navbar className="nav-bar" />
-      <div className="container mx-auto px-4 py-8">
-        <h2 className="text-2xl font-semibold mb-4 text-center">My Monthly Pickup Requests</h2>
-        {groupedRequests.length === 0 ? (
-          <p className="text-center text-lg">No requests found.</p>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="min-w-full table-auto border-collapse bg-white shadow-md rounded-lg overflow-hidden">
-              <thead>
-                <tr className="bg-gray-200">
-                  <th className="px-4 py-2">Date</th>
-                  <th className="px-4 py-2">Category</th>
-                  <th className="px-4 py-2">Weight (kg)</th>
-                  <th className="px-4 py-2">Payment</th>
-                  <th className="px-4 py-2">Status</th>
-                  <th className="px-4 py-2">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {groupedRequests.map((request, index) => (
-                  <tr key={index} className="border-t">
-                    <td className="px-4 py-2">{request.displayDate}</td>
-                    <td className="px-4 py-2">{request.category}</td>
-                    <td className="px-4 py-2">{request.totalWeight}</td>
-                    <td className="px-4 py-2">${request.totalPayment.toFixed(2)}</td>
-                    <td className="px-4 py-2">{request.status}</td>
-                    <td className="px-4 py-2">
-                      <FontAwesomeIcon
-                        icon={faTrash}
-                        className="text-red-500 cursor-pointer hover:text-red-700"
-                        onClick={() => handleCancelRequest(request.id)} // Changes status to Canceled
-                        title="Delete"
-                      />
-                    </td>
+    <div>
+      <div className="flex">
+        <Navbar />
+        <div className="container bg-green-100 mx-auto px-4 py-8">
+          <h2 className="text-2xl font-semibold mb-4 text-center">My Scheduled Pickup Requests</h2>
+          {requests.length === 0 ? (
+            <p className="text-center text-lg">No requests found.</p>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="table-auto min-w-full border-collapse bg-white shadow-md rounded-lg">
+                <thead>
+                  <tr className="bg-gray-200">
+                    <th className="px-4 py-2 text-left">Date</th>
+                    <th className="px-4 py-2 text-left">Time</th>
+                    <th className="px-4 py-2 text-left">Location</th>
+                    <th className="px-4 py-2 text-left">Status</th>
+                    <th className="px-4 py-2 text-left">Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+                </thead>
+                <tbody>
+                  {requests.map((request) => (
+                    <tr key={request._id} className="border-t">
+                      <td className="px-4 py-2 whitespace-nowrap">{request.displayDate}</td>
+                      <td className="px-4 py-2 whitespace-nowrap">{request.time || 'N/A'}</td>
+                      <td className="px-4 py-2">{request.location || 'N/A'}</td>
+                      <td className="px-4 py-2">{request.status}</td>
+                      <td className="px-4 py-2">
+                        <FontAwesomeIcon
+                          icon={faTrash}
+                          className="text-red-500 cursor-pointer hover:text-red-700"
+                          onClick={() => handleCancelRequest(request._id)}
+                          title="Delete"
+                        />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
       </div>
-      <Footer />
     </div>
   );
-};
-
-// Function to group requests by month and category
-const groupRequestsByMonthAndCategory = (requests) => {
-  const grouped = {};
-
-  requests.forEach(request => {
-    const date = new Date(request.date);
-    const monthYear = date.toLocaleString('default', { month: 'long', year: 'numeric' }); // e.g., "October 2024"
-
-    if (!grouped[monthYear]) {
-      grouped[monthYear] = {};
-    }
-
-    if (!grouped[monthYear][request.category]) {
-      grouped[monthYear][request.category] = {
-        date: monthYear,
-        category: request.category,
-        totalWeight: 0,
-        totalPayment: 0,
-        status: request.status, // Store the first status found
-        id: request.id, // Store the first id found
-        displayDate: request.date // Store the specific date for display
-      };
-    }
-
-    grouped[monthYear][request.category].totalWeight += request.weight;
-    grouped[monthYear][request.category].totalPayment += request.payment;
-
-    // Update the status to the latest for the category in the month
-    grouped[monthYear][request.category].status = request.status;
-  });
-
-  // Convert grouped object to an array
-  return Object.values(grouped).flatMap(monthGroup => Object.values(monthGroup));
-};
+}
 
 export default MyRequestsPage;
