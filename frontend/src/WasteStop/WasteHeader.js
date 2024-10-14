@@ -34,7 +34,7 @@ function WasteHeader(props) {
       <nav className="flex justify-end space-x-6 text-xl">
         <Link to="/CollectedWasteDashboard" className="hover:underline">Dashboard</Link>
         <Link to="/RecycleForm" className="hover:underline">Recycling</Link>
-        <Link to="/notifications" className="hover:underline">Analysis</Link>
+        <Link to="/GarbageStationSummary" className="hover:underline">Analysis</Link>
       </nav>
 
       {/* Menu bar icon for user options */}
