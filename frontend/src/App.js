@@ -1,8 +1,7 @@
-
-import './App.css';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import CollectorHome from './Collector/CollectorHome';
-import TotalGarbage from './Collector/TotalGarbage';
+import "./App.css";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import CollectorHome from "./Collector/CollectorHome";
+import TotalGarbage from "./Collector/TotalGarbage";
 import React from "react";
 import MyRequestsPage from "./Resident/MyRequestsPage";
 import Login from "./pages/Login";
@@ -28,11 +27,9 @@ import RequestPage from "./admin/RequestPage";
 import ManageVehicles from "./admin/ManageVehicles";
 import ManageCollectors from "./admin/ManageCollectors";
 
-
 function App() {
   return (
     <Router>
-
       <Routes>
         <Route path="/CollectorHome" element={<CollectorHome />} />
         <Route path="/TotalGarbage" element={<TotalGarbage />} />

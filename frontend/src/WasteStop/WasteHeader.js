@@ -36,7 +36,7 @@ function WasteHeader(props) {
         {dropdownOpen && (
           <div className="absolute right-0 mt-20 w-48 bg-white text-black rounded-md shadow-lg">
             <Link 
-              to="/switch-user" 
+              to="/login" 
               className="block px-4 py-2 hover:bg-gray-200"
             >
               Switch User
