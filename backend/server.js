@@ -38,16 +38,23 @@ app.use("/user",userRouter);
 
 const pickupRouter = require("./routes/SchedulePickups.js");
 app.use("/schedulePickup",pickupRouter);
+
 const collectedWastesRoutes = require('./routes/CollectedWastes.js');
 app.use('/collectedwaste', collectedWastesRoutes);
+
 const recycleRoutes = require('./routes/RecycleWastes.js');
 app.use('/recycleWaste', recycleRoutes);
 
 const garbageRouter = require("./routes/GarbageDetails.js");
 app.use("/garbage",garbageRouter);
 
+const totalgarbageRouter = require("./routes/Totalgarbages.js");
+app.use("/totalgarbage",totalgarbageRouter);
+
 const approvedRouter = require("./routes/Approvedpickup.js");
 app.use("/approvedpickup",approvedRouter);
+
+app.use('/api/vehicles', require('./routes/vehicleRoutes.js'));
 
 const vehicleRouter = require("./routes/Vehicles.js");
 app.use("/vehicle",vehicleRouter);
@@ -59,3 +66,4 @@ if (process.env.NODE_ENV !== "test") {
         console.log(`Server is up and running on port number: ${PORT}`);
     });
 }
+

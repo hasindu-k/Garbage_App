@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const ApprovedSchema = new Schema({
+    collectorid: {
+        type: Number,
+        required: true
+    },
     userid: {
         type: Number,
         required: true
@@ -23,8 +27,12 @@ const ApprovedSchema = new Schema({
         required: true,
         default: 'Pending' // Initialize as 'Pending' by default
     },
+    truckid: {
+        type: Number,
+        required: true
+    },
     collector:{
-        type:String,
+        type: String,
     }
 });
 

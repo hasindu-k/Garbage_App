@@ -22,9 +22,11 @@ router.route("/addPickup").post((req, res) => {
         });
 });
 
-// Route to get all pickups
+// Route to get all pickups for a specific user
 router.route("/getPickups").get((req, res) => {
-    SchedulePickup.find()
+    const { userID } = req.query;
+
+    SchedulePickup.find({ userID }) // Filter by userID
         .then((schedulePickups) => {
             res.json(schedulePickups);
         })
@@ -33,6 +35,7 @@ router.route("/getPickups").get((req, res) => {
             res.status(500).send("Error: " + err);
         });
 });
+
 
 // Route to get a single pickup by ID
 router.route("/getOnePickup/:id").get(async (req, res) => {
@@ -49,5 +52,21 @@ router.route("/getOnePickup/:id").get(async (req, res) => {
         res.status(500).send({ status: "Error with fetching pickup", error: err });
     }
 });
+
+//delete pickups
+
+router.route("/deletePickup/:id").delete(async (req, res) => {
+    let pickupId = req.params.id; // Access the _id from the URL parameter
+
+    await SchedulePickup.findByIdAndDelete(pickupId)
+        .then(() => {
+            res.status(200).send({ status: "Pickup deleted successfully" });
+        })
+        .catch((error) => {
+            console.log(error.message);
+            res.status(500).send({ status: "Error with delete pickup", error: error.message });
+        });
+});
+
 
 module.exports = router;
