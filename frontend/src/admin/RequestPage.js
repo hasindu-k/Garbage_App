@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios"; // Ensure axios is imported
 import AdminNav from "./AdminNav";
+import Modal from "./Modal"; // Import the modal component
 
 function RequestPage() {
   const [requests, setRequests] = useState([]);
-  const [totalRequests, setTotalRequests] = useState(0);
+  const [selectedRequest, setSelectedRequest] = useState(null); // State for the selected request
+  const [isModalOpen, setIsModalOpen] = useState(false); // Modal open/close state
 
   // Fetch requests from the API when the component mounts
   useEffect(() => {
@@ -26,62 +28,11 @@ function RequestPage() {
     getAllUserRequests(); // Correct function call
   }, []);
 
-  // const requests = [
-  //   {
-  //     id: "Rgp0123",
-  //     name: "Nuwan Perera",
-  //     address: "No. 05, Flower Road, Colombo 07, Sri Lanka",
-  //     date: "Aug 3, 2024",
-  //   },
-  //   {
-  //     id: "Rgp0124",
-  //     name: "Sajith Kumara",
-  //     address: "No. 10, Havelock Road, Colombo 05, Sri Lanka",
-  //     date: "Aug 3, 2024",
-  //   },
-  //   {
-  //     id: "Rgp0125",
-  //     name: "Lakshman de Silva",
-  //     address: "No. 23, Horton Place, Colombo 07, Sri Lanka",
-  //     date: "Aug 3, 2024",
-  //   },
-  //   {
-  //     id: "Rgp0126",
-  //     name: "Tharinda Rajapaksha",
-  //     address: "No. 78, Muwambe Junction, Colombo 05, Sri Lanka",
-  //     date: "Aug 3, 2024",
-  //   },
-  //   {
-  //     id: "Rgp0127",
-  //     name: "Sandun Jayawardena",
-  //     address: "No. 12, Galle Road Terrace, Colombo 03, Sri Lanka",
-  //     date: "Aug 3, 2024",
-  //   },
-  //   {
-  //     id: "Rgp0128",
-  //     name: "Pradeep Wijesinghe",
-  //     address: "No. 89, Park Street, Colombo 05, Sri Lanka",
-  //     date: "Aug 3, 2024",
-  //   },
-  //   {
-  //     id: "Rgp0129",
-  //     name: "Ruwan Bandara",
-  //     address: "No. 53, Bandukatha Mawatha, Colombo 07, Sri Lanka",
-  //     date: "Aug 3, 2024",
-  //   },
-  //   {
-  //     id: "Rgp0130",
-  //     name: "Dinesh Fernando",
-  //     address: "No. 34, Duplication Road, Colombo 05, Sri Lanka",
-  //     date: "Aug 3, 2024",
-  //   },
-  //   {
-  //     id: "Rgp0130",
-  //     name: "Chamara Gunasekara",
-  //     address: "No. 8, Rosmead Place, Colombo 07, Sri Lanka",
-  //     date: "Aug 3, 2024",
-  //   },
-  // ];
+  // Function to handle the "View" button click
+  const handleViewClick = (request) => {
+    setSelectedRequest(request); // Set the selected request
+    setIsModalOpen(true); // Open the modal
+  };
 
   return (
     <div className="flex">
@@ -112,11 +63,10 @@ function RequestPage() {
                     <td className="py-2 px-4 border-b">{request.location}</td>
                     <td className="py-2 px-4 border-b">{request.date}</td>
                     <td className="py-2 px-4 border-b">
-                      <button className="bg-green-500 text-white py-1 px-2 rounded mr-2">
+                      <button
+                        onClick={() => handleViewClick(request)}
+                        className="bg-green-500 text-white py-1 px-2 rounded mr-2">
                         View
-                      </button>
-                      <button className="bg-red-500 text-white py-1 px-2 rounded">
-                        Decline
                       </button>
                     </td>
                   </tr>
@@ -126,6 +76,13 @@ function RequestPage() {
           </div>
         </div>
       </div>
+
+      {/* Modal for viewing request details */}
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        request={selectedRequest}
+      />
     </div>
   );
 }
