@@ -88,7 +88,6 @@ router.post("/register", async (req, res) => {
 });
 
 //get all users
-
 router.route("/").get((req, res) => {
   User.find()
     .then((users) => {
@@ -100,7 +99,6 @@ router.route("/").get((req, res) => {
 });
 
 //get 1 user data
-
 router.route("/get/:id").get(async (req, res) => {
   let userId = req.params.id;
   const user = await User.findById(userId)
@@ -110,6 +108,22 @@ router.route("/get/:id").get(async (req, res) => {
     .catch((err) => {
       console.log(err);
       res.status(500).send({ status: "Error with get user", error: err });
+    });
+});
+
+// Get all users, with optional filtering by role
+router.route("/:role").get(async (req, res) => {
+  let role = req.params.role;
+
+  const query = role ? { role: role } : {};
+
+  User.find(query)
+    .then((users) => {
+      res.json(users);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({ error: "Error fetching users" });
     });
 });
 
