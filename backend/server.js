@@ -44,6 +44,9 @@ app.use('/recycleWaste', recycleRoutes);
 const garbageRouter = require("./routes/GarbageDetails.js");
 app.use("/garbage",garbageRouter);
 
+const approvedRouter = require("./routes/Approvedpickup.js");
+app.use("/approvedpickup",approvedRouter);
+
 app.listen(PORT, () => {
     console.log(`Server is up and running on port number: ${PORT}`);
 });
