@@ -92,8 +92,6 @@ const updateAvailable = async (req, res) => {
   }
 };
 
-//
-
 module.exports = {
   createVehicle,
   getAllVehicles,

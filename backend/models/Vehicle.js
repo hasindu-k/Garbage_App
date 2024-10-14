@@ -1,11 +1,20 @@
 const mongoose = require('mongoose');
 
-const VehicleSchema = new mongoose.Schema({
+const vehicleSchema = new mongoose.Schema({
+  truckNo: {
+    type: String,
+    required: true,
+    unique: true,
+  },
   name: {
     type: String,
     required: true,
   },
-  brand: {
+  area: {
+    type: String,
+    required: true,
+  },
+  owner: {
     type: String,
     required: true,
   },
@@ -13,20 +22,6 @@ const VehicleSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  price: {
-    type: Number,
-    required: true,
-  },
-  isAvailable: {
-    type: Boolean,
-    required: true,
-    default: true,
-  },
-  vehicleID: {
-    type: Number,
-  },
 });
 
-VehicleSchema.plugin(AutoIncrement, { inc_field: "id" });
-
-module.exports = mongoose.model('Vehicle', VehicleSchema);
+module.exports = mongoose.model('Vehicle', vehicleSchema);
