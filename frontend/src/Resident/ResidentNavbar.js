@@ -1,43 +1,31 @@
-import React from "react";
-import toggler_mode from "../assets/mode.jpg";
+import React from 'react';
+import { Link } from 'react-router-dom';
 
-const Navbar = ({ theme, setTheme }) => {
-  const toggle_mode = () => {
-    theme === "light" ? setTheme("dark") : setTheme("light");
-  };
-
+const Navbar = () => {
   return (
-    <div
-      className={`w-full h-20 flex items-center justify-between px-10 shadow-md transition-colors duration-300 ${
-        theme === "dark" ? "bg-green-800 text-white" : "bg-green-100 text-green-900"
-      }`}
-    >
-      <h1 className="text-2xl font-semibold">EcoSmart</h1>
-
-      <ul className="flex space-x-8 list-none">
-        <a href="/" className="hover:text-green-800">
-          <li className="text-lg font-medium cursor-pointer">Home</li>
-        </a>
-        <a href="/add-garbage-details" className="hover:text-green-800">
-          <li className="text-lg font-medium cursor-pointer">AddGarbage</li>
-        </a>
-        <a href="/schedule-pickup" className="hover:text-green-800">
-          <li className="text-lg font-medium cursor-pointer">SchedulePickup</li>
-        </a>
-        <a href="/MyRequestsPage" className="hover:text-green-800">
-          <li className="text-lg font-medium cursor-pointer">MyRequests</li>
-        </a>
-        <a href="#" className="hover:text-green-800">
-          <li className="text-lg font-medium cursor-pointer">Profile</li>
-        </a>
-      </ul>
-
-      <img
-        onClick={toggle_mode}
-        src={toggler_mode}
-        alt="Toggle Mode"
-        className="w-10 cursor-pointer transition-transform duration-300 hover:rotate-12"
-      />
+    <div className="h bg-green-800 text-white w-64 flex flex-col">
+      <div className="text-2xl font-bold py-4 px-6 bg-green-700">
+        EcoSmart
+      </div>
+      <nav className="mt-10 flex-grow">
+        <ul className="flex flex-col"> {/* Ensure vertical alignment */}
+          <li className="mb-4">
+            <Link to="/" className="block py-2 px-6 hover:bg-green-600">Home</Link>
+          </li>
+          <li className="mb-4">
+            <Link to="/add-garbage-details" className="block py-2 px-6 hover:bg-green-600">Garbage</Link>
+          </li>
+          <li className="mb-4">
+            <Link to="/schedule-pickup" className="block py-2 px-6 hover:bg-green-600">Schedule Pickups</Link>
+          </li>
+          <li className="mb-4">
+            <Link to="/MyRequestsPage" className="block py-2 px-6 hover:bg-green-600">My Requests</Link>
+          </li>
+          <li className="mb-4">
+            <Link to="#" className="block py-2 px-6 hover:bg-green-600">Profile</Link>
+          </li>
+        </ul>
+      </nav>
     </div>
   );
 };

@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import axios from 'axios';
 import WasteHeader from './WasteHeader';
+import Button from '../components/Button';
+import { useNavigate } from 'react-router-dom';
 
 const RecycleForm = () => {
   // State to manage form data
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     truckNumber: '',
     area: '',
@@ -13,6 +17,37 @@ const RecycleForm = () => {
     totalWaste: 0,
     calculatedCharge: 0,
   });
+  const [vehicles, setVehicles] = useState([]); // State to store fetched truck numbers
+  const [locations , setLocations] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch truck numbers (assuming a field named "truckNo" in the "users" collection)
+        const vehiclesResponse = await axios.get(
+          "http://localhost:8070/vehicle/allVehicles"
+        ); // Replace with your actual endpoint
+        const truckNumbers = vehiclesResponse.data.map((user) => user.truckNo);
+        setVehicles(truckNumbers);
+
+                // Fetch locations (assuming a field named "location" in the "approvedpickups" collection)
+                const locationsResponse = await axios.get(
+                  "http://localhost:8070/approvedpickup/getapproved"
+                ); // Replace with your actual endpoint
+                const locations = locationsResponse.data.map(
+                  (location) => location.location
+                );
+                setLocations(locations);
+                
+        
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        // Handle error gracefully (e.g., display an error message)
+      }
+    };
+    fetchData();
+  }, []);
+
 
   // Define rates for each waste category (per kg)
   const rateForPaper = 2.0;
@@ -64,7 +99,8 @@ const RecycleForm = () => {
       );
       console.log('Response from server:', response.data);
 
-      alert('Data submitted successfully');
+      //alert('Data submitted successfully');
+      navigate('/viewRecycledDetails');
 
       setFormData({
         truckNumber: '',
@@ -82,102 +118,130 @@ const RecycleForm = () => {
   };
 
   return (
-    <div>
-      <WasteHeader h1="Recycle Request Portal" />
-      <div className="max-w-lg mx-auto p-6 bg-white shadow-md rounded-lg">
-        <h1 className="text-2xl font-bold text-center mb-6 text-green-700">Recycle Waste Requests</h1>
+<div className="min-h-screen bg-gray-100">
+      <WasteHeader h1="Recycle Waste Requests" />
+      <div className="max-w-lg mx-auto p-8 bg-white shadow-lg rounded-lg mt-8">
+        <h1 className="text-2xl font-bold text-center mb-6 text-green-700">
+          Recycling Request Form
+        </h1>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="flex flex-col">
-            <label className="text-sm font-semibold text-gray-700">Truck Number</label>
-            <input
-              type="text"
-              name="truckNumber"
-              value={formData.truckNumber}
-              onChange={handleChange}
-              className="p-2 border border-gray-300 rounded-md"
-              placeholder="Enter truck number"
-              required
-            />
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+            <label className="block mb-2 font-semibold">Truck Number:</label>
+          <select
+            name="truckNumber"
+            value={formData.truckNumber}
+            onChange={handleChange}
+            className="w-full p-2 border border-gray-300 rounded"
+          >
+            <option value="">Assigned Truck</option>
+            {vehicles.map((truckNo, index) => (
+              <option key={index} value={truckNo}>
+                {truckNo}
+              </option>
+            ))}
+          </select>
+            </div>
+            <div>
+            <label className="block mb-2 font-semibold">Area:</label>
+          <select
+            name="area"
+            value={formData.area}
+            onChange={handleChange}
+            className="w-full p-2 border border-gray-300 rounded"
+          >
+            <option value="">Collected Area</option>
+            {locations.map((location, index) => (
+              <option key={index} value={location}>
+                {location}
+              </option>
+            ))}
+          </select>
+            </div>
+            <div>
+              <label className="text-sm font-semibold text-gray-700">
+                Paper Weight (kg)
+              </label>
+              <input
+                type="number"
+                name="paperWeight"
+                value={formData.paperWeight}
+                onChange={handleChange}
+                className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                placeholder="Enter paper weight"
+                required
+              />
+            </div>
+            <div>
+              <label className="text-sm font-semibold text-gray-700">
+                Food Weight (kg)
+              </label>
+              <input
+                type="number"
+                name="foodWeight"
+                value={formData.foodWeight}
+                onChange={handleChange}
+                className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                placeholder="Enter food weight"
+                required
+              />
+            </div>
+            <div>
+              <label className="text-sm font-semibold text-gray-700">
+                Polythene Weight (kg)
+              </label>
+              <input
+                type="number"
+                name="polytheneWeight"
+                value={formData.polytheneWeight}
+                onChange={handleChange}
+                className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                placeholder="Enter polythene weight"
+                required
+              />
+            </div>
+            <div>
+              <label className="text-sm font-semibold text-gray-700">
+                Total Waste (kg)
+              </label>
+              <input
+                type="number"
+                name="totalWaste"
+                value={formData.totalWaste}
+                onChange={handleChange}
+                className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                placeholder="Total waste"
+                readOnly
+              />
+            </div>
+            <div>
+              <label className="text-sm font-semibold text-gray-700">
+                Calculated Charge ($)
+              </label>
+              <input
+                type="number"
+                name="calculatedCharge"
+                value={formData.calculatedCharge}
+                onChange={handleChange}
+                className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                placeholder="Calculated charge"
+                readOnly
+              />
+            </div>
           </div>
-
-          <div className="flex flex-col">
-            <label className="text-sm font-semibold text-gray-700">Area</label>
-            <input
-              type="text"
-              name="area"
-              value={formData.area}
-              onChange={handleChange}
-              className="p-2 border border-gray-300 rounded-md"
-              placeholder="Enter area"
-              required
-            />
-          </div>
-
-          <div className="flex flex-col">
-            <label className="text-sm font-semibold text-gray-700">Paper Weight (kg)</label>
-            <input
-              type="number"
-              name="paperWeight"
-              value={formData.paperWeight}
-              onChange={handleChange}
-              className="p-2 border border-gray-300 rounded-md"
-            />
-          </div>
-
-          <div className="flex flex-col">
-            <label className="text-sm font-semibold text-gray-700">Food Weight (kg)</label>
-            <input
-              type="number"
-              name="foodWeight"
-              value={formData.foodWeight}
-              onChange={handleChange}
-              className="p-2 border border-gray-300 rounded-md"
-            />
-          </div>
-
-          <div className="flex flex-col">
-            <label className="text-sm font-semibold text-gray-700">Polythene Weight (kg)</label>
-            <input
-              type="number"
-              name="polytheneWeight"
-              value={formData.polytheneWeight}
-              onChange={handleChange}
-              className="p-2 border border-gray-300 rounded-md"
-            />
-          </div>
-
-          <div className="flex flex-col">
-            <label className="text-sm font-semibold text-gray-700">Total Waste (kg)</label>
-            <input
-              type="number"
-              name="totalWaste"
-              value={formData.totalWaste}
-              readOnly
-              className="p-2 border border-gray-300 rounded-md bg-gray-100"
-            />
-          </div>
-
-          <div className="flex flex-col">
-            <label className="text-sm font-semibold text-gray-700">Calculated Charge ($)</label>
-            <input
-              type="number"
-              name="calculatedCharge"
-              value={formData.calculatedCharge}
-              readOnly
-              className="p-2 border border-gray-300 rounded-md bg-gray-100"
-            />
-          </div>
-
           <button
             type="submit"
-            className="w-full py-2 px-4 bg-green-600 text-white font-semibold rounded-md hover:bg-green-700 transition duration-300"
+            className="w-full py-2 px-4 bg-green-600 text-white font-semibold rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-300"
           >
             Submit
           </button>
         </form>
       </div>
+      <div className="fixed bottom-0 w-full bg-white border-t py-4 flex justify-between items-center px-5">
+        <Button Button1="Cancel" Button2="Record New" />
+      </div>
     </div>
-  );
+      );
 };
 
 export default RecycleForm;

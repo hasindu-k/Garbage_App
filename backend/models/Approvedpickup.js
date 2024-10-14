@@ -26,6 +26,13 @@ const ApprovedSchema = new Schema({
         type: String,
         required: true,
         default: 'Pending' // Initialize as 'Pending' by default
+    },
+    truckid: {
+        type: Number,
+        required: true
+    },
+    collector:{
+        type: String,
     }
 });
 

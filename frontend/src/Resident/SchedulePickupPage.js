@@ -2,13 +2,18 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import Navbar from './ResidentNavbar';
-import Footer from '../components/Footer';
+import {useCookies} from "react-cookie";
 
-function SchedulePickupPage() {
+
+
+function SchedulePickupPage(){
+
   const [date, setdate] = useState('');
   const [time, settime] = useState('');
   const [location, setlocation] = useState('');
   const navigate = useNavigate();
+  const [cookies] = useCookies(["userID"]);
+  const userID = cookies.userID;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -16,15 +21,18 @@ function SchedulePickupPage() {
     const newSchedule = {
       date,
       time,
-      location
+      location,
+      userID
     };
+
+    console.log(newSchedule)
 
     axios.post("http://localhost:8070/schedulePickup/addPickup", newSchedule)
       .then(() => {
         alert("Schedule Added");
-        navigate('/confirmation', {
-          state: { message: 'Your pickup request has been submitted!' },
-        });
+        // navigate('/confirmation', {
+        //   state: { message: 'Your pickup request has been submitted!' },
+        // });
       })
       .catch((err) => {
         alert(err);
@@ -45,9 +53,10 @@ function SchedulePickupPage() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-100">
-      <Navbar />
-      <div className="flex-1 bg-green-100 w-full max-w-md mx-auto mt-6 rounded-lg p-6 shadow-lg">
+    <div>
+      <div className="flex">
+        <Navbar/>
+        <div className="flex-1 bg-green-100 w-full max-w-md mx-auto mt-6 rounded-lg p-6 shadow-lg ">
         <h2 className="text-xl font-bold text-center text-gray-800 mb-4">Schedule your pickup</h2>
         <p className="text-center text-gray-600 mb-2">Select your location</p>
         <div className="mb-4">
@@ -100,8 +109,9 @@ function SchedulePickupPage() {
           Next
         </button>
       </div>
-      <Footer />
+      </div>
     </div>
+
   );
 }
 

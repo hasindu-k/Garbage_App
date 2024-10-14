@@ -79,13 +79,15 @@ router.post("/register", async (req, res) => {
     await newUser.save();
     res.json("User Registered");
   } catch (err) {
+    if (err.code === 11000) {
+      return res.status(400).json({ error: "Email already exists" });
+    }
     console.error(err);
     res.status(500).send("Error registering user");
   }
 });
 
 //get all users
-
 router.route("/").get((req, res) => {
   User.find()
     .then((users) => {
@@ -97,7 +99,6 @@ router.route("/").get((req, res) => {
 });
 
 //get 1 user data
-
 router.route("/get/:id").get(async (req, res) => {
   let userId = req.params.id;
   const user = await User.findById(userId)
@@ -109,6 +110,7 @@ router.route("/get/:id").get(async (req, res) => {
       res.status(500).send({ status: "Error with get user", error: err });
     });
 });
+
 
 router.get('/collector/:userid', async (req, res) => {
   try {
@@ -174,6 +176,22 @@ router.post('/collector/updatePassword', async (req, res) => {
     console.error('Error updating password:', error);
     res.status(500).json({ message: 'Error updating password.' });
   }
+
+// Get all users, with optional filtering by role
+router.route("/:role").get(async (req, res) => {
+  let role = req.params.role;
+
+  const query = role ? { role: role } : {};
+
+  User.find(query)
+    .then((users) => {
+      res.json(users);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({ error: "Error fetching users" });
+    });
+
 });
 
 module.exports = router;

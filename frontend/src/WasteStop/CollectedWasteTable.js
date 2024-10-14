@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import WasteHeader from './WasteHeader';
-import Button from './Button';
+import Button from '../components/Button';
 import { useNavigate } from 'react-router-dom'; // Importing useNavigate for navigation
 import { toast } from 'react-toastify'; // Importing toast for pop-up notifications
 
@@ -51,10 +51,10 @@ function CollectedWasteTable() {
             <th className="py-2 px-4 border">Truck Number</th>
             <th className="py-2 px-4 border">Waste Collector</th>
             <th className="py-2 px-4 border">Area</th>
-            <th className="py-2 px-4 border">Paper Waste (%)</th>
-            <th className="py-2 px-4 border">Food Waste (%)</th>
-            <th className="py-2 px-4 border">Polythene Waste (%)</th>
-            <th className="py-2 px-4 border">Total Waste (%)</th>
+            <th className="py-2 px-4 border">Paper Waste (Kg)</th>
+            <th className="py-2 px-4 border">Food Waste (Kg)</th>
+            <th className="py-2 px-4 border">Polythene Waste (Kg)</th>
+            <th className="py-2 px-4 border">Total Waste (Kg)</th>
             <th className="py-2 px-4 border">Date & Time</th>
             <th className="py-2 px-4 border">Actions</th> {/* New Actions Column */}
           </tr>

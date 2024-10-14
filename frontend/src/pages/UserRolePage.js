@@ -8,7 +8,8 @@ const UserTypeSelection = () => {
   const roles = [
     { id: 1, name: "Resident", icon: "🏡" },
     { id: 2, name: "Collector", icon: "📦" },
-    { id: 3, name: "Admin", icon: "🛠️" },
+    { id: 3, name: "Admin", icon: "🛠" },
+    { id: 4, name: "Recorder", icon: "🗑" },
   ];
 
   const handleRoleSelect = (roleId) => {

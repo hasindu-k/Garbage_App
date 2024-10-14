@@ -37,15 +37,12 @@ const CollectedWasteDashboard = () => {
   ];
 
   return (
-    <div className="min-h-screen flex flex-col items-center">
-      {/* Header here */}
-      <header className=" w-full my-8 text-center">
-        <WasteHeader h1="Waste Management Dashboard"/>
-       
-      </header>
+    <div>
+      <WasteHeader h1="Waste Management Dashboard"/>
 
+    <div className="min-h-screen flex flex-col items-center mb-10">
       {/* Body */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4 md:px-8 lg:px-12 w-full">
+      <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 px-6 md:px-8 lg:px-12 w-full">
         {cardData.map((card, index) => (
           <Link
             key={index}
@@ -62,6 +59,7 @@ const CollectedWasteDashboard = () => {
       <footer className="mt-auto py-6 text-center">
         <p>&copy; 2024 Waste Management System</p>
       </footer>
+    </div>
     </div>
   );
 };
