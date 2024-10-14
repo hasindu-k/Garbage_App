@@ -42,7 +42,7 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/" element={<HomePage />} />
+          <Route path="/residentHome " element={<HomePage />} />
           <Route path="/schedule-pickup" element={<SchedulePickupPage />} />
           <Route
             path="/add-garbage-details"

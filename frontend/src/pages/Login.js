@@ -8,7 +8,7 @@ const rules = [{ required: true, message: "This field is required" }];
 function Login() {
   const [cookies, setCookie] = useCookies(["userID"]);
   const navigate = useNavigate();
-  const userID =  cookies.userID
+  const userID = cookies.userID;
   const onFinish = async (values) => {
     const { email, password } = values;
 
@@ -33,18 +33,13 @@ function Login() {
         setCookie("userID", data.userId);
 
         if (data.role === "resident") {
-          navigate("/");
+          navigate("/residentHome ");
         } else if (data.role === "admin") {
-
-           navigate("/adminHome");
+          navigate("/adminHome");
         } else if (data.role === "collector") {
           navigate(`/CollectorHome/${userID}`);
-
-         
-
         } else if (data.role === "recorder") {
           navigate("/CollectedWasteDashboard");
-
         }
       } else {
         message.error(data.error || "Login failed");
