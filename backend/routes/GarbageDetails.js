@@ -35,13 +35,16 @@ router.route("/addGarbage").post((req, res) => {
     const date = req.body.date;
     const category = req.body.category;
     const weight = Number(req.body.weight);
-    const payment = Number(req.body.payment);  // Change from Double to Number
+    const payment = Number(req.body.payment);
+    const userID = Number(req.body.userID); 
+     
 
     const newGarbage = new garbage({
         date,
         category,
         weight,
-        payment
+        payment,
+        userID
     });
 
     newGarbage.save()

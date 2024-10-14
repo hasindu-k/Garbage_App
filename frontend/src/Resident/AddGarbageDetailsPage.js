@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from "./ResidentNavbar";
 import axios from 'axios';
+import {useCookies} from "react-cookie";
 
 function AddGarbageDetailsPage(){
 
@@ -10,6 +11,8 @@ function AddGarbageDetailsPage(){
   const [date, setDate] = useState('');
   const [payment, setPayment] = useState(0);
   const navigate = useNavigate();
+  const [cookies] = useCookies(["userID"]);
+  const userID = cookies.userID;
 
   // Automatically set the current date when the component loads
   useEffect(() => {
@@ -30,6 +33,7 @@ function AddGarbageDetailsPage(){
       weight,
       date,
       payment,
+      userID
     };
 
     axios
