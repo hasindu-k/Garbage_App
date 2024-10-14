@@ -26,6 +26,9 @@ const ApprovedSchema = new Schema({
     truckid: {
         type: Number,
         required: true
+    },
+    collector:{
+        type: String,
     }
 });
 
