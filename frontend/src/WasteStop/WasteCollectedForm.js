@@ -122,7 +122,7 @@
 // export default WasteCollectedForm;
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../components/Button";
 
 const WasteCollectedForm = () => {
@@ -137,7 +137,7 @@ const WasteCollectedForm = () => {
   });
   const [approvedPickups, setApprovedPickups] = useState([]); // State to store fetched collectors
   const [vehicles, setVehicles] = useState([]); // State to store fetched truck numbers
-  const [locations , setLocations] = useState([]);
+  const [locations, setLocations] = useState([]);
 
   // Fetch data from MongoDB collections on component mount
   useEffect(() => {
@@ -198,7 +198,7 @@ const WasteCollectedForm = () => {
         }
       );
       //alert("Data submitted successfully");
-      navigate("/viewCollectedWaste");
+      //navigate("/viewCollectedWaste");
       setFormData({
         truckNumber: "",
         wasteCollector: "",
@@ -214,101 +214,112 @@ const WasteCollectedForm = () => {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-md"
-    >
-      <h1 className="text-xl font-bold text-center mb-4">
-        Collected Waste Recording Form
-      </h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {" "}
-        {/* Grid container */}
-        <div>
-          <label className="block mb-2 font-semibold">Truck Number:</label>
-          <select
-            name="truckNumber"
-            value={formData.truckNumber}
-            onChange={handleChange}
-            className="w-full p-2 border border-gray-300 rounded"
-          >
-            <option value="">Assigned Truck</option>
-            {vehicles.map((truckNo, index) => (
-              <option key={index} value={truckNo}>
-                {truckNo}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div>
-          <label className="block mb-2 font-semibold">Waste Collector:</label>
-          <select
-            name="wasteCollector"
-            value={formData.wasteCollector}
-            onChange={handleChange}
-            className="w-full p-2 border border-gray-300 rounded"
-          >
-            <option value="">Assigned Collector</option>
-            {approvedPickups.map((collector, index) => (
-              <option key={index} value={collector}>
-                {collector}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div>
-          <label className="block mb-2 font-semibold">Area:</label>
-          <select
-            name="area"
-            value={formData.area}
-            onChange={handleChange}
-            className="w-full p-2 border border-gray-300 rounded"
-          >
-            <option value="">Collected Area</option>
-            {locations.map((location, index) => (
-              <option key={index} value={location}>
-                {location}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div>
-          <label className="block mb-2 font-semibold">Paper Waste (Kg):</label>
-          <input
-            name="paperWaste"
-            value={formData.paperWaste}
-            onChange={handleChange}
-            className="w-full p-2 border border-gray-300 rounded"
-          />
-        </div>
-        <div>
-          <label className="block mb-2 font-semibold">Food Waste (Kg):</label>
-          <input
-            name="foodWaste"
-            value={formData.foodWaste}
-            onChange={handleChange}
-            className="w-full p-2 border border-gray-300 rounded"
-          />
-        </div>
-        <div>
-          <label className="block mb-2 font-semibold">
-            Polythene Waste (Kg):
-          </label>
-          <input
-            name="polytheneWaste"
-            value={formData.polytheneWaste}
-            onChange={handleChange}
-            className="w-full p-2 border border-gray-300 rounded"
-          />
-        </div>
+    <>
+      <div className="flex justify-between w-full">
+        <Link to="/viewCollectedWaste">
+        <button className="bg-green-600 text-white rounded-lg px-8 py-3 hover:bg-green-700 transition duration-300 text-left">
+          View Collected Waste History{" "}
+        </button></Link>
       </div>
-      <button
-        type="submit"
-        className="w-full p-2 mt-4 bg-green-600 text-white font-bold rounded hover:bg-green-700 transition"
+
+      <form
+        onSubmit={handleSubmit}
+        className="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-md"
       >
-        Submit
-      </button>
-    </form>
+        <h1 className="text-2xl font-bold text-center mb-6 text-green-700">
+          Collected Waste Recording Form
+        </h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {" "}
+          {/* Grid container */}
+          <div>
+            <label className="block mb-2 font-semibold">Truck Number:</label>
+            <select
+              name="truckNumber"
+              value={formData.truckNumber}
+              onChange={handleChange}
+              className="w-full p-2 border border-gray-300 rounded"
+            >
+              <option value="">Assigned Truck</option>
+              {vehicles.map((truckNo, index) => (
+                <option key={index} value={truckNo}>
+                  {truckNo}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label className="block mb-2 font-semibold">Waste Collector:</label>
+            <select
+              name="wasteCollector"
+              value={formData.wasteCollector}
+              onChange={handleChange}
+              className="w-full p-2 border border-gray-300 rounded"
+            >
+              <option value="">Assigned Collector</option>
+              {approvedPickups.map((collector, index) => (
+                <option key={index} value={collector}>
+                  {collector}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label className="block mb-2 font-semibold">Area:</label>
+            <select
+              name="area"
+              value={formData.area}
+              onChange={handleChange}
+              className="w-full p-2 border border-gray-300 rounded"
+            >
+              <option value="">Collected Area</option>
+              {locations.map((location, index) => (
+                <option key={index} value={location}>
+                  {location}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label className="block mb-2 font-semibold">
+              Paper Waste (Kg):
+            </label>
+            <input
+              name="paperWaste"
+              value={formData.paperWaste}
+              onChange={handleChange}
+              className="w-full p-2 border border-gray-300 rounded"
+            />
+          </div>
+          <div>
+            <label className="block mb-2 font-semibold">Food Waste (Kg):</label>
+            <input
+              name="foodWaste"
+              value={formData.foodWaste}
+              onChange={handleChange}
+              className="w-full p-2 border border-gray-300 rounded"
+            />
+          </div>
+          <div>
+            <label className="block mb-2 font-semibold">
+              Polythene Waste (Kg):
+            </label>
+            <input
+              name="polytheneWaste"
+              value={formData.polytheneWaste}
+              onChange={handleChange}
+              className="w-full p-2 border border-gray-300 rounded"
+            />
+          </div>
+        </div>
+        <button
+          type="submit"
+          className="w-full p-2 mt-4 bg-green-600 text-white font-bold rounded hover:bg-green-700 transition"
+        >
+          Submit
+        </button>
+      </form>
+    </>
   );
 };
 
