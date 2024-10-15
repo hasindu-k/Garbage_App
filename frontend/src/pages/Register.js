@@ -78,7 +78,7 @@ function Register() {
 
       <Divider />
       <p className="text-center">
-        Already have an account? <Link to="/login" className="text-blue-500">Login here</Link>
+        Already have an account? <Link to="/" className="text-blue-500">Login here</Link>
       </p>
     </div>
   );

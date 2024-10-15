@@ -80,7 +80,7 @@ function Login() {
       <Divider />
       <p className="text-center">
         Don't have an account?{" "}
-        <Link to="/register" className="text-blue-500">
+        <Link to="/user-role" className="text-blue-500">
           Register here
         </Link>
       </p>

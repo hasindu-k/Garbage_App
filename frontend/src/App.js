@@ -40,7 +40,7 @@ function App() {
       <div>
         <ToastContainer /> {/* Add ToastContainer here */}
         <Routes>
-          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/residentHome " element={<HomePage />} />
           <Route path="/schedule-pickup" element={<SchedulePickupPage />} />
