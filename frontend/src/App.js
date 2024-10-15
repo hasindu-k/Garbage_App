@@ -30,6 +30,7 @@ import ManageVehicles from "./admin/ManageVehicles";
 import ManageCollectors from "./admin/ManageCollectors";
 import DataAnalytics from './admin/DataAnalytics';
 import GarbageStationSummary from "./WasteStop/GarbageStationSummary";
+import Home from "./pages/Home";
 
 
 
@@ -40,8 +41,10 @@ function App() {
       <div>
         <ToastContainer /> {/* Add ToastContainer here */}
         <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<UserTypeSelection />} />
+          <Route path="/register2" element={<Register />} />
           <Route path="/residentHome " element={<HomePage />} />
           <Route path="/schedule-pickup" element={<SchedulePickupPage />} />
           <Route
@@ -79,7 +82,6 @@ function App() {
           <Route path="/manageCollectors" element={<ManageCollectors />} />
 
           <Route path="/admin" element={<Admin />} />
-          <Route path="/user-role" element={<UserTypeSelection />} />
           {/* 404 Not Found route */}
           <Route path="*" element={<NotFound />} />
           
