@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   return (
-    <div className="flex min-h-screen bg-green-800 text-white w-64 flex flex-col">
+    <div className="min-h-screen bg-green-800 text-white w-64 flex flex-col">
       <div className="text-2xl font-bold py-4 px-6 bg-green-700">
         EcoSmart
       </div>

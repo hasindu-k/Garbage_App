@@ -1,4 +1,3 @@
-/*
 const express = require("express");
 const {
   createVehicle,
@@ -21,7 +20,7 @@ router.put("/:id/availability", updateAvailable);
 router.get("/available", getAllAvailableVehicles);
 
 module.exports = router;
-*/
+/*
 const express = require('express');
 const router = express.Router();
 const Vehicle = require('../models/Vehicle');
@@ -87,3 +86,4 @@ router.delete('/deleteVehicle/:id', async (req, res) => {
 });
 
 module.exports = router;
+*/

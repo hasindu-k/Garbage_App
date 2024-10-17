@@ -58,7 +58,7 @@ function ManageVehicles() {
   // ];
 
   const handleCreate = async () => {
-    // if (!validateFields()) return; // Prevent form submission if validation fails
+    if (!validateFields()) return; // Prevent form submission if validation fails
 
     // for (const vehicle of hardcodedVehicles) {
     //   await createVehicle(vehicle);
