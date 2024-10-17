@@ -22,22 +22,19 @@ import ViewRecycledDetails from "./WasteStop/viewRecycledDetails";
 import NotFound from "./pages/NotFound";
 import UserTypeSelection from "./pages/UserRolePage";
 import Admin from "./admin/Admin";
-import Logout from './pages/Logout';
-import Profile from './Collector/Profile';
+import Logout from "./pages/Logout";
+import Profile from "./Collector/Profile";
 import AdminHome from "./admin/AdminHome";
 import RequestPage from "./admin/RequestPage";
 import ManageVehicles from "./admin/ManageVehicles";
 import ManageCollectors from "./admin/ManageCollectors";
-import DataAnalytics from './admin/DataAnalytics';
+import DataAnalytics from "./admin/DataAnalytics";
 import GarbageStationSummary from "./WasteStop/GarbageStationSummary";
 import Home from "./pages/Home";
-
-
 
 function App() {
   return (
     <Router>
-
       <div>
         <ToastContainer /> {/* Add ToastContainer here */}
         <Routes>
@@ -45,7 +42,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<UserTypeSelection />} />
           <Route path="/register2" element={<Register />} />
-          <Route path="/residentHome " element={<HomePage />} />
+          <Route path="/residentHome" element={<HomePage />} />
           <Route path="/schedule-pickup" element={<SchedulePickupPage />} />
           <Route
             path="/add-garbage-details"
@@ -66,17 +63,25 @@ function App() {
             path="/viewRecycledDetails"
             element={<ViewRecycledDetails />}
           />
-           <Route path="/dataAnalytics" element={<DataAnalytics />} />
+          <Route path="/dataAnalytics" element={<DataAnalytics />} />
           <Route path="/requestPage" element={<RequestPage />} />
-        <Route path="/CollectorHome/:userID" element={<CollectorHome />} />
-        <Route path="/TotalGarbage" element={<TotalGarbage />} />
-        <Route path="/Logout" element={<Logout />} />
-        <Route path="/Profile/:userID" element={<Profile />} />
+          <Route path="/CollectorHome/:userID" element={<CollectorHome />} />
+          <Route path="/TotalGarbage" element={<TotalGarbage />} />
+          <Route path="/Logout" element={<Logout />} />
+          <Route path="/Profile/:userID" element={<Profile />} />
 
-
-          <Route  path="/CollectedWasteDashboard"  element={<CollectedWasteDashboard />}/>
-          <Route  path="/GarbageStationSummary"  element={<GarbageStationSummary />}/>
-          <Route path="/viewRecycledDetails" element={<ViewRecycledDetails />} />
+          <Route
+            path="/CollectedWasteDashboard"
+            element={<CollectedWasteDashboard />}
+          />
+          <Route
+            path="/GarbageStationSummary"
+            element={<GarbageStationSummary />}
+          />
+          <Route
+            path="/viewRecycledDetails"
+            element={<ViewRecycledDetails />}
+          />
           <Route path="/requestPage" element={<RequestPage />} />
           <Route path="/manageVehicles" element={<ManageVehicles />} />
           <Route path="/manageCollectors" element={<ManageCollectors />} />
@@ -84,7 +89,6 @@ function App() {
           <Route path="/admin" element={<Admin />} />
           {/* 404 Not Found route */}
           <Route path="*" element={<NotFound />} />
-          
         </Routes>
       </div>
     </Router>
