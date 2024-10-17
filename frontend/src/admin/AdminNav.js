@@ -13,7 +13,7 @@ const AdminNav = () => {
   return (
     <div className="min-h-screen bg-green-800 text-white w-64 flex flex-col">
       <div className="text-2xl font-bold py-4 px-6 bg-green-700">
-        Navigation
+        EcoSmart
       </div>
       <nav className="mt-10 flex-grow">
         <ul className="flex flex-col">
@@ -28,6 +28,9 @@ const AdminNav = () => {
           </li>
           <li className="mb-4">
             <Link to="/manageCollectors" className={getLinkClassName("/manageCollectors")}>Manage Collectors</Link>
+          </li>
+          <li className="mb-4">
+            <Link to="/dataAnalytics" className={getLinkClassName("/dataAnalytics")}>Data & Analytics</Link>
           </li>
         </ul>
       </nav>

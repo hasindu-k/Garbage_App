@@ -10,7 +10,7 @@ const Navbar = () => {
       <nav className="mt-10 flex-grow">
         <ul className="flex flex-col"> {/* Ensure vertical alignment */}
           <li className="mb-4">
-            <Link to="/" className="block py-2 px-6 hover:bg-green-600">Home</Link>
+            <Link to="/residentHome " className="block py-2 px-6 hover:bg-green-600">Home</Link>
           </li>
           <li className="mb-4">
             <Link to="/add-garbage-details" className="block py-2 px-6 hover:bg-green-600">Garbage</Link>
@@ -21,9 +21,9 @@ const Navbar = () => {
           <li className="mb-4">
             <Link to="/MyRequestsPage" className="block py-2 px-6 hover:bg-green-600">My Requests</Link>
           </li>
-          <li className="mb-4">
-            <Link to="#" className="block py-2 px-6 hover:bg-green-600">Profile</Link>
-          </li>
+          {/* <li className="mb-4">
+            <Link to="/profile" className="block py-2 px-6 hover:bg-green-600">Profile</Link>
+          </li> */}
         </ul>
       </nav>
     </div>
