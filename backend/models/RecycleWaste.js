@@ -24,11 +24,9 @@ const recycleWasteSchema = new mongoose.Schema({
   },
   totalWaste: {
     type: Number,
-    
   },
   calculatedCharge: {
     type: Number,
-    
   },
   createdAt: {
     type: Date,
@@ -36,6 +34,5 @@ const recycleWasteSchema = new mongoose.Schema({
   },
 });
 
-const recycleWaste = mongoose.model('recycleWaste', recycleWasteSchema);
-
-module.exports = recycleWaste;
+// Exporting the model
+module.exports = mongoose.model('RecycleWaste', recycleWasteSchema);
