@@ -28,7 +28,6 @@ router.route("/addGarbage").post((req, res) => {
     const date = req.body.date;
     const category = req.body.category;
     const weight = Number(req.body.weight);
-    const payment = Number(req.body.payment);
     const userID = Number(req.body.userID); 
      
 
@@ -36,7 +35,6 @@ router.route("/addGarbage").post((req, res) => {
         date,
         category,
         weight,
-        payment,
         userID
     });
 

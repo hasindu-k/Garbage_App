@@ -47,6 +47,12 @@ app.use("/garbage",garbageRouter);
 const approvedRouter = require("./routes/Approvedpickup.js");
 app.use("/approvedpickup",approvedRouter);
 
+
+
+// Use the garbage routes
+app.use('/api', garbageRoutes);
+
+
 app.listen(PORT, () => {
     console.log(`Server is up and running on port number: ${PORT}`);
 });

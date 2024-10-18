@@ -40,11 +40,11 @@ function SchedulePickupPage(){
   };
 
   const availableLocations = [
-    { id: 1, name: 'A/24 16th Street', description: 'Near the community center' },
-    { id: 2, name: 'B/12 18th Street', description: 'Next to the park entrance' },
-    { id: 3, name: 'C/9 Main Avenue', description: 'Opposite the grocery store' },
-    { id: 4, name: 'D/45 Elm Street', description: 'By the main square' },
-    { id: 5, name: 'E/3 Oak Road', description: 'Near the school' },
+    { id: 1, name: 'A/24 16th Street', description: 'Pannipitiya' },
+    { id: 2, name: 'B/12 18th Street', description: 'Pannipitiya' },
+    { id: 3, name: 'C/9 Main Avenue', description: 'Pannipitiya' },
+    { id: 4, name: 'D/45 Elm Street', description: 'Pannipitiya' },
+    { id: 5, name: 'E/3 Oak Road', description: 'Pannipitiya' },
   ];
 
   const getTodayDate = () => {

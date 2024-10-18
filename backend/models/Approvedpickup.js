@@ -1,30 +1,28 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+const mongoose = require('mongoose');
 
-const ApprovedSchema = new Schema({
+// Define the ApprovedPickup schema
+const approvedPickupSchema = new mongoose.Schema({
     userid: {
-        type: Number,
+        type: mongoose.Schema.Types.ObjectId, // Reference to the User model
         required: true
     },
-    date: {
+    status: {
         type: String,
+        enum: ['Pending', 'Completed', 'Cancelled'], // Example statuses
         required: true
     },
-    time: {
-        type: String,
+    pickupDate: {
+        type: Date,
         required: true
     },
-    location: {
-        type: String,
-        required: true
-    },
-    status: {  // This will be used to track the status
-        type: String,
-        required: true,
-        default: 'Pending' // Initialize as 'Pending' by default
+    createdAt: {
+        type: Date,
+        default: Date.now // Automatically set the date when a pickup is created
     }
 });
 
-const Approvedpickup = mongoose.model("Approvedpickup", ApprovedSchema);
+// Create the model from the schema
+const ApprovedPickup = mongoose.model('ApprovedPickup', approvedPickupSchema);
 
-module.exports = Approvedpickup;
+// Export the model
+module.exports = ApprovedPickup;
