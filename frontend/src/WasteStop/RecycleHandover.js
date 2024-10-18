@@ -1,16 +1,16 @@
-import React, { useState ,useEffect} from 'react';
-import axios from 'axios';
-import WasteHeader from './WasteHeader';
-import Button from '../components/Button';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import WasteHeader from "./WasteHeader";
+import Button from "../components/Button";
+import { useNavigate } from "react-router-dom";
 
 const RecycleForm = () => {
   // State to manage form data
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    truckNumber: '',
-    area: '',
+    truckNumber: "",
+    area: "",
     paperWeight: 0,
     foodWeight: 0,
     polytheneWeight: 0,
@@ -18,7 +18,7 @@ const RecycleForm = () => {
     calculatedCharge: 0,
   });
   const [vehicles, setVehicles] = useState([]); // State to store fetched truck numbers
-  const [locations , setLocations] = useState([]);
+  const [locations, setLocations] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -30,16 +30,14 @@ const RecycleForm = () => {
         const truckNumbers = vehiclesResponse.data.map((user) => user.truckNo);
         setVehicles(truckNumbers);
 
-                // Fetch locations (assuming a field named "location" in the "approvedpickups" collection)
-                const locationsResponse = await axios.get(
-                  "http://localhost:8070/approvedpickup/getapproved"
-                ); // Replace with your actual endpoint
-                const locations = locationsResponse.data.map(
-                  (location) => location.location
-                );
-                setLocations(locations);
-                
-        
+        // Fetch locations (assuming a field named "location" in the "approvedpickups" collection)
+        const locationsResponse = await axios.get(
+          "http://localhost:8070/approvedpickup/getApprovedPickups"
+        ); // Replace with your actual endpoint
+        const locations = locationsResponse.data.map(
+          (location) => location.location
+        );
+        setLocations(locations);
       } catch (error) {
         console.error("Error fetching data:", error);
         // Handle error gracefully (e.g., display an error message)
@@ -47,7 +45,6 @@ const RecycleForm = () => {
     };
     fetchData();
   }, []);
-
 
   // Define rates for each waste category (per kg)
   const rateForPaper = 2.0;
@@ -64,7 +61,8 @@ const RecycleForm = () => {
     const chargeForPaper = paperWeight * rateForPaper;
     const chargeForFood = foodWeight * rateForFood;
     const chargeForPolythene = polytheneWeight * rateForPolythene;
-    const calculatedCharge = chargeForPaper + chargeForFood + chargeForPolythene;
+    const calculatedCharge =
+      chargeForPaper + chargeForFood + chargeForPolythene;
 
     return {
       totalWaste: totalWaste.toFixed(2),
@@ -92,19 +90,19 @@ const RecycleForm = () => {
     e.preventDefault();
 
     try {
-      console.log('Submitting data:', formData);
+      console.log("Submitting data:", formData);
       const response = await axios.post(
-        'http://localhost:8070/recycleWaste/addRecyclingWastes',
+        "http://localhost:8070/recycleWaste/addRecyclingWastes",
         formData
       );
-      console.log('Response from server:', response.data);
+      console.log("Response from server:", response.data);
 
       //alert('Data submitted successfully');
-      navigate('/viewRecycledDetails');
+      navigate("/viewRecycledDetails");
 
       setFormData({
-        truckNumber: '',
-        area: '',
+        truckNumber: "",
+        area: "",
         paperWeight: 0,
         foodWeight: 0,
         polytheneWeight: 0,
@@ -112,13 +110,13 @@ const RecycleForm = () => {
         calculatedCharge: 0,
       });
     } catch (error) {
-      console.error('Error submitting data:', error);
-      alert('Failed to submit data.');
+      console.error("Error submitting data:", error);
+      alert("Failed to submit data.");
     }
   };
 
   return (
-<div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-100">
       <WasteHeader h1="Recycle Waste Requests" />
       <div className="max-w-lg mx-auto p-8 bg-white shadow-lg rounded-lg mt-8">
         <h1 className="text-2xl font-bold text-center mb-6 text-green-700">
@@ -127,36 +125,36 @@ const RecycleForm = () => {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div>
-            <label className="block mb-2 font-semibold">Truck Number:</label>
-          <select
-            name="truckNumber"
-            value={formData.truckNumber}
-            onChange={handleChange}
-            className="w-full p-2 border border-gray-300 rounded"
-          >
-            <option value="">Assigned Truck</option>
-            {vehicles.map((truckNo, index) => (
-              <option key={index} value={truckNo}>
-                {truckNo}
-              </option>
-            ))}
-          </select>
+              <label className="block mb-2 font-semibold">Truck Number:</label>
+              <select
+                name="truckNumber"
+                value={formData.truckNumber}
+                onChange={handleChange}
+                className="w-full p-2 border border-gray-300 rounded"
+              >
+                <option value="">Assigned Truck</option>
+                {vehicles.map((truckNo, index) => (
+                  <option key={index} value={truckNo}>
+                    {truckNo}
+                  </option>
+                ))}
+              </select>
             </div>
             <div>
-            <label className="block mb-2 font-semibold">Area:</label>
-          <select
-            name="area"
-            value={formData.area}
-            onChange={handleChange}
-            className="w-full p-2 border border-gray-300 rounded"
-          >
-            <option value="">Collected Area</option>
-            {locations.map((location, index) => (
-              <option key={index} value={location}>
-                {location}
-              </option>
-            ))}
-          </select>
+              <label className="block mb-2 font-semibold">Area:</label>
+              <select
+                name="area"
+                value={formData.area}
+                onChange={handleChange}
+                className="w-full p-2 border border-gray-300 rounded"
+              >
+                <option value="">Collected Area</option>
+                {locations.map((location, index) => (
+                  <option key={index} value={location}>
+                    {location}
+                  </option>
+                ))}
+              </select>
             </div>
             <div>
               <label className="text-sm font-semibold text-gray-700">
@@ -241,7 +239,7 @@ const RecycleForm = () => {
         <Button Button1="Cancel" Button2="Record New" />
       </div>
     </div>
-      );
+  );
 };
 
 export default RecycleForm;

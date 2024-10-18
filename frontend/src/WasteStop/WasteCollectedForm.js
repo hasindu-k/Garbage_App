@@ -12,24 +12,35 @@ const WasteCollectedForm = () => {
     foodWaste: "",
     polytheneWaste: "",
   });
-  const [approvedPickups, setApprovedPickups] = useState([]);
+  const [collectors, setCollectors] = useState([]);
   const [vehicles, setVehicles] = useState([]);
   const [locations, setLocations] = useState([]);
+  const [errors, setErrors] = useState({}); // State to hold error messages
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const collectorsResponse = await axios.get("http://localhost:8070/user/");
-        const collectors = collectorsResponse.data.filter(user => user.role === "collector");
-        setApprovedPickups(collectors.map(collector => collector.name));
+        const vehiclesResponse = await axios.get(
+          "http://localhost:8070/vehicle/allVehicles"
+        );
+        const truckNumbers = vehiclesResponse.data.map((user) => user.truckNo);
+        setVehicles(truckNumbers);
 
-        const locationsResponse = await axios.get("http://localhost:8070/approvedpickup/getapproved");
-        const locations = locationsResponse.data.map(location => location.location);
+        const locationsResponse = await axios.get(
+          "http://localhost:8070/approvedpickup/getApprovedPickups"
+        );
+        const locations = locationsResponse.data.map(
+          (location) => location.location
+        );
         setLocations(locations);
 
-        const vehiclesResponse = await axios.get("http://localhost:8070/vehicle/allVehicles");
-        const truckNumbers = vehiclesResponse.data.map(user => user.truckNo);
-        setVehicles(truckNumbers);
+        const collectorResponse = await axios.get(
+          "http://localhost:8070/user/"
+        );
+        const collectors = collectorResponse.data.map(
+          (collector) => collector.name
+        );
+        setCollectors(collectors);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -39,10 +50,43 @@ const WasteCollectedForm = () => {
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    // Clear any previous error for the field
+    setErrors({ ...errors, [e.target.name]: "" });
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    
+    // Validate waste collector (only characters)
+    const wasteCollectorRegex = /^[a-zA-Z\s]+$/;
+    if (!wasteCollectorRegex.test(formData.wasteCollector)) {
+      newErrors.wasteCollector = "Waste collector name should contain only letters.";
+    }
+
+    // Validate paperWaste, foodWaste, polytheneWaste (whole numbers)
+    const wasteRegex = /^[0-9]+$/;
+    if (!wasteRegex.test(formData.paperWaste) || formData.paperWaste === "") {
+      newErrors.paperWaste = "Paper waste must be a whole number.";
+    }
+    if (!wasteRegex.test(formData.foodWaste) || formData.foodWaste === "") {
+      newErrors.foodWaste = "Food waste must be a whole number.";
+    }
+    if (!wasteRegex.test(formData.polytheneWaste) || formData.polytheneWaste === "") {
+      newErrors.polytheneWaste = "Polythene waste must be a whole number.";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0; // Return true if no errors
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validate the form before submitting
+    if (!validateForm()) {
+      return; // Exit if there are validation errors
+    }
+
     const totalWaste = (
       parseFloat(formData.paperWaste) +
       parseFloat(formData.foodWaste) +
@@ -50,10 +94,13 @@ const WasteCollectedForm = () => {
     ).toFixed(2);
 
     try {
-      await axios.post("http://localhost:8070/collectedwaste/addCollectedWaste", {
-        ...formData,
-        totalWaste,
-      });
+      await axios.post(
+        "http://localhost:8070/collectedwaste/addCollectedWaste",
+        {
+          ...formData,
+          totalWaste,
+        }
+      );
       setFormData({
         truckNumber: "",
         wasteCollector: "",
@@ -62,6 +109,7 @@ const WasteCollectedForm = () => {
         foodWaste: "",
         polytheneWaste: "",
       });
+      navigate("/viewCollectedWaste"); // Redirect after successful submission
     } catch (error) {
       console.error("Error submitting data:", error);
       alert("Error submitting data");
@@ -93,23 +141,21 @@ const WasteCollectedForm = () => {
               >
                 <option value="">Assigned Truck</option>
                 {vehicles.map((truckNo, index) => (
-                  <option key={index} value={truckNo}>{truckNo}</option>
+                  <option key={index} value={truckNo}>
+                    {truckNo}
+                  </option>
                 ))}
               </select>
             </div>
             <div>
               <label className="block mb-1 font-semibold">Waste Collector:</label>
-              <select
+              <input
                 name="wasteCollector"
                 value={formData.wasteCollector}
                 onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded"
-              >
-                <option value="">Assigned Collector</option>
-                {approvedPickups.map((collector, index) => (
-                  <option key={index} value={collector}>{collector}</option>
-                ))}
-              </select>
+                className={`w-full p-2 border border-gray-300 rounded ${errors.wasteCollector ? "border-red-500" : ""}`}
+              />
+              {errors.wasteCollector && <p className="text-red-500">{errors.wasteCollector}</p>}
             </div>
             <div>
               <label className="block mb-1 font-semibold">Area:</label>
@@ -121,7 +167,9 @@ const WasteCollectedForm = () => {
               >
                 <option value="">Collected Area</option>
                 {locations.map((location, index) => (
-                  <option key={index} value={location}>{location}</option>
+                  <option key={index} value={location}>
+                    {location}
+                  </option>
                 ))}
               </select>
             </div>
@@ -131,8 +179,9 @@ const WasteCollectedForm = () => {
                 name="paperWaste"
                 value={formData.paperWaste}
                 onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded"
+                className={`w-full p-2 border border-gray-300 rounded ${errors.paperWaste ? "border-red-500" : ""}`}
               />
+              {errors.paperWaste && <p className="text-red-500">{errors.paperWaste}</p>}
             </div>
             <div>
               <label className="block mb-1 font-semibold">Food Waste (Kg):</label>
@@ -140,8 +189,9 @@ const WasteCollectedForm = () => {
                 name="foodWaste"
                 value={formData.foodWaste}
                 onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded"
+                className={`w-full p-2 border border-gray-300 rounded ${errors.foodWaste ? "border-red-500" : ""}`}
               />
+              {errors.foodWaste && <p className="text-red-500">{errors.foodWaste}</p>}
             </div>
             <div>
               <label className="block mb-1 font-semibold">Polythene Waste (Kg):</label>
@@ -149,8 +199,9 @@ const WasteCollectedForm = () => {
                 name="polytheneWaste"
                 value={formData.polytheneWaste}
                 onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded"
+                className={`w-full p-2 border border-gray-300 rounded ${errors.polytheneWaste ? "border-red-500" : ""}`}
               />
+              {errors.polytheneWaste && <p className="text-red-500">{errors.polytheneWaste}</p>}
             </div>
           </div>
           <button
