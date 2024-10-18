@@ -14,7 +14,7 @@ module.exports = app;
 
 
 // Debugging: Check if MongoDB URL is loaded
-console.log(process.env.MONGODB_URL);
+// console.log(process.env.MONGODB_URL);
 
 const URL = process.env.MONGODB_URL;
 

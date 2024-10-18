@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Form, Input, message } from "antd";
 import { getVehicles } from "../services/vehicleService.js";
+import { getCollectors } from "../services/collectorService.js";
 
 function Modal({ isOpen, onClose, request }) {
   const [collectors, setCollectors] = useState([]);
@@ -19,17 +20,23 @@ function Modal({ isOpen, onClose, request }) {
     
   }
 
-  const getCollectors = async () => {
-    try {
-      const response = await fetch("http://localhost:8070/user/collector");
-      if (!response.ok) throw new Error("Network response was not ok");
-      const data = await response.json();
-      setCollectors(data);
-    } catch (error) {
-      console.error("Error fetching collectors:", error);
-    } finally {
-      setLoading(false);
-    }
+  // const getCollectors = async () => {
+  //   try {
+  //     const response = await fetch("http://localhost:8070/user/collector");
+  //     if (!response.ok) throw new Error("Network response was not ok");
+  //     const data = await response.json();
+  //     setCollectors(data);
+  //   } catch (error) {
+  //     console.error("Error fetching collectors:", error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+  const fetchCollectors = async () => {
+    const response = await getCollectors(); // Fetch users with role 'collector'
+    setCollectors(response.data);
+    setLoading(false);
   };
 
   const fetchVehicles = async () => {
@@ -39,7 +46,7 @@ function Modal({ isOpen, onClose, request }) {
 
   useEffect(() => {
     if (isOpen) {
-      getCollectors();
+      fetchCollectors();
       fetchVehicles();
     }
   }, [isOpen]);

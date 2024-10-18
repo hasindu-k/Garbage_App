@@ -41,10 +41,11 @@ function ManageCollectors() {
     <div className="flex min-h-screen bg-gray-100">
       <AdminNav />
       <div className="flex-grow p-8 bg-white shadow-md rounded-lg">
-        <h1 className="text-3xl font-bold text-gray-700 mb-8">Allocate Resident Requests to Collectors</h1>
+        <h1 className="text-3xl font-bold text-gray-700 mb-8">
+          Collector List
+        </h1>
 
         <div>
-          <h2 className="text-xl font-semibold text-gray-600 mb-4">Collector List</h2>
           <div className="space-y-4">
             {collectors.map((collector) => (
               <div
@@ -56,13 +57,18 @@ function ManageCollectors() {
                 </p>
 
                 <div className="flex-1 mt-4">
-                  <h3 className="text-lg font-semibold">Allocate Resident Requests</h3>
+                  <h3 className="text-lg font-semibold">
+                    Allocate Resident Requests
+                  </h3>
                   <select
                     multiple
                     value={selectedRequests}
                     onChange={(e) =>
                       setSelectedRequests(
-                        Array.from(e.target.selectedOptions, (option) => option.value)
+                        Array.from(
+                          e.target.selectedOptions,
+                          (option) => option.value
+                        )
                       )
                     }
                     className="mt-2 p-2 border border-gray-300 rounded w-full"
@@ -79,9 +85,7 @@ function ManageCollectors() {
                   >
                     Allocate Requests
                   </button>
-                  {allocationMessage && (
-                    <p className="mt-2 text-green-500">{allocationMessage}</p>
-                  )}
+                  
                 </div>
               </div>
             ))}

@@ -2,28 +2,28 @@ const bcrypt = require("bcryptjs");
 const router = require("express").Router();
 let User = require("../models/User");
 
-router.route("/add").post((req, res) => {
-  const name = req.body.name;
-  const address = req.body.address;
-  const email = req.body.email;
-  const contact = Number(req.body.contact);
+// router.route("/add").post((req, res) => {
+//   const name = req.body.name;
+//   const address = req.body.address;
+//   const email = req.body.email;
+//   const contact = Number(req.body.contact);
 
-  const newUser = new User({
-    name,
-    address,
-    email,
-    contact,
-  });
+//   const newUser = new User({
+//     name,
+//     address,
+//     email,
+//     contact,
+//   });
 
-  newUser
-    .save()
-    .then(() => {
-      res.json("User Added");
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-});
+//   newUser
+//     .save()
+//     .then(() => {
+//       res.json("User Added");
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//     });
+// });
 
 //user login
 router.post("/login", async (req, res) => {
@@ -77,7 +77,7 @@ router.post("/register", async (req, res) => {
 
     // Save the user to the database
     await newUser.save();
-    res.json("User Registered");
+    return res.status(201).json("User Registered");
   } catch (err) {
     if (err.code === 11000) {
       return res.status(400).json({ error: "Email already exists" });

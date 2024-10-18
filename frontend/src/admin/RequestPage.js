@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios"; // Ensure axios is imported
 import AdminNav from "./AdminNav";
-import Modal from "./Modal"; // Import the modal component
+import Modal from "./AdminModal"; // Import the modal component
 
 function RequestPage() {
   const [requests, setRequests] = useState([]);
