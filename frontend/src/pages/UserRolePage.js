@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const UserTypeSelection = () => {
   const [selectedRole, setSelectedRole] = useState(null);
@@ -19,12 +19,12 @@ const UserTypeSelection = () => {
   const proceedToLogin = () => {
     const role = roles.find((role) => role.id === selectedRole);
     if (role) {
-      navigate("/register", { state: { selectedRole: role.name } });
+      navigate("/register2", { state: { selectedRole: role.name } });
     }
   };
 
   return (
-    <div className="bg-blue-100 min-h-screen flex items-center justify-center">
+    <div className="bg-green-100 min-h-screen flex items-center justify-center">
       <div className="bg-white p-10 rounded-lg shadow-md max-w-lg w-full">
         <h3 className="text-2xl text-center font-bold text-gray-700 mb-6">
           Select user type
@@ -66,6 +66,11 @@ const UserTypeSelection = () => {
         >
           Continue to Register
         </button>
+            
+        <div className="w-full flex flex-col">
+          {/* <Link className="bg-green-500 text-white py-2 px-3 rounded-lg" to={"/login"}>Already have an account? Login</Link> */}
+          <Link className="text-white text-center w-full mt-6 bg-green-500 py-2 rounded-lg" to={"/"}>Back to Home</Link>
+        </div>
       </div>
     </div>
   );

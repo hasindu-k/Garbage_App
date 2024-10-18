@@ -45,41 +45,69 @@ function Register() {
   };
 
   return (
-    <div className="max-w-md mx-auto p-8">
-      <h2 className="text-2xl font-bold mb-6">Register</h2>
-      <Form layout="vertical" onFinish={onFinish}>
-        <Form.Item name="name" label="Name" rules={rules}>
-          <Input placeholder="Enter your name" className="border border-gray-300 rounded-md" />
-        </Form.Item>
-        <Form.Item name="address" label="Address" rules={rules}>
-          <Input placeholder="Enter your address" className="border border-gray-300 rounded-md" />
-        </Form.Item>
-        <Form.Item name="email" label="Email" rules={rules}>
-          <Input placeholder="Enter your email" className="border border-gray-300 rounded-md" />
-        </Form.Item>
-        <Form.Item name="contact" label="Contact" rules={rules}>
-          <Input placeholder="Enter your contact number" className="border border-gray-300 rounded-md" />
-        </Form.Item>
-        <Form.Item name="password" label="Password" rules={rules}>
-          <Input.Password placeholder="Enter your password" className="border border-gray-300 rounded-md" />
-        </Form.Item>
-        <Form.Item
-          name="confirmPassword"
-          label="Confirm Password"
-          rules={rules}
-        >
-          <Input.Password placeholder="Confirm your password" className="border border-gray-300 rounded-md" />
-        </Form.Item>
+    <div className="bg-green-100 min-h-screen flex items-center justify-center">
+      <div className="max-w-md mx-auto bg-white p-10 rounded-lg shadow-md w-full my-12">
+        <h2 className="text-2xl font-bold mb-6">Register</h2>
+        <Form layout="vertical" onFinish={onFinish}>
+          <Form.Item name="name" label="Name" rules={rules}>
+            <Input
+              placeholder="Enter your name"
+              className="border border-gray-300 rounded-md"
+            />
+          </Form.Item>
+          <Form.Item name="address" label="Address" rules={rules}>
+            <Input
+              placeholder="Enter your address"
+              className="border border-gray-300 rounded-md"
+            />
+          </Form.Item>
+          <Form.Item name="email" label="Email" rules={rules}>
+            <Input
+              placeholder="Enter your email"
+              className="border border-gray-300 rounded-md"
+            />
+          </Form.Item>
+          <Form.Item name="contact" label="Contact" rules={rules}>
+            <Input
+              placeholder="Enter your contact number"
+              className="border border-gray-300 rounded-md"
+            />
+          </Form.Item>
+          <Form.Item name="password" label="Password" rules={rules}>
+            <Input.Password
+              placeholder="Enter your password"
+              className="border border-gray-300 rounded-md"
+            />
+          </Form.Item>
+          <Form.Item
+            name="confirmPassword"
+            label="Confirm Password"
+            rules={rules}
+          >
+            <Input.Password
+              placeholder="Confirm your password"
+              className="border border-gray-300 rounded-md"
+            />
+          </Form.Item>
 
-        <Button type="primary" htmlType="submit" block className="bg-blue-500 hover:bg-blue-600 text-white">
-          Register
-        </Button>
-      </Form>
+          <Button
+            type="primary"
+            htmlType="submit"
+            block
+            className="bg-blue-500 hover:bg-blue-600 text-white"
+          >
+            Register
+          </Button>
+        </Form>
 
-      <Divider />
-      <p className="text-center">
-        Already have an account? <Link to="/login" className="text-blue-500">Login here</Link>
-      </p>
+        <Divider />
+        <p className="text-center">
+          Already have an account?{" "}
+          <Link to="/login" className="text-blue-500">
+            Login here
+          </Link>
+        </p>
+      </div>
     </div>
   );
 }
