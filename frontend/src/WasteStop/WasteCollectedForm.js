@@ -155,7 +155,7 @@ const WasteCollectedForm = () => {
               </select>
             </div> */}
             <div>
-              <label className="block mb-1 font-semibold">Truck Nummber:</label>
+              <label className="block mb-1 font-semibold">Truck Number:</label>
               <input
                 name="truckNumber"
                 value={formData.truckNumber}
