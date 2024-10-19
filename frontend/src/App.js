@@ -59,7 +59,7 @@ function App() {
 
         <Route path="/CollectorHome/:userID" element={<CollectorHome />} />
         <Route path="/TotalGarbage" element={<TotalGarbage />} />
-        <Route path="/Logout" element={<Logout />} />
+        <Route path="/logout" element={<Logout />} />
         <Route path="/Profile/:userID" element={<Profile />} />
 
 
