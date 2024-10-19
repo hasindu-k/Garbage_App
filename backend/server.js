@@ -7,6 +7,7 @@ const app = express();
 dotenv.config(); // Load environment variables
 const PORT = process.env.PORT || 8070;
 
+
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
@@ -58,6 +59,8 @@ app.use('/api/vehicles', require('./routes/vehicleRoutes.js'));
 
 // const vehicleRouter = require("./routes/Vehicles.js");
 // app.use("/vehicle",vehicleRouter);
+const pickupRoutes = require("./routes/pickupRoutesSingleton"); 
+app.use("/pickup", pickupRoutes.getRouter());
 
 
 if (process.env.NODE_ENV !== "test") {
