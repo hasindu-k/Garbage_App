@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from "react";
 import AdminNav from "./AdminNav";
+import { getCollectors } from "../services/collectorService.js";
 import {
-  getCollectors,
   getResidentRequests,
-  allocateRequestsToCollector,
-} from "../services/collectorService.js";
+  getApprovedPickups,
+} from "../services/adminService.js";
 
 function ManageCollectors() {
   const [collectors, setCollectors] = useState([]);
   const [residentRequests, setResidentRequests] = useState([]);
-  const [selectedRequests, setSelectedRequests] = useState([]);
-  const [allocationMessage, setAllocationMessage] = useState("");
+  const [approvedPickups, setApprovedPickups] = useState([]);
 
   useEffect(() => {
     fetchCollectors();
-    // fetchResidentRequests();
+    fetchResidentRequests();
+    fetchApprovedPickups();
   }, []);
 
   const fetchCollectors = async () => {
@@ -22,74 +22,70 @@ function ManageCollectors() {
     setCollectors(response.data);
   };
 
-  // const fetchResidentRequests = async () => {
-  //   const response = await getResidentRequests(); // Fetch resident requests
-  //   setResidentRequests(response.data);
-  // };
+  const fetchResidentRequests = async () => {
+    const response = await getResidentRequests(); // Fetch resident requests
+    setResidentRequests(response.data);
+    console.log(response.data);
+  };
 
-  // const handleAllocateRequests = async (collectorId) => {
-  //   try {
-  //     await allocateRequestsToCollector(collectorId, selectedRequests);
-  //     setAllocationMessage("Requests allocated successfully");
-  //     setSelectedRequests([]); // Clear selection after allocation
-  //   } catch (error) {
-  //     setAllocationMessage("Error in allocating requests");
-  //   }
-  // };
+  const fetchApprovedPickups = async () => {
+    const response = await getApprovedPickups(); // Fetch approved pickups
+    setApprovedPickups(response.data);
+    console.log(response.data);
+  };
 
   return (
     <div className="flex min-h-screen bg-gray-100">
       <AdminNav />
       <div className="flex-grow p-8 bg-white shadow-md rounded-lg">
-        <h1 className="text-3xl font-bold text-gray-700 mb-8">
-          Collector List
-        </h1>
+        <h1 className="text-2xl font-bold mb-6">Manage Collectors</h1>
 
+        {/* Collectors Section */}
+        <div className="mb-8">
+          <h2 className="text-xl font-semibold mb-4">Collectors</h2>
+          <table className="min-w-full bg-white border">
+            <thead>
+              <tr className="w-full bg-gray-200">
+                <th className="py-2 px-4 text-left">ID</th>
+                <th className="py-2 px-4 text-left">Name</th>
+                <th className="py-2 px-4 text-left">Email</th>
+              </tr>
+            </thead>
+            <tbody>
+              {collectors.map((collector) => (
+                <tr key={collector.id}>
+                  <td className="py-2 px-4 border">{collector.id}</td>
+                  <td className="py-2 px-4 border">{collector.name}</td>
+                  <td className="py-2 px-4 border">{collector.email}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Approved Pickups Section */}
         <div>
-          <div className="space-y-4">
-            {collectors.map((collector) => (
-              <div
-                key={collector._id}
-                className="p-4 bg-gray-50 rounded-lg shadow-sm flex flex-col justify-between items-start"
-              >
-                <p className="font-medium text-gray-700">
-                  {collector.name} - {collector.email}
-                </p>
-
-                <div className="flex-1 mt-4">
-                  <h3 className="text-lg font-semibold">
-                    Allocate Resident Requests
-                  </h3>
-                  <select
-                    multiple
-                    value={selectedRequests}
-                    onChange={(e) =>
-                      setSelectedRequests(
-                        Array.from(
-                          e.target.selectedOptions,
-                          (option) => option.value
-                        )
-                      )
-                    }
-                    className="mt-2 p-2 border border-gray-300 rounded w-full"
-                  >
-                    {residentRequests.map((request) => (
-                      <option key={request._id} value={request._id}>
-                        {request.title} - {request.residentName}
-                      </option>
-                    ))}
-                  </select>
-                  <button
-                    className="mt-2 px-4 py-2 bg-indigo-500 text-white rounded shadow hover:bg-indigo-600"
-                    // onClick={() => handleAllocateRequests(collector._id)}
-                  >
-                    Allocate Requests
-                  </button>
-                  
-                </div>
-              </div>
-            ))}
-          </div>
+          <h2 className="text-xl font-semibold mb-4">Approved Pickups</h2>
+          <table className="min-w-full bg-white border">
+            <thead>
+              <tr className="w-full bg-gray-200">
+                <th className="py-2 px-4 text-left">User ID</th>
+                <th className="py-2 px-4 text-left">Collector ID</th>
+                <th className="py-2 px-4 text-left">Date</th>
+                <th className="py-2 px-4 text-left">Location</th>
+              </tr>
+            </thead>
+            <tbody>
+              {approvedPickups.map((pickup) => (
+                <tr key={pickup.id}>
+                  <td className="py-2 px-4 border">{pickup.userid}</td>
+                  <td className="py-2 px-4 border">{pickup.collectorid}</td>
+                  <td className="py-2 px-4 border">{pickup.date}</td>
+                  <td className="py-2 px-4 border">{pickup.location}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>

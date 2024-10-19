@@ -6,18 +6,20 @@ const {
   updateVehicle,
   deleteVehicle,
   updateAvailable,
-  getAllAvailableVehicles
+  getAllAvailableVehicles,
+  getVehicleCount,
 } = require("../controllers/vehicleController");
 
 const router = express.Router();
 
 router.post("/", createVehicle);
 router.get("/", getAllVehicles);
-router.get("/:id", getVehicleById);
+router.get("/get/:id", getVehicleById);
 router.put("/:id", updateVehicle);
 router.delete("/:id", deleteVehicle);
 router.put("/:id/availability", updateAvailable);
 router.get("/available", getAllAvailableVehicles);
+router.get("/count", getVehicleCount);
 
 module.exports = router;
 /*

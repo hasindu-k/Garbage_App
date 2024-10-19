@@ -33,6 +33,7 @@ router.route("/update/:id").post((req, res) => {
         });
 });
 
+/*
 // Allocate a collector to a pickup
 router.route("/update/:id").post((req, res) => {
     const pickupId = req.params.id;
@@ -47,6 +48,41 @@ router.route("/update/:id").post((req, res) => {
         .catch((err) => {
             console.log(err);
             res.status(500).send("Error allocating collector: " + err);
+        });
+});
+*/
+
+router.route("/add").post((req, res) => {
+    const { userid, collectorid, date, time, location, truckid} = req.body;
+
+    const newApprovedpickup = new Approvedpickup({
+        collectorid,
+        date,
+        time,
+        userid,
+        location,
+        truckid,
+    });
+
+    newApprovedpickup
+        .save()
+        .then(() => {
+            res.json("Approved pickup added!");
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(400).send("Error: " + err);
+        });
+});
+
+router.route("/getall").get((req, res) => {
+    Approvedpickup.find()
+        .then((approvedpickups) => {
+            res.json(approvedpickups);
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(500).send("Error: " + err);
         });
 });
 

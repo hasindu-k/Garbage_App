@@ -92,6 +92,16 @@ const updateAvailable = async (req, res) => {
   }
 };
 
+// Get vehicle count
+const getVehicleCount = async (req, res) => {
+  try {
+    const count = await Vehicle.countDocuments();
+    res.json({ count });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 module.exports = {
   createVehicle,
   getAllVehicles,
@@ -100,4 +110,5 @@ module.exports = {
   deleteVehicle,
   updateAvailable,
   getAllAvailableVehicles,
+  getVehicleCount,
 };

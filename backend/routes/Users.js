@@ -200,20 +200,29 @@ router.post('/collector/updatePassword', async (req, res) => {
   }
 }); 
 // Get all users, with optional filtering by role
-router.route("/:role").get(async (req, res) => {
+router.get("/:role?", async (req, res) => {
   let role = req.params.role;
 
   const query = role ? { role: role } : {};
 
-  User.find(query)
-    .then((users) => {
-      res.json(users);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).json({ error: "Error fetching users" });
-    });
+  try {
+    const users = await User.find(query);
+    res.json(users);
+  } catch (err) {
+    console.error("Error fetching users:", err);
+    res.status(500).json({ error: "Error fetching users" });
+  }
+});
 
+// Get count of collectors
+router.get('/collectors/count', async (req, res) => {
+  try {
+    const collectorCount = await User.countDocuments({ role: 'collector' });
+    res.json({ count: collectorCount });
+  } catch (error) {
+    console.error("Error fetching collector count:", error);
+    res.status(500).json({ error: "Error fetching collector count" });
+  }
 });
 
 module.exports = router;

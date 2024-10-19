@@ -80,5 +80,33 @@ router.route("/deletePickup/:id").delete(async (req, res) => {
         });
 });
 
+// Get count of all pickups
+router.route("/count").get((req, res) => {
+    SchedulePickup.countDocuments()
+        .then((count) => {
+            res.json({ count });
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(500).send("Error: " + err);
+        });
+});
+
+// Update the status of a pickup request
+router.route("/updateStatus/:id").put(async (req, res) => {
+    const { status } = req.body;
+    const pickupId = req.params.id;
+
+    try {
+        const updatedPickup = await SchedulePickup.findByIdAndUpdate(pickupId, { status }, { new: true });
+        if (!updatedPickup) {
+            return res.status(404).send({ status: "Pickup not found" });
+        }
+        res.status(200).send({ status: "Pickup status updated", updatedPickup });
+    } catch (err) {
+        console.log(err);
+        res.status(500).send({ status: "Error with updating pickup status", error: err });
+    }
+});
 
 module.exports = router;
