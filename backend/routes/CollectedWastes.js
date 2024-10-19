@@ -1,10 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const CollectedWasteController = require('../controllers/CollectedWasteController');
-const CollectedWasteValidator = require('../validators/CollectedWasteValidator');
 
 // POST - Store new waste collection data (route: /addCollectedWaste)
-router.post('/addCollectedWaste', CollectedWasteValidator.addCollectedWaste, CollectedWasteController.addCollectedWaste);
+router.post('/addCollectedWaste', CollectedWasteController.addCollectedWaste);
 
 // GET - Fetch all waste collection records (route: /getCollectedWaste)
 router.get('/getCollectedWaste', CollectedWasteController.getCollectedWaste);

@@ -126,7 +126,13 @@ const RecycleForm = () => {
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block mb-2 font-semibold">Truck Number:</label>
-              <select
+              <input 
+                              name="truckNumber"
+                              value={formData.truckNumber}
+                              onChange={handleChange}
+                              className="w-full p-2 border border-gray-300 rounded"
+              />
+              {/* <select
                 name="truckNumber"
                 value={formData.truckNumber}
                 onChange={handleChange}
@@ -138,11 +144,17 @@ const RecycleForm = () => {
                     {truckNo}
                   </option>
                 ))}
-              </select>
+              </select> */}
             </div>
             <div>
               <label className="block mb-2 font-semibold">Area:</label>
-              <select
+              <input
+                              name="area"
+                              value={formData.area}
+                              onChange={handleChange}
+                              className="w-full p-2 border border-gray-300 rounded"
+              />
+              {/* <select
                 name="area"
                 value={formData.area}
                 onChange={handleChange}
@@ -154,7 +166,7 @@ const RecycleForm = () => {
                     {location}
                   </option>
                 ))}
-              </select>
+              </select> */}
             </div>
             <div>
               <label className="text-sm font-semibold text-gray-700">
