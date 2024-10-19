@@ -3,10 +3,6 @@ const Schema = mongoose.Schema;
 
 const garbageSchema = new Schema({
 
-    userID: {
-        type: Number,
-        required: true, // Ensure this field is required
-    },
     date: {
         type: Date,
         required: true
@@ -19,8 +15,9 @@ const garbageSchema = new Schema({
         type: Number,
         required: true
     },
-    payment: {
-        type: Number,  // Change from Double to Number
+
+    userID : {
+        type: Number,
         required: true
     }
 });

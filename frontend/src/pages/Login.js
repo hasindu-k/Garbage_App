@@ -8,7 +8,7 @@ const rules = [{ required: true, message: "This field is required" }];
 function Login() {
   const [cookies, setCookie] = useCookies(["userID"]);
   const navigate = useNavigate();
-  const userID =  cookies.userID
+  const userID = cookies.userID;
   const onFinish = async (values) => {
     const { email, password } = values;
 
@@ -33,18 +33,13 @@ function Login() {
         setCookie("userID", data.userId);
 
         if (data.role === "resident") {
-          navigate("/");
+          navigate("/residentHome ");
         } else if (data.role === "admin") {
-
-           navigate("/adminHome");
+          navigate("/adminHome");
         } else if (data.role === "collector") {
           navigate(`/CollectorHome/${userID}`);
-
-         
-
         } else if (data.role === "recorder") {
           navigate("/CollectedWasteDashboard");
-
         }
       } else {
         message.error(data.error || "Login failed");
@@ -55,40 +50,42 @@ function Login() {
   };
 
   return (
-    <div className="max-w-md mx-auto p-8">
-      <h2 className="text-2xl font-bold mb-6">Login</h2>
-      <Form layout="vertical" onFinish={onFinish}>
-        <Form.Item name="email" label="Email" rules={rules}>
-          <Input
-            placeholder="Enter your email"
-            className="border border-gray-300 rounded-md"
-          />
-        </Form.Item>
+    <div className="bg-green-100 min-h-screen flex items-center justify-center">
+      <div className="max-w-md mx-auto bg-white p-10 rounded-lg shadow-md w-full">
+        <h2 className="text-2xl font-bold mb-6">Login</h2>
+        <Form layout="vertical" onFinish={onFinish}>
+          <Form.Item name="email" label="Email" rules={rules}>
+            <Input
+              placeholder="Enter your email"
+              className="border border-gray-300 rounded-md"
+            />
+          </Form.Item>
 
-        <Form.Item name="password" label="Password" rules={rules}>
-          <Input.Password
-            placeholder="Enter your password"
-            className="border border-gray-300 rounded-md"
-          />
-        </Form.Item>
+          <Form.Item name="password" label="Password" rules={rules}>
+            <Input.Password
+              placeholder="Enter your password"
+              className="border border-gray-300 rounded-md"
+            />
+          </Form.Item>
 
-        <Button
-          type="primary"
-          htmlType="submit"
-          block
-          className="bg-blue-500 hover:bg-blue-600 text-white"
-        >
-          Login
-        </Button>
-      </Form>
+          <Button
+            type="primary"
+            htmlType="submit"
+            block
+            className="bg-blue-500 hover:bg-blue-600 text-white"
+          >
+            Login
+          </Button>
+        </Form>
 
-      <Divider />
-      <p className="text-center">
-        Don't have an account?{" "}
-        <Link to="/register" className="text-blue-500">
-          Register here
-        </Link>
-      </p>
+        <Divider />
+        <p className="text-center">
+          Don't have an account?{" "}
+          <Link to="/register" className="text-blue-500">
+            Register here
+          </Link>
+        </p>
+      </div>
     </div>
   );
 }

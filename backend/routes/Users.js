@@ -78,11 +78,31 @@ router.post("/register", async (req, res) => {
   }
 });
 
-// Get all users
+//get all users
+// router.route("/").get((req, res) => {
+//   User.find()
+//     .then((users) => {
+//       res.json(users);
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//     });
+// });
+
 router.route("/").get((req, res) => {
   User.find()
     .then((users) => {
-      res.json(users);
+      // Categorize users by role
+      const categorizedUsers = users.reduce((acc, user) => {
+        const role = user.role || 'Guest'; // Default to 'Guest' if no role
+        if (!acc[role]) {
+          acc[role] = [];
+        }
+        acc[role].push(user);
+        return acc;
+      }, {});
+
+      res.json(categorizedUsers);
     })
     .catch((err) => {
       console.error(err);
@@ -166,9 +186,8 @@ router.post('/collector/updatePassword', async (req, res) => {
     console.error('Error updating password:', error);
     res.status(500).json({ message: 'Error updating password.' });
   }
-});
-
-// Get users by role
+}); 
+// Get all users, with optional filtering by role
 router.route("/:role").get(async (req, res) => {
   const role = req.params.role;
 
@@ -180,5 +199,7 @@ router.route("/:role").get(async (req, res) => {
     res.status(500).json({ error: "Error fetching users by role" });
   }
 });
+
+
 
 module.exports = router;

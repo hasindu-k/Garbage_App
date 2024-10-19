@@ -10,6 +10,8 @@ const PORT = process.env.PORT || 8070;
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
+module.exports = app;
+
 
 // Debugging: Check if MongoDB URL is loaded
 console.log(process.env.MONGODB_URL);
@@ -54,9 +56,14 @@ app.use("/approvedpickup",approvedRouter);
 
 app.use('/api/vehicles', require('./routes/vehicleRoutes.js'));
 
-const vehicleRouter = require("./routes/Vehicles.js");
-app.use("/vehicle",vehicleRouter);
+// const vehicleRouter = require("./routes/Vehicles.js");
+// app.use("/vehicle",vehicleRouter);
 
-app.listen(PORT, () => {
-    console.log(`Server is up and running on port number: ${PORT}`);
-});
+
+if (process.env.NODE_ENV !== "test") {
+    const PORT = process.env.PORT || 8070;
+    app.listen(PORT, () => {
+        console.log(`Server is up and running on port number: ${PORT}`);
+    });
+}
+
