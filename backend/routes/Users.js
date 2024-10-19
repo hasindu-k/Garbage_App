@@ -3,16 +3,13 @@ const router = require("express").Router();
 let User = require("../models/User");
 
 router.route("/add").post((req, res) => {
-  const name = req.body.name;
-  const address = req.body.address;
-  const email = req.body.email;
-  const contact = Number(req.body.contact);
+  const { name, address, email, contact } = req.body;
 
   const newUser = new User({
     name,
     address,
     email,
-    contact,
+    contact: Number(contact),
   });
 
   newUser
@@ -22,26 +19,23 @@ router.route("/add").post((req, res) => {
     })
     .catch((err) => {
       console.log(err);
+      res.status(500).json({ error: "Error adding user" });
     });
 });
 
-//user login
+// User login
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    // Find the user by email
-    const user = await User.findOne({ email: email });
+    const user = await User.findOne({ email });
 
-    // Check if user exists
     if (!user) {
       return res.status(401).json({ error: "Not Registered, re-register" });
     }
 
-    // Compare the provided password with the stored hashed password
     const isMatch = await bcrypt.compare(password, user.password);
 
-    // If the passwords don't match
     if (!isMatch) {
       return res.status(401).json({ error: "Invalid credentials" });
     }
@@ -57,25 +51,22 @@ router.post("/login", async (req, res) => {
   }
 });
 
-// User registration route with password hashing
+// User registration with password hashing
 router.post("/register", async (req, res) => {
   const { name, address, email, contact, password, role } = req.body;
 
   try {
-    // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create a new User object
     const newUser = new User({
       name,
       address,
       email,
       contact,
-      password: hashedPassword, // Store the hashed password
-      role: role,
+      password: hashedPassword,
+      role,
     });
 
-    // Save the user to the database
     await newUser.save();
     res.json("User Registered");
   } catch (err) {
@@ -83,7 +74,7 @@ router.post("/register", async (req, res) => {
       return res.status(400).json({ error: "Email already exists" });
     }
     console.error(err);
-    res.status(500).send("Error registering user");
+    res.status(500).json({ error: "Error registering user" });
   }
 });
 
@@ -97,7 +88,6 @@ router.post("/register", async (req, res) => {
 //       console.log(err);
 //     });
 // });
-
 
 router.route("/").get((req, res) => {
   User.find()
@@ -115,10 +105,28 @@ router.route("/").get((req, res) => {
       res.json(categorizedUsers);
     })
     .catch((err) => {
-      console.log(err);
+      console.error(err);
+      res.status(500).json({ error: "Error fetching users" });
     });
 });
 
+
+// Get a single user by ID
+router.route("/get/:id").get(async (req, res) => {
+  const userId = req.params.id;
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    res.status(200).json({ status: "User fetched", user });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Error fetching user" });
+  }
+});
+
+// Get user by userid
 
 router.get('/collector/:userid', async (req, res) => {
   try {
@@ -144,14 +152,12 @@ router.post('/collector/updateProfile', async (req, res) => {
       return res.status(404).json({ message: 'User not found.' });
     }
 
-    // Update profile fields
     user.name = name || user.name;
     user.address = address || user.address;
     user.email = email || user.email;
     user.contact = contact || user.contact;
 
     await user.save();
-
     res.json({ message: 'Profile updated successfully.' });
   } catch (error) {
     console.error('Error updating profile:', error);
@@ -169,13 +175,11 @@ router.post('/collector/updatePassword', async (req, res) => {
       return res.status(404).json({ message: 'User not found.' });
     }
 
-    // Check if the current password matches (use your password hashing comparison method)
     const isMatch = await bcrypt.compare(currentPassword, user.password);
     if (!isMatch) {
       return res.status(400).json({ message: 'Current password is incorrect.' });
     }
 
-    // Hash and update the password
     user.password = await bcrypt.hash(newPassword, 10);
     await user.save();
 
@@ -189,20 +193,18 @@ router.post('/collector/updatePassword', async (req, res) => {
 
 // Get all users, with optional filtering by role
 router.route("/:role").get(async (req, res) => {
-  let role = req.params.role;
+  const role = req.params.role;
 
-  const query = role ? { role: role } : {};
-
-  User.find(query)
-    .then((users) => {
-      res.json(users);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).json({ error: "Error fetching users" });
-    });
-
+  try {
+    const users = await User.find({ role });
+    res.json(users);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Error fetching users by role" });
+  }
 });
+
+
 
 
 

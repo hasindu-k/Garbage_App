@@ -33,6 +33,21 @@ router.route("/update/:id").post((req, res) => {
         });
 });
 
+
+// Route to get all approved pickups
+router.route("/getApprovedPickups").get((req, res) => {
+    Approvedpickup.find()
+        .then((approvedPickups) => {
+            res.json(approvedPickups);
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(500).send("Error fetching approved pickups: " + err);
+        });
+});
+
+module.exports = router;
+
 // Allocate a collector to a pickup
 router.route("/update/:id").post((req, res) => {
     const pickupId = req.params.id;
@@ -51,3 +66,4 @@ router.route("/update/:id").post((req, res) => {
 });
 
 module.exports = router;
+

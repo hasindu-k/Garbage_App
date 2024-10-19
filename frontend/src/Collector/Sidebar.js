@@ -9,7 +9,7 @@ const Sidebar = () => {
   const userId = cookies.userID || '';
 
   return (
-    <div className="h-screen bg-green-800 text-white w-64 flex flex-col">
+    <div className="h-full min-h-screen bg-green-800 text-white w-64 flex flex-col">
       <div className="text-2xl font-bold py-4 px-6 bg-green-700">
         Navigation
       </div>
