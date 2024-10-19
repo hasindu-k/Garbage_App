@@ -31,6 +31,7 @@ import ManageCollectors from "./admin/ManageCollectors";
 import DataAnalytics from "./admin/DataAnalytics";
 import GarbageStationSummary from "./WasteStop/GarbageStationSummary";
 import Home from "./pages/Home";
+import ProfileRes from "./Resident/ProfileRes";
 
 function App() {
   return (
@@ -69,7 +70,7 @@ function App() {
           <Route path="/TotalGarbage" element={<TotalGarbage />} />
           <Route path="/Logout" element={<Logout />} />
           <Route path="/Profile/:userID" element={<Profile />} />
-
+          <Route path="/Profile" element={<ProfileRes />} />
           <Route
             path="/CollectedWasteDashboard"
             element={<CollectedWasteDashboard />}
