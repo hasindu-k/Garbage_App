@@ -110,6 +110,7 @@ router.route("/").get((req, res) => {
     });
 });
 
+
 // Get a single user by ID
 router.route("/get/:id").get(async (req, res) => {
   const userId = req.params.id;
@@ -126,6 +127,7 @@ router.route("/get/:id").get(async (req, res) => {
 });
 
 // Get user by userid
+
 router.get('/collector/:userid', async (req, res) => {
   try {
     const user = await User.findOne({ id: req.params.userid });
@@ -187,6 +189,8 @@ router.post('/collector/updatePassword', async (req, res) => {
     res.status(500).json({ message: 'Error updating password.' });
   }
 }); 
+
+
 // Get all users, with optional filtering by role
 router.route("/:role").get(async (req, res) => {
   const role = req.params.role;
@@ -200,6 +204,66 @@ router.route("/:role").get(async (req, res) => {
   }
 });
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+router.route("/get/:id").get(async (req, res) => {
+  let userId = req.params.id;
+  
+  try {
+    const user = await User.findOne({ id: userId });
+
+    if (!user) {
+      return res.status(404).send({ status: "User not found" });
+    }
+
+    res.status(200).send({ status: "User fetched", user: user });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ status: "Error fetching user", error: err.message });
+  }
+});
+router.put('/updatePassword/:userID', async (req, res) => {
+  const { userID } = req.params;
+  const { oldPassword, newPassword } = req.body;
+  if (!oldPassword || !newPassword) {
+    return res.status(400).json({ message: "Missing old or new password" });
+  }
+
+  // Logic to handle password update here
+  // Find user by userID, verify old password, update with new password
+  try {
+    // Assuming you have a function to handle the password update
+    const user = await User.findById(userID);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Verify the old password, then update with the new password
+    const isMatch = await user.comparePassword(oldPassword);
+    if (!isMatch) {
+      return res.status(400).json({ message: "Old password is incorrect" });
+    }
+
+    user.password = newPassword;
+    await user.save();
+    res.json({ success: true, message: "Password updated successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
+});
 
 
 module.exports = router;

@@ -31,6 +31,7 @@ import ManageCollectors from "./admin/ManageCollectors";
 import DataAnalytics from "./admin/DataAnalytics";
 import GarbageStationSummary from "./WasteStop/GarbageStationSummary";
 import Home from "./pages/Home";
+import ProfileRes from "./Resident/ProfileRes";
 
 function App() {
   return (
@@ -68,7 +69,10 @@ function App() {
           <Route path="/CollectorHome/:userID" element={<CollectorHome />} />
           <Route path="/TotalGarbage" element={<TotalGarbage />} />
           <Route path="/Logout" element={<Logout />} />
-          <Route path="/Profile/:userID" element={<Profile />} />
+
+          <Route path="/Profile" element={<ProfileRes />} />
+          
+
 
         <Route path="/CollectorHome/:userID" element={<CollectorHome />} />
         <Route path="/TotalGarbage" element={<TotalGarbage />} />
@@ -79,6 +83,7 @@ function App() {
           <Route  path="/CollectedWasteDashboard"  element={<CollectedWasteDashboard />}/>
           <Route  path="/GarbageStationSummary"  element={<GarbageStationSummary />}/>
           <Route path="/viewRecycledDetails" element={<ViewRecycledDetails />} />
+
           <Route path="/requestPage" element={<RequestPage />} />
           <Route path="/manageVehicles" element={<ManageVehicles />} />
           <Route path="/manageCollectors" element={<ManageCollectors />} />

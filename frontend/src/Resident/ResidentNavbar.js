@@ -21,9 +21,9 @@ const Navbar = () => {
           <li className="mb-4">
             <Link to="/MyRequestsPage" className="block py-2 px-6 hover:bg-green-600">My Requests</Link>
           </li>
-          {/* <li className="mb-4">
+          <li className="mb-4">
             <Link to="/profile" className="block py-2 px-6 hover:bg-green-600">Profile</Link>
-          </li> */}
+          </li>
         </ul>
       </nav>
     </div>
