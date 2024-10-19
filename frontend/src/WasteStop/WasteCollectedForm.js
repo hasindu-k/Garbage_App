@@ -63,6 +63,12 @@ const WasteCollectedForm = () => {
       newErrors.wasteCollector = "Waste collector name should contain only letters.";
     }
 
+        // Validate waste collector (only characters)
+        const areaRegex = /^[a-zA-Z\s]+$/;
+        if (!areaRegex.test(formData.area)) {
+          newErrors.area = "Area name should contain only letters.";
+        }
+    
     // Validate paperWaste, foodWaste, polytheneWaste (whole numbers)
     const wasteRegex = /^[0-9]+$/;
     if (!wasteRegex.test(formData.paperWaste) || formData.paperWaste === "") {
@@ -131,8 +137,9 @@ const WasteCollectedForm = () => {
 
         <form onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
+            {/* <div>
               <label className="block mb-1 font-semibold">Truck Number:</label>
+              
               <select
                 name="truckNumber"
                 value={formData.truckNumber}
@@ -146,7 +153,17 @@ const WasteCollectedForm = () => {
                   </option>
                 ))}
               </select>
+            </div> */}
+            <div>
+              <label className="block mb-1 font-semibold">Truck Nummber:</label>
+              <input
+                name="truckNumber"
+                value={formData.truckNumber}
+                onChange={handleChange}
+                className="w-full p-2 border border-gray-300 rounded "
+              />
             </div>
+
             <div>
               <label className="block mb-1 font-semibold">Waste Collector:</label>
               <input
@@ -158,6 +175,17 @@ const WasteCollectedForm = () => {
               {errors.wasteCollector && <p className="text-red-500">{errors.wasteCollector}</p>}
             </div>
             <div>
+              <label className="block mb-1 font-semibold">Area:</label>
+              <input
+                name="area"
+                value={formData.area}
+                onChange={handleChange}
+                className={`w-full p-2 border border-gray-300 rounded ${errors.area ? "border-red-500" : ""}`}
+              />
+              {errors.area && <p className="text-red-500">{errors.area}</p>}
+            </div>
+
+            {/* <div>
               <label className="block mb-1 font-semibold">Area:</label>
               <select
                 name="area"
@@ -172,7 +200,7 @@ const WasteCollectedForm = () => {
                   </option>
                 ))}
               </select>
-            </div>
+            </div> */}
             <div>
               <label className="block mb-1 font-semibold">Paper Waste (Kg):</label>
               <input
