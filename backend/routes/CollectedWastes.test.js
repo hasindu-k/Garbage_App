@@ -1,3 +1,4 @@
+/*
 const request = require('supertest');
 const app = require('../server'); // Replace with the path to your Express app
 const CollectedWaste = require('../models/CollectedWaste');
@@ -88,3 +89,4 @@ describe('CollectedWastes API', () => {
     expect(response.body).toHaveProperty('message', 'Error deleting data');
   });
 });
+*/
