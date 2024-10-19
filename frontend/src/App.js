@@ -70,18 +70,15 @@ function App() {
           <Route path="/Logout" element={<Logout />} />
           <Route path="/Profile/:userID" element={<Profile />} />
 
-          <Route
-            path="/CollectedWasteDashboard"
-            element={<CollectedWasteDashboard />}
-          />
-          <Route
-            path="/GarbageStationSummary"
-            element={<GarbageStationSummary />}
-          />
-          <Route
-            path="/viewRecycledDetails"
-            element={<ViewRecycledDetails />}
-          />
+        <Route path="/CollectorHome/:userID" element={<CollectorHome />} />
+        <Route path="/TotalGarbage" element={<TotalGarbage />} />
+        <Route path="/logout" element={<Logout />} />
+        <Route path="/Profile/:userID" element={<Profile />} />
+
+
+          <Route  path="/CollectedWasteDashboard"  element={<CollectedWasteDashboard />}/>
+          <Route  path="/GarbageStationSummary"  element={<GarbageStationSummary />}/>
+          <Route path="/viewRecycledDetails" element={<ViewRecycledDetails />} />
           <Route path="/requestPage" element={<RequestPage />} />
           <Route path="/manageVehicles" element={<ManageVehicles />} />
           <Route path="/manageCollectors" element={<ManageCollectors />} />

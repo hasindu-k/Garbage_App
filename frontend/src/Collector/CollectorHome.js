@@ -44,7 +44,7 @@ const CollectorHome = () => {
   };
 
   const handleLogout = () => {
-    navigate("/Logout");
+    navigate("/logout");
   };
 
   const handleProfile = () => {

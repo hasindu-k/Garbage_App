@@ -78,7 +78,7 @@ const Profile = () => {
       <Sidebar />
       <div className="flex-1 flex flex-col items-center justify-center min-h-screen bg-green-100">
         <h1 className="text-3xl font-bold text-green-800 mb-8">Profile</h1>
-        <form className="bg-white p-8 rounded-lg shadow-md w-full max-w-md" onSubmit={handleProfileUpdate}>
+        {!showPasswordAlert && (<form className="bg-white p-8 rounded-lg shadow-md w-full max-w-md" onSubmit={handleProfileUpdate}>
           <div className="mb-4">
             <label className="block text-gray-700">Name:</label>
             <input
@@ -130,7 +130,8 @@ const Profile = () => {
               Change Password
             </a>
           </div>
-        </form>
+        </form>)}
+        
 
         {showPasswordAlert && (
           <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md mt-8">
