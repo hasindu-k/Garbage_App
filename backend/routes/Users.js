@@ -78,8 +78,8 @@ router.post("/register", async (req, res) => {
   }
 });
 
-//get all users
-// router.route("/").get((req, res) => {
+// //get all users
+// router.route("/getall").get((req, res) => {
 //   User.find()
 //     .then((users) => {
 //       res.json(users);
