@@ -19,13 +19,14 @@ const RecycleForm = () => {
   });
   const [vehicles, setVehicles] = useState([]); // State to store fetched truck numbers
   const [locations, setLocations] = useState([]);
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         // Fetch truck numbers (assuming a field named "truckNo" in the "users" collection)
         const vehiclesResponse = await axios.get(
-          "http://localhost:8070/vehicle/allVehicles"
+          "http://localhost:8070/api/vehicles/"
         ); // Replace with your actual endpoint
         const truckNumbers = vehiclesResponse.data.map((user) => user.truckNo);
         setVehicles(truckNumbers);
@@ -85,9 +86,41 @@ const RecycleForm = () => {
       calculatedCharge,
     });
   };
+  const validateForm = () => {
+    const newErrors = {};
+
+    // Validate collected area (allow letters, numbers, "/", ".", ",", and spaces)
+    const areaRegex = /^[a-zA-Z0-9\/.,\s]+$/;
+    if (!areaRegex.test(formData.area)) {
+      newErrors.area =
+        "Area name should contain only letters, numbers, '/', '.', ',' and spaces.";
+    }
+
+    // Validate paperWaste, foodWaste, polytheneWaste (whole numbers)
+    const wasteRegex = /^[0-9]+$/;
+    if (!wasteRegex.test(formData.paperWaste) || formData.paperWaste === "") {
+      newErrors.paperWaste = "Paper waste must be a whole number.";
+    }
+    if (!wasteRegex.test(formData.foodWaste) || formData.foodWaste === "") {
+      newErrors.foodWaste = "Food waste must be a whole number.";
+    }
+    if (
+      !wasteRegex.test(formData.polytheneWaste) ||
+      formData.polytheneWaste === ""
+    ) {
+      newErrors.polytheneWaste = "Polythene waste must be a whole number.";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0; // Return true if no errors
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // Validate the form before submitting
+    // if (!validateForm()) {
+    //   return; // Exit if there are validation errors
+    // }
 
     try {
       console.log("Submitting data:", formData);
@@ -126,13 +159,13 @@ const RecycleForm = () => {
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block mb-2 font-semibold">Truck Number:</label>
-              <input 
+              {/* <input 
                               name="truckNumber"
                               value={formData.truckNumber}
                               onChange={handleChange}
                               className="w-full p-2 border border-gray-300 rounded"
-              />
-              {/* <select
+              /> */}
+              <select
                 name="truckNumber"
                 value={formData.truckNumber}
                 onChange={handleChange}
@@ -144,21 +177,25 @@ const RecycleForm = () => {
                     {truckNo}
                   </option>
                 ))}
-              </select> */}
+              </select>
             </div>
             <div>
               <label className="block mb-2 font-semibold">Area:</label>
-              <input
-                              name="area"
-                              value={formData.area}
-                              onChange={handleChange}
-                              className="w-full p-2 border border-gray-300 rounded"
-              />
-              {/* <select
+              {/* <input
                 name="area"
                 value={formData.area}
                 onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded"
+                className={`w-full p-2 border border-gray-300 rounded ${
+                  errors.area ? "border-red-500" : ""
+                }`}
+              />
+              {errors.area && <p className="text-red-500">{errors.area}</p>}
+ */}
+              <select
+                name="area"
+                value={formData.area}
+                onChange={handleChange}
+                className={`w-full p-2 border border-gray-300 rounded `}
               >
                 <option value="">Collected Area</option>
                 {locations.map((location, index) => (
@@ -166,7 +203,8 @@ const RecycleForm = () => {
                     {location}
                   </option>
                 ))}
-              </select> */}
+              </select>
+
             </div>
             <div>
               <label className="text-sm font-semibold text-gray-700">
@@ -177,7 +215,7 @@ const RecycleForm = () => {
                 name="paperWeight"
                 value={formData.paperWeight}
                 onChange={handleChange}
-                className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                className={`p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 `}
                 placeholder="Enter paper weight"
                 required
               />
@@ -191,7 +229,7 @@ const RecycleForm = () => {
                 name="foodWeight"
                 value={formData.foodWeight}
                 onChange={handleChange}
-                className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                className={`p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500`}
                 placeholder="Enter food weight"
                 required
               />
@@ -205,7 +243,7 @@ const RecycleForm = () => {
                 name="polytheneWeight"
                 value={formData.polytheneWeight}
                 onChange={handleChange}
-                className="p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                className={`p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 `}
                 placeholder="Enter polythene weight"
                 required
               />

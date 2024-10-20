@@ -15,13 +15,13 @@ const WasteCollectedForm = () => {
   const [collectors, setCollectors] = useState([]);
   const [vehicles, setVehicles] = useState([]);
   const [locations, setLocations] = useState([]);
-  const [errors, setErrors] = useState({}); // State to hold error messages
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const vehiclesResponse = await axios.get(
-          "http://localhost:8070/vehicle/allVehicles"
+          "http://localhost:8070/api/vehicles/"
         );
         const truckNumbers = vehiclesResponse.data.map((user) => user.truckNo);
         setVehicles(truckNumbers);
@@ -37,9 +37,9 @@ const WasteCollectedForm = () => {
         const collectorResponse = await axios.get(
           "http://localhost:8070/user/"
         );
-        const collectors = collectorResponse.data.map(
-          (collector) => collector.name
-        );
+        const collectors = collectorResponse.data
+          .filter((user) => user.role === "collector")
+          .map((collector) => collector.name);
         setCollectors(collectors);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -56,19 +56,21 @@ const WasteCollectedForm = () => {
 
   const validateForm = () => {
     const newErrors = {};
-    
+
     // Validate waste collector (only characters)
     const wasteCollectorRegex = /^[a-zA-Z\s]+$/;
     if (!wasteCollectorRegex.test(formData.wasteCollector)) {
-      newErrors.wasteCollector = "Waste collector name should contain only letters.";
+      newErrors.wasteCollector =
+        "Waste collector name should contain only letters.";
     }
 
-        // Validate waste collector (only characters)
-        const areaRegex = /^[a-zA-Z\s]+$/;
-        if (!areaRegex.test(formData.area)) {
-          newErrors.area = "Area name should contain only letters.";
-        }
-    
+    // Validate collected area (allow letters, numbers, "/", ".", ",", and spaces)
+    const areaRegex = /^[a-zA-Z0-9\/.,\s]+$/;
+    if (!areaRegex.test(formData.area)) {
+      newErrors.area =
+        "Area name should contain only letters, numbers, '/', '.', ',' and spaces.";
+    }
+
     // Validate paperWaste, foodWaste, polytheneWaste (whole numbers)
     const wasteRegex = /^[0-9]+$/;
     if (!wasteRegex.test(formData.paperWaste) || formData.paperWaste === "") {
@@ -77,7 +79,10 @@ const WasteCollectedForm = () => {
     if (!wasteRegex.test(formData.foodWaste) || formData.foodWaste === "") {
       newErrors.foodWaste = "Food waste must be a whole number.";
     }
-    if (!wasteRegex.test(formData.polytheneWaste) || formData.polytheneWaste === "") {
+    if (
+      !wasteRegex.test(formData.polytheneWaste) ||
+      formData.polytheneWaste === ""
+    ) {
       newErrors.polytheneWaste = "Polythene waste must be a whole number.";
     }
 
@@ -137,9 +142,9 @@ const WasteCollectedForm = () => {
 
         <form onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* <div>
+            <div>
               <label className="block mb-1 font-semibold">Truck Number:</label>
-              
+
               <select
                 name="truckNumber"
                 value={formData.truckNumber}
@@ -153,8 +158,8 @@ const WasteCollectedForm = () => {
                   </option>
                 ))}
               </select>
-            </div> */}
-            <div>
+            </div>
+            {/* <div>
               <label className="block mb-1 font-semibold">Truck Number:</label>
               <input
                 name="truckNumber"
@@ -162,19 +167,44 @@ const WasteCollectedForm = () => {
                 onChange={handleChange}
                 className="w-full p-2 border border-gray-300 rounded "
               />
-            </div>
+            </div> */}
+
+            {/* <div>
+              <label className="block mb-1 font-semibold">Waste Collector:</label>
+              <select
+                name="collector"
+                value={formData.collector}
+                onChange={handleChange}
+                className="w-full p-2 border border-gray-300 rounded"
+              >
+                <option value="">Assigned Collector</option>
+                {collectors.map((collector, index) => (
+                  <option key={index} value={collector}>
+                    {collector}
+                  </option>
+                ))}
+              </select>
+            </div>  */}
 
             <div>
-              <label className="block mb-1 font-semibold">Waste Collector:</label>
+              <label className="block mb-1 font-semibold">
+                Waste Collector:
+              </label>
+
               <input
                 name="wasteCollector"
                 value={formData.wasteCollector}
                 onChange={handleChange}
-                className={`w-full p-2 border border-gray-300 rounded ${errors.wasteCollector ? "border-red-500" : ""}`}
+                className={`w-full p-2 border border-gray-300 rounded ${
+                  errors.wasteCollector ? "border-red-500" : ""
+                }`}
               />
-              {errors.wasteCollector && <p className="text-red-500">{errors.wasteCollector}</p>}
+              {errors.wasteCollector && (
+                <p className="text-red-500">{errors.wasteCollector}</p>
+              )}
             </div>
-            <div>
+
+            {/* <div>
               <label className="block mb-1 font-semibold">Area:</label>
               <input
                 name="area"
@@ -183,15 +213,17 @@ const WasteCollectedForm = () => {
                 className={`w-full p-2 border border-gray-300 rounded ${errors.area ? "border-red-500" : ""}`}
               />
               {errors.area && <p className="text-red-500">{errors.area}</p>}
-            </div>
+            </div> */}
 
-            {/* <div>
+            <div>
               <label className="block mb-1 font-semibold">Area:</label>
               <select
                 name="area"
                 value={formData.area}
                 onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded"
+                className={`w-full p-2 border border-gray-300 rounded ${
+                  errors.area ? "border-red-500" : ""
+                }`}
               >
                 <option value="">Collected Area</option>
                 {locations.map((location, index) => (
@@ -200,36 +232,55 @@ const WasteCollectedForm = () => {
                   </option>
                 ))}
               </select>
-            </div> */}
+              {errors.area && <p className="text-red-500">{errors.area}</p>}
+            </div>
             <div>
-              <label className="block mb-1 font-semibold">Paper Waste (Kg):</label>
+              <label className="block mb-1 font-semibold">
+                Paper Waste (Kg):
+              </label>
               <input
                 name="paperWaste"
                 value={formData.paperWaste}
                 onChange={handleChange}
-                className={`w-full p-2 border border-gray-300 rounded ${errors.paperWaste ? "border-red-500" : ""}`}
+                className={`w-full p-2 border border-gray-300 rounded ${
+                  errors.paperWaste ? "border-red-500" : ""
+                }`}
               />
-              {errors.paperWaste && <p className="text-red-500">{errors.paperWaste}</p>}
+              {errors.paperWaste && (
+                <p className="text-red-500">{errors.paperWaste}</p>
+              )}
             </div>
             <div>
-              <label className="block mb-1 font-semibold">Food Waste (Kg):</label>
+              <label className="block mb-1 font-semibold">
+                Food Waste (Kg):
+              </label>
               <input
                 name="foodWaste"
                 value={formData.foodWaste}
                 onChange={handleChange}
-                className={`w-full p-2 border border-gray-300 rounded ${errors.foodWaste ? "border-red-500" : ""}`}
+                className={`w-full p-2 border border-gray-300 rounded ${
+                  errors.foodWaste ? "border-red-500" : ""
+                }`}
               />
-              {errors.foodWaste && <p className="text-red-500">{errors.foodWaste}</p>}
+              {errors.foodWaste && (
+                <p className="text-red-500">{errors.foodWaste}</p>
+              )}
             </div>
             <div>
-              <label className="block mb-1 font-semibold">Polythene Waste (Kg):</label>
+              <label className="block mb-1 font-semibold">
+                Polythene Waste (Kg):
+              </label>
               <input
                 name="polytheneWaste"
                 value={formData.polytheneWaste}
                 onChange={handleChange}
-                className={`w-full p-2 border border-gray-300 rounded ${errors.polytheneWaste ? "border-red-500" : ""}`}
+                className={`w-full p-2 border border-gray-300 rounded ${
+                  errors.polytheneWaste ? "border-red-500" : ""
+                }`}
               />
-              {errors.polytheneWaste && <p className="text-red-500">{errors.polytheneWaste}</p>}
+              {errors.polytheneWaste && (
+                <p className="text-red-500">{errors.polytheneWaste}</p>
+              )}
             </div>
           </div>
           <button
