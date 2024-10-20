@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios"; // Ensure axios is imported
 import AdminNav from "./AdminNav";
-import Modal from "./Modal"; // Import the modal component
+import Modal from "./AdminModal"; // Import the modal component
 
 function RequestPage() {
   const [requests, setRequests] = useState([]);
@@ -17,7 +17,7 @@ function RequestPage() {
           // Set all statuses to "Scheduled" initially
           const updatedRequests = res.data.map((request) => ({
             ...request,
-            status: "Scheduled",
+            // status: "Scheduled",
           }));
           setRequests(updatedRequests); // Corrected state setter
         })
@@ -25,8 +25,10 @@ function RequestPage() {
           alert(err.message);
         });
     }
-    getAllUserRequests(); // Correct function call
-  }, []);
+    if (!isModalOpen) {
+      getAllUserRequests(); // Fetch requests when the modal is closed
+    }
+  }, [isModalOpen]);
 
   // Function to handle the "View" button click
   const handleViewClick = (request) => {
@@ -54,6 +56,9 @@ function RequestPage() {
                   <th className="text-left py-2 px-4 border-b">Location</th>
                   <th className="text-left py-2 px-4 border-b">Date</th>
                   <th className="text-left py-2 px-4 border-b">Actions</th>
+                  <th className="text-left py-2 px-4 border-b">
+                    Request Status
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -63,10 +68,22 @@ function RequestPage() {
                     <td className="py-2 px-4 border-b">{request.time}</td>
                     <td className="py-2 px-4 border-b">{request.location}</td>
                     <td className="py-2 px-4 border-b">{request.date}</td>
+                    <td
+                      className={`py-2 px-4 border-b ${
+                        request.status === "approved"
+                          ? "text-green-500"
+                          : request.status === "pending"
+                          ? "text-yellow-500"
+                          : "text-red-500"
+                      }`}
+                    >
+                      {request.status}
+                    </td>
                     <td className="py-2 px-4 border-b">
                       <button
                         onClick={() => handleViewClick(request)}
-                        className="bg-green-500 text-white py-1 px-2 rounded mr-2">
+                        className="bg-green-500 text-white py-1 px-2 rounded mr-2"
+                      >
                         View
                       </button>
                     </td>

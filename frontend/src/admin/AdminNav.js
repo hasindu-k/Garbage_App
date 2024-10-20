@@ -32,6 +32,9 @@ const AdminNav = () => {
           <li className="mb-4">
             <Link to="/dataAnalytics" className={getLinkClassName("/dataAnalytics")}>Data & Analytics</Link>
           </li>
+          <li className="mb-4">
+            <Link to="/logout" className={getLinkClassName("/logout")}>Log out</Link>
+          </li>
         </ul>
       </nav>
     </div>

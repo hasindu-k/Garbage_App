@@ -14,24 +14,12 @@ app.use(bodyParser.json());
 module.exports = app;
 
 
-// Debugging: Check if MongoDB URL is loaded
-console.log(process.env.MONGODB_URL);
+// Import MongoDB singleton connection
+const db = require('./database');
 
-const URL = process.env.MONGODB_URL;
-
-if (!URL) {
-    throw new Error("MongoDB connection URL is undefined. Make sure you have set MONGODB_URL in your .env file.");
-}
-
-mongoose.connect(URL, {
-    //useNewUrlParser: true,
-    //useUnifiedTopology: true,
-});
-
-const connection = mongoose.connection;
-
-connection.once("open", () => {
-    console.log("MongoDB connection successful!");
+// Ensure connection has been established
+db.getConnection().once("open", () => {
+    console.log("MongoDB connection is active.");
 });
 
 const userRouter = require("./routes/Users.js");

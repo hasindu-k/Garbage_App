@@ -2,26 +2,28 @@ const bcrypt = require("bcryptjs");
 const router = require("express").Router();
 let User = require("../models/User");
 
-router.route("/add").post((req, res) => {
-  const { name, address, email, contact } = req.body;
+// router.route("/add").post((req, res) => {
+//   const name = req.body.name;
+//   const address = req.body.address;
+//   const email = req.body.email;
+//   const contact = Number(req.body.contact);
 
-  const newUser = new User({
-    name,
-    address,
-    email,
-    contact: Number(contact),
-  });
+//   const newUser = new User({
+//     name,
+//     address,
+//     email,
+//     contact,
+//   });
 
-  newUser
-    .save()
-    .then(() => {
-      res.json("User Added");
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).json({ error: "Error adding user" });
-    });
-});
+//   newUser
+//     .save()
+//     .then(() => {
+//       res.json("User Added");
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//     });
+// });
 
 // User login
 router.post("/login", async (req, res) => {
@@ -68,7 +70,7 @@ router.post("/register", async (req, res) => {
     });
 
     await newUser.save();
-    res.json("User Registered");
+    return res.status(201).json("User Registered");
   } catch (err) {
     if (err.code === 11000) {
       return res.status(400).json({ error: "Email already exists" });
@@ -192,15 +194,28 @@ router.post('/collector/updatePassword', async (req, res) => {
 
 
 // Get all users, with optional filtering by role
-router.route("/:role").get(async (req, res) => {
-  const role = req.params.role;
+router.get("/:role?", async (req, res) => {
+  let role = req.params.role;
+
+  const query = role ? { role: role } : {};
 
   try {
-    const users = await User.find({ role });
+    const users = await User.find(query);
     res.json(users);
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Error fetching users by role" });
+    console.error("Error fetching users:", err);
+    res.status(500).json({ error: "Error fetching users" });
+  }
+});
+
+// Get count of collectors
+router.get('/collectors/count', async (req, res) => {
+  try {
+    const collectorCount = await User.countDocuments({ role: 'collector' });
+    res.json({ count: collectorCount });
+  } catch (error) {
+    console.error("Error fetching collector count:", error);
+    res.status(500).json({ error: "Error fetching collector count" });
   }
 });
 
