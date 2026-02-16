@@ -82,9 +82,11 @@ function AddGarbageDetailsPage(){
                 className="p-3 border rounded-md border-gray-300"
               >
                 <option value="">Select Category</option>
-                <option value="organic">Organic Waste</option>
+                <option value="glass">Glass Waste</option>
+                <option value="paper">Paper Waste</option>
+                <option value="foodWaste">Food Waste</option>
                 <option value="plastic">Plastic Waste</option>
-                <option value="electronic">Electronic Waste</option>
+                <option value="steel">Steel Waste</option>
               </select>
             </div>
 
