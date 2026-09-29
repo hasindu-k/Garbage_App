@@ -95,3 +95,8 @@ npm test
 - `/recycleWaste`
 - `/api/vehicles`
 - `/pickup`
+
+## Authors
+
+- Hasindu Koshitha
+- IT22362476
