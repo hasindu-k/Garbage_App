@@ -95,3 +95,11 @@ npm test
 - `/recycleWaste`
 - `/api/vehicles`
 - `/pickup`
+
+## Authors
+
+* [Hasindu Koshitha](https://github.com/hasindu-k) 
+* [Denuwan Sathsara](https://github.com/IT22362476) 
+* [Oshadi Jayananda](https://github.com/OshadiJayananda) 
+* [Miyuri Lokuhewage](https://github.com/Miyuri15)
+
